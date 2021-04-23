@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<luchta-reader><sheet index="0"><header startRow="0" endRow="4"><cell row="3" col="2" name="CreatedDate"/></header><body startRow="5"><vertical-for name="Employees"><row name="Employee"><col num="1" name="EmployeeCode"/><col num="2" name="FirstName"/><col num="3" name="LastName"/><horizontal-for name="Dynamics"><col num="0" name="Dynamic"/></horizontal-for></row></vertical-for></body></sheet></luchta-reader>

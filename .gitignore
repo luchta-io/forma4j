@@ -1,0 +1,32 @@
+# Gradle
+.gradle
+build/
+
+# IntelliJ
+out/
+.idea/
+
+# eclipse
+**/.classpath
+**/.project
+**/.settings/*
+bin/
+.metadata/
+
+# For Mac
+.DS_Store
+
+# For Windows
+Thumbs.db
+
+# local
+tmp/
+*.tmp
+*.log
+
+# excel tmp file
+~$*.xlsx
+
+# antlr
+**/.antlr
+src-gen

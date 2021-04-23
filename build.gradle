@@ -1,0 +1,83 @@
+buildscript {
+    ext {
+        encoding = 'UTF-8'
+        compatibility = 11
+    }
+}
+
+plugins {
+    id 'java'
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'antlr'
+}
+
+group = 'com.luchta'
+version = '0.0.1-SNAPSHOT'
+
+sourceCompatibility = compatibility
+targetCompatibility = compatibility
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java', 'src-gen/main/java']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+    }
+}
+
+dependencies {
+    implementation group: 'org.apache.poi', name: 'poi', version: '4.1.2'
+    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '4.1.2'
+
+    // https://javaee.github.io/jaxb-v2/doc/user-guide/index.html
+    implementation "javax.xml.bind:jaxb-api:2.3.1"
+    implementation "org.glassfish.jaxb:jaxb-runtime:2.3.3"
+
+    // https://mvnrepository.com/artifact/ognl/ognl
+    implementation 'ognl:ognl:3.2.16'
+    
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.12.2'
+	implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.12.2'
+
+    antlr "org.antlr:antlr4:4.9.1"
+
+    testImplementation(platform('org.junit:junit-bom:5.7.0'))
+    testImplementation('org.junit.jupiter:junit-jupiter')
+}
+
+test {
+    useJUnitPlatform()
+}
+
+repositories {
+    mavenCentral()
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/actier/luchta")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
+        }
+    }
+}
+
+generateGrammarSource {
+    outputDirectory = file("src-gen/main/java")
+}
