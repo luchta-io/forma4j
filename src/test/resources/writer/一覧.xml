@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<luchta>
+<forma>
     <sheet name="チケット一覧">
         <row rowIndex="0" startColumnIndex="0">
             <cell>出力日時</cell>
@@ -35,4 +35,4 @@
             </row>
         </vertical-for>
     </sheet>
-</luchta>
+</forma>
