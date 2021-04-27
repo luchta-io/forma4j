@@ -3,7 +3,7 @@ package io.luchta.forma4j.reader.config.elementfactory;
 public class ElementBuilderFactory {
 
     public static ElementBuilder newElementBuilder(String nodeName) {
-        if ("luchta-reader".equals(nodeName)) {
+        if ("forma-reader".equals(nodeName)) {
             return new FRootBuilder();
         }
         if ("sheet".equals(nodeName)) {
