@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<luchta-reader>
+<forma-reader>
   <sheet index="0">
     <header startRow="0" endRow="4">
       <cell row="3" col="2" name="CreatedDate"/>
@@ -17,4 +17,4 @@
       </vertical-for>
     </body>
   </sheet>
-</luchta-reader>
+</forma-reader>
