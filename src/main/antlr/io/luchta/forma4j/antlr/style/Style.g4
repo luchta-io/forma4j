@@ -1,7 +1,7 @@
 grammar Style;
 
 @header {
-package jp.co.actier.luchta.forma4j.antlr.style;
+package io.luchta.forma4j.antlr.style;
 }
 
 styles 

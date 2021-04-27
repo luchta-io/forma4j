@@ -13,7 +13,7 @@ plugins {
     id 'antlr'
 }
 
-group = 'com.luchta'
+group = 'io.luchta.forma4j'
 version = '0.0.1-SNAPSHOT'
 
 sourceCompatibility = compatibility
