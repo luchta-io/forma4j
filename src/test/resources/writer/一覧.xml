@@ -25,7 +25,7 @@
                 <cell>#{データ.件名}</cell>
                 <cell>#{データ.担当者}</cell>
                 <cell>#{データ.状態}</cell>
-                <horizontal-for item="可変項目値" collection="データ.可変項目値リスト">
+                <horizontal-for item="可変項目値" collection="データ.可変項目リスト">
                     <cell>#{可変項目値}</cell>
                 </horizontal-for>
                 <cell>#{データ.更新日時}</cell>
