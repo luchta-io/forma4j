@@ -14,6 +14,10 @@ public class XlsxCellStyles implements Iterable<XlsxCellStyle> {
 		this.list = list;
 	}
 
+	public int size() {
+		return list.size();
+	}
+
 	@Override
 	public Iterator<XlsxCellStyle> iterator() {
 		return this.list.iterator();
