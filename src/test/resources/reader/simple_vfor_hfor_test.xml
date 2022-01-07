@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<forma-reader>
+  <sheet name="data">
+    <v-for from="5" name="employee">
+      <cell col="1" name="employeeCode" />
+      <cell col="2" name="lastName" />
+      <cell col="3" name="firstName" />
+      <h-for from="4" name="hfor">
+        <cell name="value" />
+      </h-for>
+    </v-for>
+  </sheet>
+</forma-reader>

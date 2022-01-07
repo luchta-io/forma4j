@@ -1,8 +1,8 @@
 package io.luchta.forma4j.writer;
 
-import io.luchta.forma4j.databind.json.JsonNode;
-import io.luchta.forma4j.databind.json.JsonNodes;
-import io.luchta.forma4j.databind.json.JsonObject;
+import io.luchta.forma4j.context.databind.json.JsonNode;
+import io.luchta.forma4j.context.databind.json.JsonNodes;
+import io.luchta.forma4j.context.databind.json.JsonObject;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;

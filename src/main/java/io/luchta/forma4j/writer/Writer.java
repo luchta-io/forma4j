@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.luchta.forma4j.writer.definition.XmlDocumentReader;
 import io.luchta.forma4j.writer.engine.XlsxModelBuilder;
 import io.luchta.forma4j.writer.processor.XlsxWriteProcessor;
-import io.luchta.forma4j.databind.convert.JsonSerializer;
-import io.luchta.forma4j.databind.json.JsonObject;
+import io.luchta.forma4j.context.databind.convert.JsonSerializer;
+import io.luchta.forma4j.context.databind.json.JsonObject;
 import io.luchta.forma4j.writer.definition.XmlDocument;
 import io.luchta.forma4j.writer.engine.model.book.XlsxBook;
 
