@@ -10,13 +10,12 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'signing'
-    id 'maven'
     id 'maven-publish'
     id 'antlr'
 }
 
 group = 'io.luchta'
-version = '0.1.1-SNAPSHOT'
+version = '0.1.1'
 
 sourceCompatibility = compatibility
 targetCompatibility = compatibility
