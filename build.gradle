@@ -15,7 +15,7 @@ plugins {
 }
 
 group = 'io.luchta'
-version = '0.1.1'
+version = '1.0.0-SNAPSHOT'
 
 sourceCompatibility = compatibility
 targetCompatibility = compatibility
@@ -34,18 +34,18 @@ sourceSets {
 }
 
 dependencies {
-    implementation group: 'org.apache.poi', name: 'poi', version: '4.1.2'
-    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '4.1.2'
+    implementation group: 'org.apache.poi', name: 'poi', version: '5.2.2'
+    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.2.2'
 
     // https://javaee.github.io/jaxb-v2/doc/user-guide/index.html
     implementation "javax.xml.bind:jaxb-api:2.3.1"
     implementation "org.glassfish.jaxb:jaxb-runtime:2.3.3"
 
     // https://mvnrepository.com/artifact/ognl/ognl
-    implementation 'ognl:ognl:3.2.16'
+    implementation 'ognl:ognl:3.3.2'
     
 	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.12.2'
-	implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.12.2'
+	implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.13.2'
 
     antlr "org.antlr:antlr4:4.9.1"
 
