@@ -44,7 +44,7 @@ dependencies {
     // https://mvnrepository.com/artifact/ognl/ognl
     implementation 'ognl:ognl:3.3.2'
     
-	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.12.2'
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.13.2'
 	implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.13.2'
 
     antlr "org.antlr:antlr4:4.9.1"
