@@ -29,7 +29,9 @@ public class WorkbookBuilder {
                 for (XlsxCell cellModel : rowModel.cells()) {
                     Cell cell = row.createCell(cellModel.columnNumber().toInt());
                     cell.setCellValue(cellModel.value().toString());
-                    cell.setCellStyle(createCellStyle(workbook, cellModel, cell));
+                    if (cellModel.styles().size() != 0) {
+                        cell.setCellStyle(createCellStyle(workbook, cellModel, cell));
+                    }
                 }
             }
         }

@@ -1,12 +1,12 @@
 package io.luchta.forma4j.writer.engine.handler.horizontalfor;
 
-import io.luchta.forma4j.writer.engine.handler.cell.CellHandler;
-import io.luchta.forma4j.writer.engine.resolver.VariableResolver;
 import io.luchta.forma4j.writer.definition.schema.Element;
 import io.luchta.forma4j.writer.definition.schema.ElementList;
 import io.luchta.forma4j.writer.definition.schema.element.Cell;
 import io.luchta.forma4j.writer.definition.schema.element.HorizontalFor;
 import io.luchta.forma4j.writer.engine.buffer.BuildBuffer;
+import io.luchta.forma4j.writer.engine.resolver.VariableResolver;
+import io.luchta.forma4j.writer.engine.handler.cell.CellHandler;
 
 import java.util.List;
 

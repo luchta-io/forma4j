@@ -1,10 +1,10 @@
 package io.luchta.forma4j.writer.definition.schema.element;
 
+import io.luchta.forma4j.writer.definition.schema.attribute.index.ColumnIndex;
+import io.luchta.forma4j.writer.definition.schema.attribute.index.RowIndex;
 import io.luchta.forma4j.writer.definition.schema.Element;
 import io.luchta.forma4j.writer.definition.schema.ElementList;
 import io.luchta.forma4j.writer.definition.schema.ElementType;
-import io.luchta.forma4j.writer.definition.schema.attribute.index.ColumnIndex;
-import io.luchta.forma4j.writer.definition.schema.attribute.index.RowIndex;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;

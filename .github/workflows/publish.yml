@@ -1,8 +1,11 @@
-name: Publish Java Package to GitHub Package
+name: Release Library
 
 on:
-  push:
-    tags: [ '**' ]
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Release Library'
+        required: true
 
 jobs:
   build:
@@ -18,7 +21,7 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
-      run: ./gradlew clean build
+      run: ./gradlew clean build --stacktrace
     - name: Notify build finish
       uses: 8398a7/action-slack@v3
       with:
@@ -38,7 +41,7 @@ jobs:
         with:
           java-version: 11.0.9
       - name: Publish package
-        run: ./gradlew publish
+        run: ./gradlew publish --stacktrace
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Notify build finish
@@ -50,4 +53,3 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         if: always()
-        

@@ -3,6 +3,8 @@ package io.luchta.forma4j.writer.engine.handler.cell;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.luchta.forma4j.writer.definition.schema.element.Cell;
+import io.luchta.forma4j.writer.engine.buffer.BuildBuffer;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
@@ -11,8 +13,6 @@ import io.luchta.forma4j.antlr.style.StyleParser;
 import io.luchta.forma4j.antlr.style.StyleParser.StyleContext;
 import io.luchta.forma4j.antlr.style.StyleParser.StylesContext;
 import io.luchta.forma4j.writer.definition.schema.attribute.Style;
-import io.luchta.forma4j.writer.definition.schema.element.Cell;
-import io.luchta.forma4j.writer.engine.buffer.BuildBuffer;
 import io.luchta.forma4j.writer.engine.model.cell.XlsxCell;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxCellAddress;
 import io.luchta.forma4j.writer.engine.model.cell.style.XlsxBorderStyle;

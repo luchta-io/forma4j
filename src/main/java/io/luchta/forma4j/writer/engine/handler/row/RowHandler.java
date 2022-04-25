@@ -6,13 +6,13 @@ import io.luchta.forma4j.writer.definition.schema.element.Cell;
 import io.luchta.forma4j.writer.definition.schema.element.HorizontalFor;
 import io.luchta.forma4j.writer.definition.schema.element.Row;
 import io.luchta.forma4j.writer.definition.schema.element.VerticalFor;
+import io.luchta.forma4j.writer.engine.buffer.BuildBuffer;
 import io.luchta.forma4j.writer.engine.handler.cell.CellHandler;
 import io.luchta.forma4j.writer.engine.handler.horizontalfor.HorizontalForHandler;
 import io.luchta.forma4j.writer.engine.handler.verticalfor.VerticalForHandler;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxCellAddress;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxColumnNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxRowNumber;
-import io.luchta.forma4j.writer.engine.buffer.BuildBuffer;
 
 public class RowHandler {
     BuildBuffer buffer;

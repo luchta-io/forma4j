@@ -46,7 +46,7 @@ public class JsonSerializer {
                 sb.append(this.serialize((List) t));
             } else {
 	            sb.append("\"");
-                sb.append(t.toString());
+                sb.append(escape(t.toString()));
                 sb.append("\"");
             }
             sb.append(", ");
@@ -76,7 +76,7 @@ public class JsonSerializer {
                 sb.append((this.serialize((List)e.getValue().getValue())));
             } else {
                 sb.append("\"");
-                sb.append(e.getValue().getValue() == null ? "" : e.getValue().getValue());
+                sb.append(e.getValue().getValue() == null ? "" : escape(e.getValue().getValue().toString()));
                 sb.append("\"");
             }
             sb.append(", ");
@@ -101,5 +101,16 @@ public class JsonSerializer {
         sb.delete(sb.length() - 1, sb.length());
         sb.append("]");
         return sb.toString();
+    }
+
+    private String escape(String value) {
+        String result = value;
+        result = result.replaceAll("\\\\", "\\\\\\\\");
+        result = result.replaceAll("\"", "\\\\\"");
+        result = result.replaceAll("\b", "\\\\\b");
+        result = result.replaceAll("\r", "\\\\\r");
+        result = result.replaceAll("\n", "\\\\\n");
+        result = result.replaceAll("\t", "\\\\\t");
+        return result;
     }
 }

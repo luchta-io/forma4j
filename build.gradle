@@ -10,13 +10,12 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'signing'
-    id 'maven'
     id 'maven-publish'
     id 'antlr'
 }
 
 group = 'io.luchta'
-version = '0.1.0'
+version = '0.1.1'
 
 sourceCompatibility = compatibility
 targetCompatibility = compatibility
@@ -102,7 +101,7 @@ publishing {
             url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
             credentials {
                 username = hasProperty('sonatypeUsername') ? "${sonatypeUsername}" : ""
-                password = hasProperty('sonatypeUsername') ? "${sonatypePassword}" : ""
+                password = hasProperty('sonatypePassword') ? "${sonatypePassword}" : ""
             }
         }
     }

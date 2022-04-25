@@ -2,14 +2,14 @@ package io.luchta.forma4j.writer.engine.handler.verticalfor;
 
 import io.luchta.forma4j.writer.definition.schema.Element;
 import io.luchta.forma4j.writer.definition.schema.ElementList;
-import io.luchta.forma4j.writer.definition.schema.element.VerticalFor;
 import io.luchta.forma4j.writer.definition.schema.element.Row;
+import io.luchta.forma4j.writer.definition.schema.element.VerticalFor;
 import io.luchta.forma4j.writer.engine.buffer.BuildBuffer;
+import io.luchta.forma4j.writer.engine.resolver.VariableResolver;
 import io.luchta.forma4j.writer.engine.handler.row.RowHandler;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxCellAddress;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxColumnNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxRowNumber;
-import io.luchta.forma4j.writer.engine.resolver.VariableResolver;
 
 import java.util.List;
 
