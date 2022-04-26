@@ -1,8 +1,8 @@
 package io.luchta.forma4j.writer.definition;
 
 import io.luchta.forma4j.writer.definition.schema.element.Root;
+import jakarta.xml.bind.JAXB;
 
-import javax.xml.bind.JAXB;
 import java.io.InputStream;
 
 public class XmlDocumentReader {

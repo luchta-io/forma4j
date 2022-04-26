@@ -1,16 +1,15 @@
 package io.luchta.forma4j.writer.definition.schema.element;
 
-import io.luchta.forma4j.writer.definition.schema.attribute.index.ColumnIndex;
-import io.luchta.forma4j.writer.definition.schema.attribute.index.RowIndex;
 import io.luchta.forma4j.writer.definition.schema.Element;
 import io.luchta.forma4j.writer.definition.schema.ElementList;
 import io.luchta.forma4j.writer.definition.schema.ElementType;
 import io.luchta.forma4j.writer.definition.schema.attribute.Style;
 import io.luchta.forma4j.writer.definition.schema.attribute.Text;
-
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlValue;
+import io.luchta.forma4j.writer.definition.schema.attribute.index.ColumnIndex;
+import io.luchta.forma4j.writer.definition.schema.attribute.index.RowIndex;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlValue;
 
 @XmlRootElement
 public class Cell implements Element {

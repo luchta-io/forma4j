@@ -1,6 +1,6 @@
 package io.luchta.forma4j.writer.definition.schema.attribute;
 
-import javax.xml.bind.annotation.XmlValue;
+import jakarta.xml.bind.annotation.XmlValue;
 
 public class Style {
 
