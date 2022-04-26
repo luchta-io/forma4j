@@ -1,6 +1,7 @@
 package io.luchta.forma4j.writer.definition.schema.attribute.loop;
 
-import javax.xml.bind.annotation.XmlValue;
+import jakarta.xml.bind.annotation.XmlValue;
+
 import java.util.Objects;
 
 public class Collection {

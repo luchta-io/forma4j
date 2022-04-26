@@ -37,19 +37,18 @@ dependencies {
     implementation group: 'org.apache.poi', name: 'poi', version: '5.2.2'
     implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.2.2'
 
-    // https://javaee.github.io/jaxb-v2/doc/user-guide/index.html
-    implementation "javax.xml.bind:jaxb-api:2.3.1"
-    implementation "org.glassfish.jaxb:jaxb-runtime:2.3.3"
+    implementation "jakarta.xml.bind:jakarta.xml.bind-api:4.0.0"
+    implementation "com.sun.xml.bind:jaxb-impl:3.0.2"
 
     // https://mvnrepository.com/artifact/ognl/ognl
     implementation 'ognl:ognl:3.3.2'
-    
-	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.12.2'
-	implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.13.2'
 
-    antlr "org.antlr:antlr4:4.9.1"
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.13.2'
+    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.13.2'
 
-    testImplementation(platform('org.junit:junit-bom:5.7.0'))
+    antlr "org.antlr:antlr4:4.10.1"
+
+    testImplementation(platform('org.junit:junit-bom:5.8.2'))
     testImplementation('org.junit.jupiter:junit-jupiter')
 }
 
