@@ -38,13 +38,13 @@ dependencies {
     implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.2.2'
 
     implementation "jakarta.xml.bind:jakarta.xml.bind-api:4.0.0"
-    implementation "com.sun.xml.bind:jaxb-impl:3.0.2"
+    implementation "com.sun.xml.bind:jaxb-impl:4.0.0"
 
     // https://mvnrepository.com/artifact/ognl/ognl
     implementation 'ognl:ognl:3.3.2'
 
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.13.2'
-    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.13.2'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.13.3'
+    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.13.3'
 
     antlr "org.antlr:antlr4:4.10.1"
 
