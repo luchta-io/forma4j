@@ -14,8 +14,20 @@ import java.util.Date;
 
 public class CellReader implements ObjectReader {
 
+    Sheet sheet;
+    Index rowIndex;
+    Index colIndex;
+    TagTree tagTree;
+
+    public CellReader(Sheet sheet, Index rowIndex, Index colIndex, TagTree tagTree) {
+        this.sheet = sheet;
+        this.rowIndex = rowIndex;
+        this.colIndex = colIndex;
+        this.tagTree = tagTree;
+    }
+
     @Override
-    public JsonObject read(Sheet sheet, Index rowIndex, Index colIndex, TagTree tagTree) {
+    public JsonObject read() {
 
         CellTag cellTag = (CellTag) tagTree.getTag();
 
