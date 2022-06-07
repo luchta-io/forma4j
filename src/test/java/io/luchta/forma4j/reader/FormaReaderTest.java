@@ -4,6 +4,9 @@ import io.luchta.forma4j.context.databind.convert.JsonSerializer;
 import io.luchta.forma4j.context.databind.json.JsonNode;
 import io.luchta.forma4j.context.databind.json.JsonNodes;
 import io.luchta.forma4j.context.databind.json.JsonObject;
+import io.luchta.forma4j.reader.excel.Accumulator;
+import io.luchta.forma4j.reader.model.excel.Header;
+import io.luchta.forma4j.reader.model.excel.Headers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -255,6 +258,60 @@ public class FormaReaderTest {
             Assertions.assertEquals(4, node10.size());
             JsonNode node10HFor = (JsonNode) node10.getVar("hfor").getValue();
             Assertions.assertEquals(1, node10HFor.size());
+        }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "reader/simple_header_test.xml, reader/FormaReaderTest.xlsx"
+    })
+    public void simple_header_test(String configPath, String excelPath) throws Exception {
+        try (InputStream config = new FileInputStream(this.getClass().getClassLoader().getResource(configPath).getPath());
+             InputStream excel = new FileInputStream(this.getClass().getClassLoader().getResource(excelPath).getPath());) {
+            FormaReader formaReader = new FormaReader();
+            formaReader.read(config, excel);
+
+            Headers headers = (Headers) Accumulator.getData("employeeHeader");
+            Assertions.assertEquals(13, headers.size());
+
+            Header header1 = headers.get(0);
+            Assertions.assertEquals("社員コード", header1.getHeaderValue().toString());
+
+            Header header2 = headers.get(1);
+            Assertions.assertEquals("氏", header2.getHeaderValue().toString());
+
+            Header header3 = headers.get(2);
+            Assertions.assertEquals("名", header3.getHeaderValue().toString());
+
+            Header header4 = headers.get(3);
+            Assertions.assertEquals("不定１", header4.getHeaderValue().toString());
+
+            Header header5 = headers.get(4);
+            Assertions.assertEquals("不定２", header5.getHeaderValue().toString());
+
+            Header header6 = headers.get(5);
+            Assertions.assertEquals("不定３", header6.getHeaderValue().toString());
+
+            Header header7 = headers.get(6);
+            Assertions.assertEquals("不定４", header7.getHeaderValue().toString());
+
+            Header header8 = headers.get(7);
+            Assertions.assertEquals("不定５", header8.getHeaderValue().toString());
+
+            Header header9 = headers.get(8);
+            Assertions.assertEquals("不定６", header9.getHeaderValue().toString());
+
+            Header header10 = headers.get(9);
+            Assertions.assertEquals("不定７", header10.getHeaderValue().toString());
+
+            Header header11 = headers.get(10);
+            Assertions.assertEquals("不定８", header11.getHeaderValue().toString());
+
+            Header header12 = headers.get(11);
+            Assertions.assertEquals("不定９", header12.getHeaderValue().toString());
+
+            Header header13 = headers.get(12);
+            Assertions.assertEquals("不定１０", header13.getHeaderValue().toString());
         }
     }
 }

@@ -32,6 +32,10 @@ public class TagBuilderFactory {
             return new BreakBuilder();
         }
 
+        if ("header".equals(nodeName)) {
+            return new HeaderBuilder();
+        }
+
         return null;
     }
 }

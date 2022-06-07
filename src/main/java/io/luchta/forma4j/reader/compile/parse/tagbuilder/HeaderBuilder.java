@@ -2,9 +2,8 @@ package io.luchta.forma4j.reader.compile.parse.tagbuilder;
 
 import io.luchta.forma4j.context.syntax.SyntaxError;
 import io.luchta.forma4j.context.syntax.SyntaxErrors;
+import io.luchta.forma4j.reader.model.tag.HeaderTag;
 import io.luchta.forma4j.reader.model.tag.Tag;
-import io.luchta.forma4j.reader.model.tag.VForTag;
-import io.luchta.forma4j.reader.model.tag.property.Header;
 import io.luchta.forma4j.reader.model.tag.property.Index;
 import io.luchta.forma4j.reader.model.tag.property.Name;
 import org.w3c.dom.NamedNodeMap;
@@ -13,31 +12,29 @@ import org.w3c.dom.Node;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VForBuilder implements TagBuilder {
+public class HeaderBuilder implements TagBuilder {
 
     @Override
     public Tag build(NamedNodeMap nodeMap, SyntaxErrors syntaxErrors) {
 
         List<String> errorMessages = new ArrayList<>();
 
-        Node fromNode = nodeMap.getNamedItem("from");
-        boolean fromIsUndefined = false;
-        if (fromNode == null) {
-            fromIsUndefined = true;
+        Node rowNode = nodeMap.getNamedItem("row");
+        if (rowNode == null) {
+            errorMessages.add("row は必須入力です。0 以上の整数を指定してください");
         }
-        Integer fromNumber = convertNodeValueToInteger(fromNode);
-        if (fromNumber == null) {
-            errorMessages.add("from には0以上の整数を指定してください");
+        Integer rowNumber = convertNodeValueToInteger(rowNode);
+        if (rowNumber == null) {
+            errorMessages.add("row には 0 以上の整数を指定してください");
         }
 
-        Node toNode = nodeMap.getNamedItem("to");
-        boolean toIsUndefined = false;
-        if (toNode == null) {
-            toIsUndefined = true;
+        Node colNode = nodeMap.getNamedItem("col");
+        if (colNode == null) {
+            errorMessages.add("col は必須入力です。0 以上の整数を指定してください");
         }
-        Integer toNumber = convertNodeValueToInteger(nodeMap.getNamedItem("to"));
-        if (toNumber == null) {
-            errorMessages.add("to には0以上の整数を指定してください");
+        Integer colNumber = convertNodeValueToInteger(colNode);
+        if (colNumber == null) {
+            errorMessages.add("col には 0 以上の整数を指定してください");
         }
 
         String name = convertNodeValueToString(nodeMap.getNamedItem("name"));
@@ -45,11 +42,16 @@ public class VForBuilder implements TagBuilder {
             errorMessages.add("name は必須入力です");
         }
 
-        String header = convertNodeValueToString(nodeMap.getNamedItem("header"));
+        for (String message : errorMessages) {
+            SyntaxError syntaxError = new SyntaxError(message, new UnsupportedOperationException());
+            syntaxErrors.add(syntaxError);
+        }
 
-        addSyntaxErrors(errorMessages, syntaxErrors);
-
-        return new VForTag(new Index(fromNumber), fromIsUndefined, new Index(toNumber), toIsUndefined, new Name(name), new Header(header));
+        return new HeaderTag(
+                new Index(rowNumber),
+                new Index(colNumber),
+                new Name(name)
+        );
     }
 
     private Integer convertNodeValueToInteger(Node node) {
@@ -79,13 +81,5 @@ public class VForBuilder implements TagBuilder {
             value = node.getNodeValue();
         }
         return value;
-    }
-
-    private void addSyntaxErrors(List<String> errorMessages, SyntaxErrors syntaxErrors) {
-
-        for (String message : errorMessages) {
-            SyntaxError syntaxError = new SyntaxError(message, new UnsupportedOperationException());
-            syntaxErrors.add(syntaxError);
-        }
     }
 }

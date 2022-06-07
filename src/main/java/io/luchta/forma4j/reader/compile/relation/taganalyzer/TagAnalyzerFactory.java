@@ -29,6 +29,10 @@ public class TagAnalyzerFactory {
             return new BreakTagAnalyzer();
         }
 
+        if (tag.isHeader()) {
+            return new HeaderTagAnalyzer();
+        }
+
         throw new UnsupportedOperationException("存在しないタグが指定されています");
     }
 }
