@@ -15,13 +15,18 @@ public class FormaReader {
 
     SyntaxErrors syntaxErrors = new SyntaxErrors();
 
+    public JsonObject read(InputStream excel) throws IOException {
+        ExcelReader excelReader = new ExcelReader();
+        return excelReader.read(excel);
+    }
+
     public JsonObject read(InputStream config, InputStream excel) throws ParserConfigurationException, IOException, SAXException {
 
         FormaReaderCompiler compiler = new FormaReaderCompiler();
         TagTree tree = compiler.compile(config, syntaxErrors);
 
         if (syntaxErrors.hasErrors()) {
-            throw new IllegalStateException("設定ファイルの構文にエラーがあります");
+            throw new IllegalArgumentException("設定ファイルの構文にエラーがあります");
         }
 
         ExcelReader excelReader = new ExcelReader();

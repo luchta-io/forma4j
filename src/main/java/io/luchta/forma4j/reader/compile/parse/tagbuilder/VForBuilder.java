@@ -44,6 +44,8 @@ public class VForBuilder implements TagBuilder {
             errorMessages.add("name は必須入力です");
         }
 
+        String header = convertNodeValueToString(nodeMap.getNamedItem("header"));
+
         addSyntaxErrors(errorMessages, syntaxErrors);
 
         return new VForTag(new Index(fromNumber), fromIsUndefined, new Index(toNumber), toIsUndefined, new Name(name));

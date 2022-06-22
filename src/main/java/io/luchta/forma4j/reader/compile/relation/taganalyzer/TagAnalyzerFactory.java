@@ -29,6 +29,10 @@ public class TagAnalyzerFactory {
             return new BreakTagAnalyzer();
         }
 
+        if (tag.isList()) {
+            return new ListTagAnalyzer();
+        }
+
         throw new UnsupportedOperationException("存在しないタグが指定されています");
     }
 }

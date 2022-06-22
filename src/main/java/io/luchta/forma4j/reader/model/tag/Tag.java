@@ -25,4 +25,6 @@ public interface Tag {
     default boolean isBreak() {
         return false;
     }
+
+    default boolean isList() { return false; }
 }

@@ -11,8 +11,18 @@ import java.util.Map;
 
 public class HForReader implements ObjectReader {
 
+    Sheet sheet;
+    Index rowIndex;
+    TagTree tagTree;
+
+    public HForReader(Sheet sheet, Index rowIndex, TagTree tagTree) {
+        this.sheet = sheet;
+        this.rowIndex = rowIndex;
+        this.tagTree = tagTree;
+    }
+
     @Override
-    public JsonObject read(Sheet sheet, Index rowIndex, Index colIndex, TagTree tagTree) {
+    public JsonObject read() {
 
         HForTag hForTag = (HForTag) tagTree.getTag();
 
@@ -43,8 +53,11 @@ public class HForReader implements ObjectReader {
                     }
                 }
 
-                ObjectReader reader = factory.create(tag);
-                JsonObject obj = reader.read(sheet, rowIndex, new Index(i), child);
+                ObjectReaderFactoryParameter param = new ObjectReaderFactoryParameter(
+                        sheet, rowIndex, new Index(i), child, tag
+                );
+                ObjectReader reader = factory.create(param);
+                JsonObject obj = reader.read();
                 JsonNode node = (JsonNode) obj.getValue();
                 for (Map.Entry<String, JsonObject> entry : node.entrySet()) {
                     resultNode.putVar(entry.getKey() + (i - fromCol + 1), entry.getValue());

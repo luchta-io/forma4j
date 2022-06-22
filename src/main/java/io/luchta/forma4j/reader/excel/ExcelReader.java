@@ -4,7 +4,9 @@ import io.luchta.forma4j.context.databind.json.JsonNode;
 import io.luchta.forma4j.context.databind.json.JsonObject;
 import io.luchta.forma4j.reader.excel.objectreader.ObjectReader;
 import io.luchta.forma4j.reader.excel.objectreader.ObjectReaderFactory;
+import io.luchta.forma4j.reader.excel.objectreader.ObjectReaderFactoryParameter;
 import io.luchta.forma4j.reader.model.excel.Index;
+import io.luchta.forma4j.reader.specification.DefaultTagTreeSpec;
 import io.luchta.forma4j.reader.model.tag.SheetTag;
 import io.luchta.forma4j.reader.model.tag.Tag;
 import io.luchta.forma4j.reader.model.tag.TagTree;
@@ -17,6 +19,12 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ExcelReader {
+
+    public JsonObject read(InputStream inputStream) throws IOException {
+        DefaultTagTreeSpec defaultTagTreeSpec = new DefaultTagTreeSpec();
+        TagTree tagTree = defaultTagTreeSpec.create();
+        return read(inputStream, tagTree);
+    }
 
     public JsonObject read(InputStream inputStream, TagTree tagTree) throws IOException {
 
@@ -52,8 +60,11 @@ public class ExcelReader {
         Index colIndex = new Index(0);
         for (TagTree tree : tagTrees) {
             Tag tag = tree.getTag();
-            ObjectReader reader = factory.create(tag);
-            obj = reader.read(sheet, rowIndex, colIndex, tree);
+            ObjectReaderFactoryParameter param = new ObjectReaderFactoryParameter(
+                    sheet, rowIndex, colIndex, tree, tag
+            );
+            ObjectReader reader = factory.create(param);
+            obj = reader.read();
         }
 
         return obj;

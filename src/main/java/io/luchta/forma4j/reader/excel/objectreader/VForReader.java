@@ -16,8 +16,20 @@ import java.util.Map;
 
 public class VForReader implements ObjectReader {
 
+    Sheet sheet;
+    Index rowIndex;
+    Index colIndex;
+    TagTree tagTree;
+
+    public VForReader(Sheet sheet, Index rowIndex, Index colIndex, TagTree tagTree) {
+        this.sheet = sheet;
+        this.rowIndex = rowIndex;
+        this.colIndex = colIndex;
+        this.tagTree = tagTree;
+    }
+
     @Override
-    public JsonObject read(Sheet sheet, Index rowIndex, Index colIndex, TagTree tagTree) {
+    public JsonObject read() {
 
         VForTag vForTag = (VForTag) tagTree.getTag();
 
@@ -33,8 +45,11 @@ public class VForReader implements ObjectReader {
             TagTrees children = tagTree.getChildren();
             for (TagTree child : children) {
                 Tag tag = child.getTag();
-                ObjectReader reader = factory.create(tag);
-                JsonObject obj = reader.read(sheet, new Index(i), colIndex, child);
+                ObjectReaderFactoryParameter param = new ObjectReaderFactoryParameter(
+                        sheet, new Index(i), colIndex, child, tag
+                );
+                ObjectReader reader = factory.create(param);
+                JsonObject obj = reader.read();
                 JsonNode node = (JsonNode) obj.getValue();
                 for (Map.Entry<String, JsonObject> entry : node.entrySet()) {
                     childrenNode.putVar(entry.getKey(), entry.getValue());
