@@ -26,7 +26,5 @@ public interface Tag {
         return false;
     }
 
-    default boolean isHeader() {
-        return false;
-    }
+    default boolean isList() { return false; }
 }

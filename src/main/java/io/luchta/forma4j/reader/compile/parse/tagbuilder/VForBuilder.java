@@ -4,7 +4,6 @@ import io.luchta.forma4j.context.syntax.SyntaxError;
 import io.luchta.forma4j.context.syntax.SyntaxErrors;
 import io.luchta.forma4j.reader.model.tag.Tag;
 import io.luchta.forma4j.reader.model.tag.VForTag;
-import io.luchta.forma4j.reader.model.tag.property.Header;
 import io.luchta.forma4j.reader.model.tag.property.Index;
 import io.luchta.forma4j.reader.model.tag.property.Name;
 import org.w3c.dom.NamedNodeMap;
@@ -49,7 +48,7 @@ public class VForBuilder implements TagBuilder {
 
         addSyntaxErrors(errorMessages, syntaxErrors);
 
-        return new VForTag(new Index(fromNumber), fromIsUndefined, new Index(toNumber), toIsUndefined, new Name(name), new Header(header));
+        return new VForTag(new Index(fromNumber), fromIsUndefined, new Index(toNumber), toIsUndefined, new Name(name));
     }
 
     private Integer convertNodeValueToInteger(Node node) {

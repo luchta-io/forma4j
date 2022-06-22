@@ -2,7 +2,6 @@ package io.luchta.forma4j.reader.excel.objectreader;
 
 import io.luchta.forma4j.context.databind.json.JsonNode;
 import io.luchta.forma4j.context.databind.json.JsonObject;
-import io.luchta.forma4j.reader.model.excel.Header;
 import io.luchta.forma4j.reader.model.excel.Index;
 import io.luchta.forma4j.reader.model.tag.*;
 import org.apache.poi.ss.usermodel.Row;
@@ -55,7 +54,7 @@ public class HForReader implements ObjectReader {
                 }
 
                 ObjectReaderFactoryParameter param = new ObjectReaderFactoryParameter(
-                        sheet, rowIndex, new Index(i), new Header(), child, tag
+                        sheet, rowIndex, new Index(i), child, tag
                 );
                 ObjectReader reader = factory.create(param);
                 JsonObject obj = reader.read();

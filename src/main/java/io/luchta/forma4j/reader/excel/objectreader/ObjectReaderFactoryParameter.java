@@ -1,6 +1,5 @@
 package io.luchta.forma4j.reader.excel.objectreader;
 
-import io.luchta.forma4j.reader.model.excel.Header;
 import io.luchta.forma4j.reader.model.excel.Index;
 import io.luchta.forma4j.reader.model.tag.Tag;
 import io.luchta.forma4j.reader.model.tag.TagTree;
@@ -10,15 +9,13 @@ public class ObjectReaderFactoryParameter {
     Sheet sheet;
     Index rowIndex;
     Index colIndex;
-    Header header;
     TagTree tagTree;
     Tag tag;
 
-    public ObjectReaderFactoryParameter(Sheet sheet, Index rowIndex, Index colIndex, Header header, TagTree tagTree, Tag tag) {
+    public ObjectReaderFactoryParameter(Sheet sheet, Index rowIndex, Index colIndex, TagTree tagTree, Tag tag) {
         this.sheet = sheet;
         this.rowIndex = rowIndex;
         this.colIndex = colIndex;
-        this.header = header;
         this.tagTree = tagTree;
         this.tag = tag;
     }
@@ -33,10 +30,6 @@ public class ObjectReaderFactoryParameter {
 
     public Index getColIndex() {
         return colIndex;
-    }
-
-    public Header getHeader() {
-        return header;
     }
 
     public TagTree getTagTree() {

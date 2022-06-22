@@ -3,8 +3,6 @@ package io.luchta.forma4j.reader.excel.objectreader;
 import io.luchta.forma4j.context.databind.json.JsonNode;
 import io.luchta.forma4j.context.databind.json.JsonNodes;
 import io.luchta.forma4j.context.databind.json.JsonObject;
-import io.luchta.forma4j.reader.excel.Accumulator;
-import io.luchta.forma4j.reader.model.excel.Header;
 import io.luchta.forma4j.reader.model.excel.Index;
 import io.luchta.forma4j.reader.model.tag.Tag;
 import io.luchta.forma4j.reader.model.tag.TagTree;
@@ -40,10 +38,6 @@ public class VForReader implements ObjectReader {
         Integer col = colIndex.toInteger();
 
         ObjectReaderFactory factory = new ObjectReaderFactory();
-        Header header = new Header();
-        if (Accumulator.containsKey(vForTag.header().toString())) {
-            header = (Header) Accumulator.getData(vForTag.header().toString());
-        }
         List<JsonNode> nodeList = new ArrayList<>();
         Integer i = fromRow;
         do {
@@ -52,7 +46,7 @@ public class VForReader implements ObjectReader {
             for (TagTree child : children) {
                 Tag tag = child.getTag();
                 ObjectReaderFactoryParameter param = new ObjectReaderFactoryParameter(
-                        sheet, new Index(i), colIndex, header, child, tag
+                        sheet, new Index(i), colIndex, child, tag
                 );
                 ObjectReader reader = factory.create(param);
                 JsonObject obj = reader.read();

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<forma-reader>
-  <sheet name="data">
-    <header row="4" col="1" name="employeeHeader"/>
-  </sheet>
-</forma-reader>

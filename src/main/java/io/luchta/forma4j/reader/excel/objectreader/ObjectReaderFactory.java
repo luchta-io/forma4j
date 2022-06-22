@@ -26,8 +26,8 @@ public class ObjectReaderFactory {
 
         }
 
-        if (tag.isHeader()) {
-            return new HeaderReader(param.getSheet(), param.getTagTree());
+        if (tag.isList()) {
+            return new ListReader(param.getSheet(), param.getTagTree());
         }
 
         throw new UnsupportedOperationException("存在しないタグが指定されています");
