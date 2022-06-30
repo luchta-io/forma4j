@@ -10,30 +10,40 @@ on:
     branches: [ '**' ]
 
 jobs:
-  build:
 
-    runs-on: ubuntu-latest
+    test:
+      runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        java-version: [ 11, 12, 13, 14, 15, 16, 17 ]
+      strategy:
+        matrix:
+          java-version: [ 11, 15, 16, 17 ]
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK
-      uses: actions/setup-java@v1
-      with:
-        java-version: ${{ matrix.java-version }}
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew clean build --stacktrace
-    - name: Notify job finish
-      uses: 8398a7/action-slack@v3
-      with:
-        status: ${{ job.status }}
-        author_name: Build結果
-        fields: ref,job
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      if: always()
+      steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK
+        uses: actions/setup-java@v3.4.0
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: 'corretto'
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build with Gradle
+        run: ./gradlew clean build --stacktrace
+      - name: status report
+        run: echo "This job's status is ${{ job.status }}."
+
+    notification:
+      needs: [ test ]
+
+      runs-on: ubuntu-latest
+
+      steps:
+      - name: Notify job finish
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          author_name: Build結果
+          fields: ref,job
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
