@@ -10,11 +10,10 @@ on:
     branches: [ '**' ]
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
 
     test:
+      runs-on: ubuntu-latest
+
       strategy:
         matrix:
           java-version: [ 11, 12, 13, 14, 15, 16, 17, 18 ]
@@ -31,7 +30,7 @@ jobs:
         run: ./gradlew clean build --stacktrace
 
     notification:
-      needs: [test]
+      needs: [ test ]
       steps:
       - name: Notify job finish
         uses: 8398a7/action-slack@v3
