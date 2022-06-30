@@ -31,6 +31,9 @@ jobs:
 
     notification:
       needs: [ test ]
+
+      runs-on: ubuntu-latest
+
       steps:
       - name: Notify job finish
         uses: 8398a7/action-slack@v3
