@@ -14,26 +14,30 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        java-version: [ 11, 12, 13, 14, 15, 16, 17 ]
+    test:
+      strategy:
+        matrix:
+          java-version: [ 11, 12, 13, 14, 15, 16, 17, 18 ]
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK
-      uses: actions/setup-java@v1
-      with:
-        java-version: ${{ matrix.java-version }}
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew clean build --stacktrace
-    - name: Notify job finish
-      uses: 8398a7/action-slack@v3
-      with:
-        status: ${{ job.status }}
-        author_name: Build結果
-        fields: ref,job
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      if: always()
+      steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java-version }}
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build with Gradle
+        run: ./gradlew clean build --stacktrace
+
+    notification:
+      steps:
+      - name: Notify job finish
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          author_name: Build結果
+          fields: ref,job
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
