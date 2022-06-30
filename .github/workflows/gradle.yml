@@ -29,6 +29,8 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew clean build --stacktrace
+      - name: status report
+        run: echo "This job's status is ${{ job.status }}."
 
     notification:
       needs: [ test ]
