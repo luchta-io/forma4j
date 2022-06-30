@@ -1,7 +1,7 @@
 buildscript {
     ext {
         encoding = 'UTF-8'
-        compatibility = 17
+        compatibility = 11
     }
 }
 
