@@ -31,6 +31,7 @@ jobs:
         run: ./gradlew clean build --stacktrace
 
     notification:
+      needs: [test]
       steps:
       - name: Notify job finish
         uses: 8398a7/action-slack@v3
