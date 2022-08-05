@@ -48,7 +48,7 @@ dependencies {
 
     antlr "org.antlr:antlr4:4.10.1"
 
-    testImplementation(platform('org.junit:junit-bom:5.8.2'))
+    testImplementation(platform('org.junit:junit-bom:5.9.0'))
     testImplementation('org.junit.jupiter:junit-jupiter')
 }
 
