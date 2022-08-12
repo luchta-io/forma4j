@@ -57,6 +57,7 @@ public class VerticalForHandler {
                 case HORIZONTAL_FOR:
                 case COLUMN:
                 case SHEET:
+                case LIST:
                 default:
                     // TODO
                     throw new IllegalStateException();

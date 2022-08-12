@@ -7,6 +7,7 @@ import io.luchta.forma4j.writer.engine.buffer.BuildBuffer;
 import io.luchta.forma4j.writer.engine.handler.cell.CellHandler;
 import io.luchta.forma4j.writer.engine.handler.column.ColumnHandler;
 import io.luchta.forma4j.writer.engine.handler.horizontalfor.HorizontalForHandler;
+import io.luchta.forma4j.writer.engine.handler.list.ListHandler;
 import io.luchta.forma4j.writer.engine.handler.row.RowHandler;
 import io.luchta.forma4j.writer.engine.handler.verticalfor.VerticalForHandler;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxCellAddress;
@@ -51,6 +52,10 @@ public class SheetHandler {
                 case VERTICAL_FOR:
                     new VerticalForHandler(buffer)
                             .handle((VerticalFor) element);
+                    break;
+                case LIST:
+                    new ListHandler(buffer)
+                            .handle((ListElement) element);
                     break;
                 case SHEET:
                 default:
