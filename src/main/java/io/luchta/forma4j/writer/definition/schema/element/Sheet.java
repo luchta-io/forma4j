@@ -29,6 +29,13 @@ public class Sheet implements Element {
     })
     List<Element> children = new ArrayList<>();
 
+    public Sheet() {}
+
+    public Sheet(Name name, List<Element> children) {
+        this.name = name;
+        this.children = children;
+    }
+
     public Name name() {
         return name;
     }

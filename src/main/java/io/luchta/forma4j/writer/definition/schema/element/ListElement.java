@@ -17,6 +17,13 @@ public class ListElement implements Element {
     @XmlAttribute
     ColumnIndex startColumnIndex = new ColumnIndex();
 
+    public ListElement() {}
+
+    public ListElement(RowIndex startRowIndex, ColumnIndex startColumnIndex) {
+        this.startRowIndex = startRowIndex;
+        this.startColumnIndex = startColumnIndex;
+    }
+
     public RowIndex startRowIndex() {
         return startRowIndex;
     }
