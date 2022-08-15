@@ -30,6 +30,10 @@ public class XlsxColumnNumber implements Comparable<XlsxColumnNumber> {
         return value.intValue();
     }
 
+    public long toLong() {
+        return value.longValue();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

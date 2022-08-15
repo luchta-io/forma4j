@@ -25,8 +25,16 @@ public class Sheet implements Element {
             @XmlElement(name = Cell.ELEMENT_NAME, type = Cell.class),
             @XmlElement(name = HorizontalFor.ELEMENT_NAME, type = HorizontalFor.class),
             @XmlElement(name = VerticalFor.ELEMENT_NAME, type = VerticalFor.class),
+            @XmlElement(name = ListElement.ELEMENT_NAME, type = ListElement.class)
     })
     List<Element> children = new ArrayList<>();
+
+    public Sheet() {}
+
+    public Sheet(Name name, List<Element> children) {
+        this.name = name;
+        this.children = children;
+    }
 
     public Name name() {
         return name;

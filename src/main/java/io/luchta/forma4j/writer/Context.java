@@ -1,11 +1,11 @@
 package io.luchta.forma4j.writer;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
 public class Context {
-    Map<String, Object> vars = new HashMap<>();
+    Map<String, Object> vars = new LinkedHashMap<>();
 
     public Context() {}
 

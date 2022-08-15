@@ -1,12 +1,12 @@
 package io.luchta.forma4j.context.databind.json;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
 public class JsonNode {
 
-	Map<String, JsonObject> var = new HashMap<>();
+	Map<String, JsonObject> var = new LinkedHashMap<>();
 	
 	public void putVar(String key, JsonObject object) {
 		this.var.put(key, object);

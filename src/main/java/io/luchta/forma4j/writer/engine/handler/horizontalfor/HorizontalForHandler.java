@@ -41,6 +41,7 @@ public class HorizontalForHandler {
                 case ROW:
                 case COLUMN:
                 case SHEET:
+                case LIST:
                 default:
                     // TODO
                     throw new IllegalStateException();

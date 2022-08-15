@@ -16,6 +16,12 @@ public class Root {
     })
     List<Element> children = new ArrayList<>();
 
+    public Root() {}
+
+    public Root(List<Element> children) {
+        this.children = children;
+    }
+
     public ElementList children() {
         return new ElementList(children);
     }

@@ -11,6 +11,7 @@ import java.lang.reflect.Member;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class VariableResolver {
     static final OgnlContext ognlContext = new OgnlContext(
@@ -56,6 +57,10 @@ public class VariableResolver {
         Object loopContextVar = getValue(key, loopContext);
         if (loopContextVar != null) return (List<Object>) loopContextVar;
         return Collections.emptyList();
+    }
+
+    public Set<String> getKeySet() {
+        return context.getKeys();
     }
 
     private Object getValue(String key, Context context) {
