@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.time.LocalDateTime;
 
 public class FormaReaderTest {
 
@@ -29,11 +30,15 @@ public class FormaReaderTest {
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
             JsonObject cell = ((JsonNode) sheet.getValue()).getVar("data");
-            Assertions.assertEquals(true, cell.getValue() instanceof JsonNode);
+            Assertions.assertEquals(true, cell.getValue() instanceof JsonNodes);
 
-            JsonObject value = ((JsonNode) cell.getValue()).getVar("title");
-            Assertions.assertEquals(true, value.getValue() instanceof String);
-            Assertions.assertEquals("サンプル帳票", value.toString());
+            JsonNodes values = ((JsonNodes) cell.getValue());
+
+            Assertions.assertEquals(true, values.get(0).getVar("title").getValue() instanceof String);
+            Assertions.assertEquals("サンプル帳票", values.get(0).getVar("title").getValue().toString());
+
+            Assertions.assertEquals(true, values.get(1).getVar("outputdate").getValue() instanceof LocalDateTime);
+            Assertions.assertEquals(LocalDateTime.of(2020, 11, 6, 0, 0, 0), values.get(1).getVar("outputdate").getValue());
         }
     }
 
@@ -53,10 +58,16 @@ public class FormaReaderTest {
             JsonObject sheet = ((JsonNode) root).getVar("forma-reader");
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
-            JsonObject cell = ((JsonNode) sheet.getValue()).getVar("data");
-            Assertions.assertEquals(true, cell.getValue() instanceof JsonNode);
+            JsonObject data = ((JsonNode) sheet.getValue()).getVar("data");
+            Assertions.assertEquals(true, data.getValue() instanceof JsonNodes);
 
-            JsonObject value = ((JsonNode) cell.getValue()).getVar("employee");
+            JsonNodes nodes = (JsonNodes) data.getValue();
+
+            JsonObject title = nodes.get(0).getVar("title");
+            Assertions.assertEquals(true, title.getValue() instanceof String);
+            Assertions.assertEquals("サンプル帳票", title.getValue().toString());
+
+            JsonObject value = nodes.get(1).getVar("employee");
             Assertions.assertEquals(true, value.getValue() instanceof JsonNodes);
             JsonNodes employeeNodes = (JsonNodes) value.getValue();
             Assertions.assertEquals(5, employeeNodes.size());
@@ -220,7 +231,10 @@ public class FormaReaderTest {
             JsonObject sheet = ((JsonNode) root).getVar("forma-reader");
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
-            JsonObject list = ((JsonNode) sheet.getValue()).getVar("data");
+            JsonObject data = ((JsonNode) sheet.getValue()).getVar("data");
+            Assertions.assertEquals(true, data.getValue() instanceof JsonNode);
+
+            JsonObject list = ((JsonNode) data.getValue()).getVar("employeeList");
             Assertions.assertEquals(true, list.getValue() instanceof JsonNodes);
 
             JsonNodes nodes = (JsonNodes) list.getValue();
@@ -318,10 +332,13 @@ public class FormaReaderTest {
             JsonObject sheet = ((JsonNode) root).getVar("forma-reader");
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
-            JsonObject list = ((JsonNode) sheet.getValue()).getVar("data");
-            Assertions.assertEquals(true, list.getValue() instanceof JsonNodes);
+            JsonObject data = ((JsonNode) sheet.getValue()).getVar("data");
+            Assertions.assertEquals(true, data.getValue() instanceof JsonNode);
 
-            JsonNodes nodes = (JsonNodes) list.getValue();
+            JsonNode list = (JsonNode) data.getValue();
+            Assertions.assertEquals(true, list.getVar("list").getValue() instanceof JsonNodes);
+
+            JsonNodes nodes = (JsonNodes) list.getVar("list").getValue();
             Assertions.assertEquals(5, nodes.size());
 
             JsonNode node1 = nodes.get(0);

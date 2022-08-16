@@ -1,7 +1,7 @@
 package io.luchta.forma4j.reader.excel.objectreader;
 
-import io.luchta.forma4j.context.databind.json.JsonObject;
+import io.luchta.forma4j.context.databind.json.JsonNode;
 
 public interface ObjectReader {
-    JsonObject read();
+    JsonNode read();
 }

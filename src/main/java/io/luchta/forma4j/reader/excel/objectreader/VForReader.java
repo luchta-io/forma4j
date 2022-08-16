@@ -29,7 +29,7 @@ public class VForReader implements ObjectReader {
     }
 
     @Override
-    public JsonObject read() {
+    public JsonNode read() {
 
         VForTag vForTag = (VForTag) tagTree.getTag();
 
@@ -49,8 +49,7 @@ public class VForReader implements ObjectReader {
                         sheet, new Index(i), colIndex, child, tag
                 );
                 ObjectReader reader = factory.create(param);
-                JsonObject obj = reader.read();
-                JsonNode node = (JsonNode) obj.getValue();
+                JsonNode node = reader.read();
                 for (Map.Entry<String, JsonObject> entry : node.entrySet()) {
                     childrenNode.putVar(entry.getKey(), entry.getValue());
                 }
@@ -69,6 +68,6 @@ public class VForReader implements ObjectReader {
         JsonNode node = new JsonNode();
         node.putVar(vForTag.name().toString(), new JsonObject(new JsonNodes(nodeList)));
 
-        return new JsonObject(node);
+        return node;
     }
 }

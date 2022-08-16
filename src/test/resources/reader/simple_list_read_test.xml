@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <forma-reader>
   <sheet name="data">
-    <list headerStartRow="4" headerStartCol="1" detailStartRow="5" detailStartCol="1"/>
+    <list headerStartRow="4" headerStartCol="1" detailStartRow="5" detailStartCol="1" name="employeeList" />
   </sheet>
 </forma-reader>

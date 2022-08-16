@@ -22,7 +22,7 @@ public class HForReader implements ObjectReader {
     }
 
     @Override
-    public JsonObject read() {
+    public JsonNode read() {
 
         HForTag hForTag = (HForTag) tagTree.getTag();
 
@@ -57,8 +57,7 @@ public class HForReader implements ObjectReader {
                         sheet, rowIndex, new Index(i), child, tag
                 );
                 ObjectReader reader = factory.create(param);
-                JsonObject obj = reader.read();
-                JsonNode node = (JsonNode) obj.getValue();
+                JsonNode node = reader.read();
                 for (Map.Entry<String, JsonObject> entry : node.entrySet()) {
                     resultNode.putVar(entry.getKey() + (i - fromCol + 1), entry.getValue());
                 }
@@ -73,6 +72,6 @@ public class HForReader implements ObjectReader {
 
         JsonNode node = new JsonNode();
         node.putVar(hForTag.name().toString(), new JsonObject(resultNode));
-        return new JsonObject(node);
+        return node;
     }
 }

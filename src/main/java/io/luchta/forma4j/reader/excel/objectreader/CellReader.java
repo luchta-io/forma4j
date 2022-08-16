@@ -27,7 +27,7 @@ public class CellReader implements ObjectReader {
     }
 
     @Override
-    public JsonObject read() {
+    public JsonNode read() {
 
         CellTag cellTag = (CellTag) tagTree.getTag();
 
@@ -38,7 +38,7 @@ public class CellReader implements ObjectReader {
         if (r == null) {
             JsonNode node = new JsonNode();
             node.putVar(cellTag.name().toString(), new JsonObject(""));
-            return new JsonObject(node);
+            return node;
         }
         Cell cell = sheet.getRow(row).getCell(col);
 
@@ -48,16 +48,16 @@ public class CellReader implements ObjectReader {
                 Instant instant = date.toInstant();
                 JsonNode node = new JsonNode();
                 node.putVar(cellTag.name().toString(), new JsonObject(LocalDateTime.ofInstant(instant, ZoneId.systemDefault())));
-                return new JsonObject(node);
+                return node;
             } else {
                 JsonNode node = new JsonNode();
                 node.putVar(cellTag.name().toString(), new JsonObject(cell.getNumericCellValue()));
-                return new JsonObject(node);
+                return node;
             }
         }
 
         JsonNode node = new JsonNode();
         node.putVar(cellTag.name().toString(), new JsonObject(cell.toString()));
-        return new JsonObject(node);
+        return node;
     }
 }
