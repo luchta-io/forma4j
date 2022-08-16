@@ -1,16 +1,17 @@
 package io.luchta.forma4j.reader.excel;
 
 import io.luchta.forma4j.context.databind.json.JsonNode;
+import io.luchta.forma4j.context.databind.json.JsonNodes;
 import io.luchta.forma4j.context.databind.json.JsonObject;
 import io.luchta.forma4j.reader.excel.objectreader.ObjectReader;
 import io.luchta.forma4j.reader.excel.objectreader.ObjectReaderFactory;
 import io.luchta.forma4j.reader.excel.objectreader.ObjectReaderFactoryParameter;
 import io.luchta.forma4j.reader.model.excel.Index;
-import io.luchta.forma4j.reader.specification.DefaultTagTreeSpec;
 import io.luchta.forma4j.reader.model.tag.SheetTag;
 import io.luchta.forma4j.reader.model.tag.Tag;
 import io.luchta.forma4j.reader.model.tag.TagTree;
 import io.luchta.forma4j.reader.model.tag.TagTrees;
+import io.luchta.forma4j.reader.specification.DefaultTagTreeSpec;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -52,21 +53,22 @@ public class ExcelReader {
     }
 
     private JsonObject read(Sheet sheet, TagTrees tagTrees) {
-
-        JsonObject obj = null;
-
         ObjectReaderFactory factory = new ObjectReaderFactory();
         Index rowIndex = new Index(0);
         Index colIndex = new Index(0);
+        JsonNodes nodes = new JsonNodes();
         for (TagTree tree : tagTrees) {
             Tag tag = tree.getTag();
             ObjectReaderFactoryParameter param = new ObjectReaderFactoryParameter(
                     sheet, rowIndex, colIndex, tree, tag
             );
             ObjectReader reader = factory.create(param);
-            obj = reader.read();
+            nodes.add(reader.read());
         }
 
-        return obj;
+        if (nodes.size() > 1) {
+            return new JsonObject(nodes);
+        }
+        return new JsonObject(nodes.get(0));
     }
 }

@@ -4,6 +4,7 @@ import io.luchta.forma4j.context.syntax.SyntaxErrors;
 import io.luchta.forma4j.reader.model.tag.ListTag;
 import io.luchta.forma4j.reader.model.tag.Tag;
 import io.luchta.forma4j.reader.model.tag.property.Index;
+import io.luchta.forma4j.reader.model.tag.property.Name;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -55,13 +56,20 @@ public class ListBuilder implements TagBuilder {
             }
         }
 
-        Node nameNode = nodeMap.getNamedItem("");
+        Node nameNode = nodeMap.getNamedItem("name");
+        String name = "";
+        if (nameNode != null) {
+            name = nameNode.getNodeValue();
+        } else {
+            name = "list";
+        }
 
         return new ListTag(
                 new Index(headerStartRow),
                 new Index(headerStartCol),
                 new Index(detailStartRow),
-                new Index(detailStartCol)
+                new Index(detailStartCol),
+                new Name(name)
         );
     }
 }

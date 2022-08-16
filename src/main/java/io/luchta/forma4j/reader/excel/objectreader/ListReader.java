@@ -24,7 +24,7 @@ public class ListReader implements ObjectReader {
     }
 
     @Override
-    public JsonObject read() {
+    public JsonNode read() {
         ListTag listTag = (ListTag) tagTree.getTag();
 
         Integer headerStartRowNum = listTag.getHeaderStartRow().toInteger();
@@ -68,6 +68,9 @@ public class ListReader implements ObjectReader {
             nodeList.add(node);
             j++;
         }
-        return new JsonObject(new JsonNodes(nodeList));
+        JsonObject jsonObject = new JsonObject(new JsonNodes(nodeList));
+        JsonNode node = new JsonNode();
+        node.putVar(listTag.name().toString(), jsonObject);
+        return node;
     }
 }

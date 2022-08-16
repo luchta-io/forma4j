@@ -2,5 +2,6 @@
 <forma-reader>
   <sheet name="data">
     <cell row="1" col="1" name="title" />
+    <cell row="3" col="2" name="outputdate" />
   </sheet>
 </forma-reader>
