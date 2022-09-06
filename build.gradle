@@ -15,7 +15,7 @@ plugins {
 }
 
 group = 'io.luchta'
-version = '1.0.0'
+version = '1.1.0-SNAPSHOT'
 
 sourceCompatibility = compatibility
 targetCompatibility = compatibility
@@ -39,9 +39,6 @@ dependencies {
 
     implementation "jakarta.xml.bind:jakarta.xml.bind-api:4.0.0"
     implementation "com.sun.xml.bind:jaxb-impl:4.0.0"
-
-    // https://mvnrepository.com/artifact/ognl/ognl
-    implementation 'ognl:ognl:3.3.3'
 
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.13.3'
     implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.13.4'
