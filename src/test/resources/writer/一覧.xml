@@ -2,36 +2,36 @@
 <forma>
     <sheet name="チケット一覧">
         <row rowIndex="0" startColumnIndex="0">
-            <cell>出力日時</cell>
-            <cell>#{出力日時}</cell>
+            <cell style="border:thin;">出力日時</cell>
+            <cell style="border:thin;">#{出力日時}</cell>
         </row>
         <row rowIndex="2" startColumnIndex="0">
-            <cell style="border:solid;font-color:black">キー</cell>
-            <cell style="border:solid;font-color:red;">件名*</cell>
-            <cell style="border:solid;font-color:white">担当者</cell>
-            <cell style="border:solid;font-color:red;">状態*</cell>
+            <cell style="border:thin;">キー</cell>
+            <cell style="border:thin;">件名*</cell>
+            <cell style="border:thin;">担当者</cell>
+            <cell style="border:thin;">状態*</cell>
             <horizontal-for item="可変項目名" collection="可変項目名リスト">
-                <cell style="border:solid;font-color:blue">#{可変項目名}</cell>
+                <cell style="border:thin;">#{可変項目名}</cell>
             </horizontal-for>
-            <cell style="border:solid;font-color:green">更新日時</cell>
-            <cell style="border:solid;font-color:yellow">更新者</cell>
-            <cell style="border:solid;">登録日時</cell>
-            <cell style="border:solid;">登録者</cell>
+            <cell style="border:thin;">更新日時</cell>
+            <cell style="border:thin;">更新者</cell>
+            <cell style="border:thin;">登録日時</cell>
+            <cell style="border:thin;">登録者</cell>
         </row>
         <vertical-for item="データ" collection="データリスト"
                         startRowIndex="3" startColumnIndex="0">
             <row>
-                <cell>#{データ.キー}</cell>
-                <cell>#{データ.件名}</cell>
-                <cell>#{データ.担当者}</cell>
-                <cell>#{データ.状態}</cell>
+                <cell style="border:thin;">#{データ.キー}</cell>
+                <cell style="border:thin;">#{データ.件名}</cell>
+                <cell style="border:thin;">#{データ.担当者}</cell>
+                <cell style="border:thin;">#{データ.状態}</cell>
                 <horizontal-for item="可変項目値" collection="データ.可変項目リスト">
-                    <cell>#{可変項目値}</cell>
+                    <cell style="border:thin;">#{可変項目値}</cell>
                 </horizontal-for>
-                <cell>#{データ.更新日時}</cell>
-                <cell>#{データ.更新者}</cell>
-                <cell>#{データ.登録日時}</cell>
-                <cell>#{データ.登録者}</cell>
+                <cell style="border:thin;">#{データ.更新日時}</cell>
+                <cell style="border:thin;">#{データ.更新者}</cell>
+                <cell style="border:thin;">#{データ.登録日時}</cell>
+                <cell style="border:thin;">#{データ.登録者}</cell>
             </row>
         </vertical-for>
     </sheet>

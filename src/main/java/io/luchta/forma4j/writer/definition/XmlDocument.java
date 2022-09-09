@@ -2,6 +2,7 @@ package io.luchta.forma4j.writer.definition;
 
 import io.luchta.forma4j.writer.definition.schema.Element;
 import io.luchta.forma4j.writer.definition.schema.attribute.Name;
+import io.luchta.forma4j.writer.definition.schema.attribute.Style;
 import io.luchta.forma4j.writer.definition.schema.attribute.index.ColumnIndex;
 import io.luchta.forma4j.writer.definition.schema.attribute.index.RowIndex;
 import io.luchta.forma4j.writer.definition.schema.element.ListElement;
@@ -26,7 +27,7 @@ public class XmlDocument {
     }
 
     public static XmlDocument defaultXmlDocument() {
-        ListElement listElement = new ListElement(new RowIndex(0L), new ColumnIndex(0L));
+        ListElement listElement = new ListElement(new RowIndex(0L), new ColumnIndex(0L), new Style(), new Style());
         List<Element> listElements = new ArrayList<>();
         listElements.add(listElement);
 
