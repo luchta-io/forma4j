@@ -72,7 +72,10 @@ public class SheetTag implements Tag {
         /**
          * コンストラクタ
          */
-        public SheetTagBuilder() {}
+        public SheetTagBuilder() {
+            name = new Name();
+            allSheets = new AllSheets();
+        }
 
         /**
          * name プロパティを設定するメソッドです
