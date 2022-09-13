@@ -25,7 +25,7 @@ public class AllSheets {
      * </p>
      */
     public AllSheets() {
-        value = null;
+        value = false;
     }
 
     /**
