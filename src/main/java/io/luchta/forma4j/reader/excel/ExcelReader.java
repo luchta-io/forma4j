@@ -7,10 +7,7 @@ import io.luchta.forma4j.reader.excel.objectreader.ObjectReader;
 import io.luchta.forma4j.reader.excel.objectreader.ObjectReaderFactory;
 import io.luchta.forma4j.reader.excel.objectreader.ObjectReaderFactoryParameter;
 import io.luchta.forma4j.reader.model.excel.Index;
-import io.luchta.forma4j.reader.model.tag.SheetTag;
-import io.luchta.forma4j.reader.model.tag.Tag;
-import io.luchta.forma4j.reader.model.tag.TagTree;
-import io.luchta.forma4j.reader.model.tag.TagTrees;
+import io.luchta.forma4j.reader.model.tag.*;
 import io.luchta.forma4j.reader.specification.DefaultTagTreeSpec;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -58,18 +55,23 @@ public class ExcelReader {
             if (tag.isSheet()) {
                 JsonObject obj = read(workbook, tree);
 
-                JsonNode node = new JsonNode();
-                node.putVar("forma-reader", obj);
-
-                nodes.add(node);
+                if (obj.isJsonNodes()) {
+                    nodes.addAll((JsonNodes) obj.getValue());
+                } else if (obj.isJsonNode()) {
+                    nodes.add((JsonNode) obj.getValue());
+                }
             }
         }
 
+        JsonNode node = new JsonNode();
         switch (nodes.size()) {
-            case 0: return new JsonObject();
-            case 1: return new JsonObject(nodes.get(0));
-            default: return new JsonObject(nodes);
+            case 0: node.putVar(FormaReaderTag.TAG_NAME, new JsonObject()); break;
+            case 1: node.putVar(FormaReaderTag.TAG_NAME, new JsonObject(nodes.get(0))); break;
+            default: node.putVar(FormaReaderTag.TAG_NAME, new JsonObject(nodes)); break;
         }
+
+        JsonObject resultValue = new JsonObject(node);
+        return resultValue;
     }
 
     private JsonObject read(Workbook workbook, TagTree tagTree) {
