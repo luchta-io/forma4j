@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<forma>
+  <sheet name="test">
+    <list
+      startRowIndex="2"
+      startColumnIndex="1"
+      headerStyle="border:medium"
+      detailStyle="border:thin"
+      collection="データリスト1"
+    />
+  </sheet>
+  <sheet name="test2">
+    <list
+      startRowIndex="2"
+      startColumnIndex="1"
+      headerStyle="border:medium"
+      detailStyle="border:thin"
+      collection="データリスト2"
+    />
+  </sheet>
+  <sheet name="test3">
+    <row rowIndex="0" startColumnIndex="0">
+      <cell style="border:thin;">出力日時</cell>
+      <cell style="border:thin;">#{出力日時}</cell>
+    </row>
+    <row rowIndex="2" startColumnIndex="0">
+      <cell style="border:thin;">キー</cell>
+      <cell style="border:thin;">件名*</cell>
+      <cell style="border:thin;">担当者</cell>
+      <cell style="border:thin;">状態*</cell>
+      <horizontal-for item="可変項目名" collection="可変項目名リスト">
+        <cell style="border:thin;">#{可変項目名}</cell>
+      </horizontal-for>
+      <cell style="border:thin;">更新日時</cell>
+      <cell style="border:thin;">更新者</cell>
+      <cell style="border:thin;">登録日時</cell>
+      <cell style="border:thin;">登録者</cell>
+    </row>
+    <vertical-for item="データ" collection="データリスト3"
+                  startRowIndex="3" startColumnIndex="0">
+      <row>
+        <cell style="border:thin;">#{データ.キー}</cell>
+        <cell style="border:thin;">#{データ.件名}</cell>
+        <cell style="border:thin;">#{データ.担当者}</cell>
+        <cell style="border:thin;">#{データ.状態}</cell>
+        <horizontal-for item="可変項目値" collection="データ.可変項目リスト">
+          <cell style="border:thin;">#{可変項目値}</cell>
+        </horizontal-for>
+        <cell style="border:thin;">#{データ.更新日時}</cell>
+        <cell style="border:thin;">#{データ.更新者}</cell>
+        <cell style="border:thin;">#{データ.登録日時}</cell>
+        <cell style="border:thin;">#{データ.登録者}</cell>
+      </row>
+    </vertical-for>
+  </sheet>
+</forma>
