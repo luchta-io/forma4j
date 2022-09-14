@@ -12,7 +12,7 @@ import io.luchta.forma4j.reader.model.tag.property.Name;
  */
 public class SheetTag implements Tag {
     /**
-     * 設定ファイルに記述されるプロパティの名称です
+     * 設定ファイルに記述されるタグの名称です
      */
     public static final String TAG_NAME = "sheet";
 
