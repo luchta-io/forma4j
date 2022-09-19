@@ -35,7 +35,7 @@ sourceSets {
 
 dependencies {
     implementation group: 'org.apache.poi', name: 'poi', version: '5.2.2'
-    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.2.2'
+    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.2.3'
 
     implementation "jakarta.xml.bind:jakarta.xml.bind-api:4.0.0"
     implementation "com.sun.xml.bind:jaxb-impl:4.0.0"
