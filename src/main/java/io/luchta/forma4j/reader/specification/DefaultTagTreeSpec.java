@@ -13,8 +13,12 @@ public class DefaultTagTreeSpec {
         TagTree listTagTree = new TagTree(new Tags(), new ListTag(new Index(0), new Index(0), new Index(1), new Index(0), new Name("list")), new TagTrees());
         listTagTreeList.add(listTagTree);
 
+        SheetTag.SheetTagBuilder builder = new SheetTag.SheetTagBuilder();
+        builder.name(new Name("data"));
+        SheetTag sheetTag = builder.build();
+
         List<TagTree> sheetTagTreeList = new ArrayList<>();
-        TagTree sheetTagTree = new TagTree(new Tags(), new SheetTag(new Name("data")), new TagTrees(listTagTreeList));
+        TagTree sheetTagTree = new TagTree(new Tags(), sheetTag, new TagTrees(listTagTreeList));
         sheetTagTreeList.add(sheetTagTree);
 
         return new TagTree(new Tags(), new FormaReaderTag(), new TagTrees(sheetTagTreeList));
