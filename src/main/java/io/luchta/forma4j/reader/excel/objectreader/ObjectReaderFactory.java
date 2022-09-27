@@ -22,10 +22,6 @@ public class ObjectReaderFactory {
             );
         }
 
-        if (tag.isBreak()) {
-
-        }
-
         if (tag.isList()) {
             return new ListReader(param.getSheet(), param.getTagTree());
         }
