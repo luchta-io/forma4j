@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<forma>
+  <sheet item="データ" collection="データリスト">
+    <list
+      startRowIndex="2"
+      startColumnIndex="1"
+      headerStyle="border:medium"
+      detailStyle="border:thin"
+      collection="データ.コレクション"
+    />
+  </sheet>
+</forma>

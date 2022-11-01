@@ -8,10 +8,12 @@
 
 ## 使用例
 
+簡単な使用方法の例です。詳しい使い方はテストコードが使用方法のサンプルになっているのでそちらを確認してください。
+
 ### Gradle
 
 ```gradle
-implementation group: 'io.luchta', name: 'forma4j', version: '1.1.0'
+implementation group: 'io.luchta', name: 'forma4j', version: '1.2.0'
 ```
 
 [Maven Repository](https://mvnrepository.com/artifact/io.luchta/forma4j)
