@@ -5,6 +5,7 @@ import io.luchta.forma4j.context.databind.json.JsonObject;
 import io.luchta.forma4j.reader.compile.FormaReaderCompiler;
 import io.luchta.forma4j.reader.excel.ExcelReader;
 import io.luchta.forma4j.reader.model.tag.TagTree;
+import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -55,7 +56,7 @@ public class FormaReader {
      * @throws IOException
      * @throws SAXException
      */
-    public JsonObject read(InputStream config, InputStream excel) throws ParserConfigurationException, IOException, SAXException {
+    public JsonObject read(InputStream config, InputStream excel) throws ParserConfigurationException, IOException, SAXException, OpenXML4JException {
         FormaReaderCompiler compiler = new FormaReaderCompiler();
         TagTree tree = compiler.compile(config, syntaxErrors);
 

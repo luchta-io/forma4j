@@ -51,7 +51,9 @@ public class ListReader implements ObjectReader {
                     node.putVar(headerName, new JsonObject(""));
                 } else {
                     Cell cell = row.getCell(k);
-                    if (cell.getCellType() == CellType.NUMERIC) {
+                    if (cell == null) {
+                        node.putVar(headerName, new JsonObject(""));
+                    } else if (cell.getCellType() == CellType.NUMERIC) {
                         if (DateUtil.isCellDateFormatted(cell)) {
                             Date date = cell.getDateCellValue();
                             Instant instant = date.toInstant();

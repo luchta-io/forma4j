@@ -71,7 +71,7 @@ public class main {
         JsonNode jsonNode = new JsonNode();
         jsonNode.putVar("list", new JsonObject(jsonNodes));
 
-        Writer writer = new Writer();
+        FormaWriter writer = new FormaWriter();
         writer.write(in, out, new JsonObject(jsonNode));
     }
 }
