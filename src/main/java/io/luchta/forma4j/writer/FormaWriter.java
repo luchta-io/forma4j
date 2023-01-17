@@ -79,6 +79,28 @@ public class FormaWriter {
         processor.process(outputXlsx);
     }
 
+    /**
+     * EXCEL の書き込みを行うメソッドです
+     * <p>
+     * 設定ファイルの内容に従い、Excelで作成されたテンプレートへ書き込みを行います
+     * </p>
+     * @param definitionXml 設定ファイル
+     * @param outputXlsx EXCEL の書き込み先
+     * @param templateXlsx EXCEL のテンプレート
+     * @param jsonObject 書き込むデータを JSON 形式にしたオブジェクト
+     * @throws IOException
+     */
+    public void write(InputStream definitionXml, OutputStream outputXlsx, InputStream templateXlsx, JsonObject jsonObject) throws IOException {
+        Context context = context(jsonObject);
+
+        XmlDocumentReader definitionReader = new XmlDocumentReader();
+        XmlDocument definition = definitionReader.read(definitionXml);
+        XlsxModelBuilder modelBuilder = new XlsxModelBuilder(definition, context);
+        XlsxBook model = modelBuilder.build();
+        XlsxWriteProcessor processor = new XlsxWriteProcessor(model);
+        processor.process(outputXlsx, templateXlsx);
+    }
+
     private Context context(JsonObject jsonObject) throws IOException {
         JsonSerializer serializer = new JsonSerializer();
         String json = serializer.serializeFromJsonObject(jsonObject);

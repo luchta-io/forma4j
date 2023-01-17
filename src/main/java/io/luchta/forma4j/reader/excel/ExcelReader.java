@@ -7,12 +7,25 @@ import io.luchta.forma4j.reader.excel.objectreader.ObjectReader;
 import io.luchta.forma4j.reader.excel.objectreader.ObjectReaderFactory;
 import io.luchta.forma4j.reader.excel.objectreader.ObjectReaderFactoryParameter;
 import io.luchta.forma4j.reader.model.excel.Index;
+import io.luchta.forma4j.reader.model.excel.SheetName;
 import io.luchta.forma4j.reader.model.tag.*;
 import io.luchta.forma4j.reader.specification.DefaultTagTreeSpec;
+import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.util.XMLHelper;
+import org.apache.poi.xssf.eventusermodel.ReadOnlySharedStringsTable;
+import org.apache.poi.xssf.eventusermodel.XSSFReader;
+import org.apache.poi.xssf.eventusermodel.XSSFSheetXMLHandler;
+import org.apache.poi.xssf.model.StylesTable;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -22,6 +35,29 @@ import java.io.InputStream;
  * @since 0.1.0
  */
 public class ExcelReader {
+    public void process(InputStream inputStream, TagTree tagTree) throws IOException, OpenXML4JException, SAXException, ParserConfigurationException {
+        OPCPackage opcPackage = OPCPackage.open(inputStream);
+        ReadOnlySharedStringsTable stringsTable = new ReadOnlySharedStringsTable(opcPackage, false);
+        XSSFReader xssfReader = new XSSFReader(opcPackage);
+        StylesTable stylesTable = xssfReader.getStylesTable();
+
+        XSSFReader.SheetIterator sheetIterator = (XSSFReader.SheetIterator) xssfReader.getSheetsData();
+        while (sheetIterator.hasNext()) {
+            InputStream stream = sheetIterator.next();
+            final XMLReader reader = XMLHelper.newXMLReader();
+            SheetName sheetName = new SheetName(sheetIterator.getSheetName());
+            SheetHandler sheetHandler = new SheetHandler(sheetName);
+            reader.setContentHandler(new XSSFSheetXMLHandler(
+                    stylesTable,
+                    null,
+                    stringsTable,
+                    sheetHandler,
+                    new DataFormatter(),
+                    false));
+            reader.parse(new InputSource(stream));
+        }
+    }
+
     /**
      * EXCEL の読み込みを行うメソッドです。
      * <p>
