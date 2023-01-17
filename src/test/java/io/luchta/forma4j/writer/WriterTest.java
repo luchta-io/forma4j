@@ -325,6 +325,7 @@ public class WriterTest {
         logger.log(Level.INFO, "xlsxファイル出力先: " + outFile.getAbsolutePath());
 
         JsonNode jsonNode = new JsonNode();
+        jsonNode.putVar("出力日時", new JsonObject(LocalDate.now().toString()));
         jsonNode.putVar("データリスト", new JsonObject(append_test_data()));
 
         FormaWriter sut = new FormaWriter();
