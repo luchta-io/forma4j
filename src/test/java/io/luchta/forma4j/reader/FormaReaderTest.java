@@ -206,7 +206,7 @@ public class FormaReaderTest {
             JsonNode node4 = employeeNodes.get(3);
             Assertions.assertEquals(4, node4.size());
             JsonNode node4HFor = (JsonNode) node4.getVar("hfor").getValue();
-            Assertions.assertEquals(2, node4HFor.size());
+            Assertions.assertEquals(10, node4HFor.size());
 
             JsonNode node5 = employeeNodes.get(4);
             Assertions.assertEquals(4, node5.size());
@@ -298,7 +298,7 @@ public class FormaReaderTest {
             Assertions.assertEquals("", node4.getVar("不定７").getValue());
             Assertions.assertEquals("", node4.getVar("不定８").getValue());
             Assertions.assertEquals("", node4.getVar("不定９").getValue());
-            Assertions.assertEquals("", node4.getVar("不定１０").getValue());
+            Assertions.assertEquals(99.0, node4.getVar("不定１０").getValue());
 
             JsonNode node5 = nodes.get(4);
             Assertions.assertEquals("0005", node5.getVar("社員コード").getValue());

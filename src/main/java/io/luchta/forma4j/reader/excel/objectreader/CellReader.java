@@ -42,7 +42,11 @@ public class CellReader implements ObjectReader {
         }
         Cell cell = sheet.getRow(row).getCell(col);
 
-        if (cell.getCellType() == CellType.NUMERIC) {
+        if (cell == null) {
+            JsonNode node = new JsonNode();
+            node.putVar(cellTag.name().toString(), new JsonObject(""));
+            return node;
+        } else if (cell.getCellType() == CellType.NUMERIC) {
             if (DateUtil.isCellDateFormatted(cell)) {
                 Date date = cell.getDateCellValue();
                 Instant instant = date.toInstant();
