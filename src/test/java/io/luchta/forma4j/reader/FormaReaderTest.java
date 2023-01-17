@@ -11,8 +11,12 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 
+/**
+ * {@code FormaReaderTest} は {@link FormaReader} のテストを行うクラスです。
+ *
+ * @since 0.1.0
+ */
 public class FormaReaderTest {
-
     @ParameterizedTest
     @CsvSource({
             "reader/simple_cell_read_test.xml, reader/FormaReaderTest.xlsx"
@@ -543,6 +547,41 @@ public class FormaReaderTest {
             Assertions.assertEquals("四郎", node4.getVar("名").getValue());
             Assertions.assertEquals(3.0, node4.getVar("不定１").getValue());
             Assertions.assertEquals("", node4.getVar("不定２").getValue());
+        }
+    }
+
+    /**
+     * パスワード付きExcelの読み込みテスト
+     * @param configPath 設定ファイルのパス
+     * @param excelPath 読み込むExcelファイルのパス
+     * @throws Exception
+     */
+    @ParameterizedTest
+    @CsvSource({
+            "reader/simple_cell_read_test.xml, reader/FormaReaderTestWithPassword.xlsx"
+    })
+    public void simple_cell_read_with_password_test(String configPath, String excelPath) throws Exception {
+        try (InputStream config = new FileInputStream(this.getClass().getClassLoader().getResource(configPath).getPath());
+             InputStream excel = new FileInputStream(this.getClass().getClassLoader().getResource(excelPath).getPath());) {
+            FormaReader formaReader = new FormaReader();
+            JsonObject obj = formaReader.read(config, excel, "password");
+
+            Object root = obj.getValue();
+            Assertions.assertEquals(true, root instanceof JsonNode);
+
+            JsonObject sheet = ((JsonNode) root).getVar("forma-reader");
+            Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
+
+            JsonObject cell = ((JsonNode) sheet.getValue()).getVar("data");
+            Assertions.assertEquals(true, cell.getValue() instanceof JsonNodes);
+
+            JsonNodes values = ((JsonNodes) cell.getValue());
+
+            Assertions.assertEquals(true, values.get(0).getVar("title").getValue() instanceof String);
+            Assertions.assertEquals("サンプル帳票", values.get(0).getVar("title").getValue().toString());
+
+            Assertions.assertEquals(true, values.get(1).getVar("outputdate").getValue() instanceof LocalDateTime);
+            Assertions.assertEquals(LocalDateTime.of(2020, 11, 6, 0, 0, 0), values.get(1).getVar("outputdate").getValue());
         }
     }
 }
