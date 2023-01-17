@@ -1,11 +1,10 @@
 package io.luchta.forma4j.reader;
 
-import io.luchta.forma4j.context.syntax.SyntaxErrors;
 import io.luchta.forma4j.context.databind.json.JsonObject;
+import io.luchta.forma4j.context.syntax.SyntaxErrors;
 import io.luchta.forma4j.reader.compile.FormaReaderCompiler;
 import io.luchta.forma4j.reader.excel.ExcelReader;
 import io.luchta.forma4j.reader.model.tag.TagTree;
-import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -56,7 +55,24 @@ public class FormaReader {
      * @throws IOException
      * @throws SAXException
      */
-    public JsonObject read(InputStream config, InputStream excel) throws ParserConfigurationException, IOException, SAXException, OpenXML4JException {
+    public JsonObject read(InputStream config, InputStream excel) throws ParserConfigurationException, IOException, SAXException {
+        return read(config, excel, null);
+    }
+
+    /**
+     * パスワード付きの EXCEL の読み込みを行うメソッドです。
+     * <p>
+     * 設定ファイルの内容に従って読み込みを行います。
+     * </p>
+     * @param config EXCEL の読み込み定義を記述した設定ファイル
+     * @param excel 読み込みを行う EXCEL ファイル
+     * @param password パスワード
+     * @return 読み込んだ EXCEL ファイルを JSON 形式に変換したオブジェクト
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
+    public JsonObject read(InputStream config, InputStream excel, String password) throws ParserConfigurationException, IOException, SAXException {
         FormaReaderCompiler compiler = new FormaReaderCompiler();
         TagTree tree = compiler.compile(config, syntaxErrors);
 
@@ -65,7 +81,7 @@ public class FormaReader {
         }
 
         ExcelReader excelReader = new ExcelReader();
-        return excelReader.read(excel, tree);
+        return excelReader.read(excel, tree, password);
     }
 
     /**
