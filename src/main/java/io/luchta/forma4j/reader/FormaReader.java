@@ -65,7 +65,6 @@ public class FormaReader {
         }
 
         ExcelReader excelReader = new ExcelReader();
-        excelReader.process(excel, tree);
         return excelReader.read(excel, tree);
     }
 
