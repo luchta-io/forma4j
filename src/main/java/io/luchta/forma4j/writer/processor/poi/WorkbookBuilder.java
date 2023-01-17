@@ -39,7 +39,7 @@ public class WorkbookBuilder {
      * @return Excel ワークブック
      */
     public Workbook build() {
-        return build(new XSSFWorkbook());
+        return build(new XSSFWorkbook(), false);
     }
 
     /**
@@ -49,7 +49,7 @@ public class WorkbookBuilder {
      * @throws IOException
      */
     public Workbook build(InputStream in) throws IOException {
-        return build(WorkbookFactory.create(in));
+        return build(WorkbookFactory.create(in), true);
     }
 
     /**
@@ -57,16 +57,22 @@ public class WorkbookBuilder {
      * @param workbook Excel ワークブック
      * @return
      */
-    private Workbook build(Workbook workbook) {
+    private Workbook build(Workbook workbook, boolean hasTemplate) {
         for (XlsxSheet sheetModel : model.sheets()) {
             Sheet sheet = null;
-            try {
-                sheet = workbook.createSheet(sheetModel.name().toString());
-            } catch (IllegalArgumentException e) {
+            if (hasTemplate) {
                 sheet = workbook.getSheet(sheetModel.name().toString());
+            } else {
+                sheet = workbook.createSheet(sheetModel.name().toString());
             }
+
             for (XlsxRow rowModel : sheetModel.rows()) {
-                Row row = sheet.createRow(rowModel.rowNumber().toInt());
+                Row row = null;
+                if (hasTemplate) {
+                    row = sheet.getRow(rowModel.rowNumber().toInt());
+                } else {
+                    row = sheet.createRow(rowModel.rowNumber().toInt());
+                }
                 for (XlsxCell cellModel : rowModel.cells()) {
                     Cell cell = row.createCell(cellModel.columnNumber().toInt());
                     cell.setCellValue(cellModel.value().toString());
