@@ -358,6 +358,18 @@ public class WriterTest {
 
         jsonNodes.add(jsonNode2);
 
+        JsonNode jsonNode3 = new JsonNode();
+        jsonNode3.putVar("キー", new JsonObject("TEST-2"));
+        jsonNode3.putVar("件名", new JsonObject("yy機能を実装する"));
+        jsonNode3.putVar("担当者", new JsonObject(""));
+        jsonNode3.putVar("状態", new JsonObject("未対応"));
+        jsonNode3.putVar("更新日時", new JsonObject("2020/11/2"));
+        jsonNode3.putVar("更新者", new JsonObject("ユーザB"));
+        jsonNode3.putVar("登録日時", new JsonObject("2020/11/2"));
+        jsonNode3.putVar("登録者", new JsonObject("ユーザB"));
+
+        jsonNodes.add(jsonNode3);
+
         return jsonNodes;
     }
 }
