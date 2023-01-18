@@ -332,6 +332,47 @@ public class WriterTest {
         sut.write(in, outputStream, inputStream, new JsonObject(jsonNode));
     }
 
+    /**
+     * パスワードを設定する Excel 書き込みのテスト
+     * @throws Exception
+     */
+    @Test
+    void password_xlsx_test() throws Exception {
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream in = classLoader.getResource("writer/一覧.xml").openStream();
+        File outFile = Files.createTempFile("test", String.format("%s.xlsx", LocalDateTime.now().toString())).toFile();
+        logger.log(Level.INFO, "xlsxファイル出力先: " + outFile.getAbsolutePath());
+
+        JsonNode jsonNode = new JsonNode();
+        jsonNode.putVar("出力日時", new JsonObject(LocalDate.now().toString()));
+        jsonNode.putVar("データリスト", new JsonObject(append_test_data()));
+
+        FormaWriter sut = new FormaWriter();
+        sut.write(in, outFile.getAbsolutePath(), "password", new JsonObject(jsonNode));
+    }
+
+    /**
+     * パスワードを設定する Excel 書き込みのテスト（テンプレートを使用する場合）
+     * @throws Exception
+     */
+    @Test
+    void password_xlsx_with_template_test() throws Exception {
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream in = classLoader.getResource("writer/一覧.xml").openStream();
+        File inFile = new File(classLoader.getResource("writer/list.xlsx").getPath());
+        File outFile = Files.createTempFile("test", String.format("%s.xlsx", LocalDateTime.now().toString())).toFile();
+        FileInputStream inputStream = new FileInputStream(inFile);
+        FileOutputStream outputStream = new FileOutputStream(outFile, true);
+        logger.log(Level.INFO, "xlsxファイル出力先: " + outFile.getAbsolutePath());
+
+        JsonNode jsonNode = new JsonNode();
+        jsonNode.putVar("出力日時", new JsonObject(LocalDate.now().toString()));
+        jsonNode.putVar("データリスト", new JsonObject(append_test_data()));
+
+        FormaWriter sut = new FormaWriter();
+        sut.write(in, outFile.getAbsolutePath(), "password", inputStream, new JsonObject(jsonNode));
+    }
+
     private JsonNodes append_test_data() {
         JsonNodes jsonNodes = new JsonNodes();
         JsonNode jsonNode1 = new JsonNode();
