@@ -67,10 +67,8 @@ public class WorkbookBuilder {
             }
 
             for (XlsxRow rowModel : sheetModel.rows()) {
-                Row row = null;
-                if (hasTemplate) {
-                    row = sheet.getRow(rowModel.rowNumber().toInt());
-                } else {
+                Row row = sheet.getRow(rowModel.rowNumber().toInt());
+                if (row == null) {
                     row = sheet.createRow(rowModel.rowNumber().toInt());
                 }
                 for (XlsxCell cellModel : rowModel.cells()) {
