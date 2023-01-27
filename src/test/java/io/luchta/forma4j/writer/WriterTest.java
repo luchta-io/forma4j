@@ -5,10 +5,7 @@ import io.luchta.forma4j.context.databind.json.JsonNodes;
 import io.luchta.forma4j.context.databind.json.JsonObject;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -311,5 +308,109 @@ public class WriterTest {
         result.add(root);
 
         return result;
+    }
+
+    /**
+     * テンプレートを利用した Excel 書き込みのテスト
+     * @throws Exception
+     */
+    @Test
+    void template_xlsx_test() throws Exception {
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream in = classLoader.getResource("writer/一覧.xml").openStream();
+        File inFile = new File(classLoader.getResource("writer/list.xlsx").getPath());
+        File outFile = Files.createTempFile("test", String.format("%s.xlsx", LocalDateTime.now().toString())).toFile();
+        FileInputStream inputStream = new FileInputStream(inFile);
+        FileOutputStream outputStream = new FileOutputStream(outFile, true);
+        logger.log(Level.INFO, "xlsxファイル出力先: " + outFile.getAbsolutePath());
+
+        JsonNode jsonNode = new JsonNode();
+        jsonNode.putVar("出力日時", new JsonObject(LocalDate.now().toString()));
+        jsonNode.putVar("データリスト", new JsonObject(append_test_data()));
+
+        FormaWriter sut = new FormaWriter();
+        sut.write(in, outputStream, inputStream, new JsonObject(jsonNode));
+    }
+
+    /**
+     * パスワードを設定する Excel 書き込みのテスト
+     * @throws Exception
+     */
+    @Test
+    void password_xlsx_test() throws Exception {
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream in = classLoader.getResource("writer/一覧.xml").openStream();
+        File outFile = Files.createTempFile("test", String.format("%s.xlsx", LocalDateTime.now().toString())).toFile();
+        logger.log(Level.INFO, "xlsxファイル出力先: " + outFile.getAbsolutePath());
+
+        JsonNode jsonNode = new JsonNode();
+        jsonNode.putVar("出力日時", new JsonObject(LocalDate.now().toString()));
+        jsonNode.putVar("データリスト", new JsonObject(append_test_data()));
+
+        FormaWriter sut = new FormaWriter();
+        sut.write(in, outFile.getAbsolutePath(), "password", new JsonObject(jsonNode));
+    }
+
+    /**
+     * パスワードを設定する Excel 書き込みのテスト（テンプレートを使用する場合）
+     * @throws Exception
+     */
+    @Test
+    void password_xlsx_with_template_test() throws Exception {
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream in = classLoader.getResource("writer/一覧.xml").openStream();
+        File inFile = new File(classLoader.getResource("writer/list.xlsx").getPath());
+        File outFile = Files.createTempFile("test", String.format("%s.xlsx", LocalDateTime.now().toString())).toFile();
+        FileInputStream inputStream = new FileInputStream(inFile);
+        FileOutputStream outputStream = new FileOutputStream(outFile, true);
+        logger.log(Level.INFO, "xlsxファイル出力先: " + outFile.getAbsolutePath());
+
+        JsonNode jsonNode = new JsonNode();
+        jsonNode.putVar("出力日時", new JsonObject(LocalDate.now().toString()));
+        jsonNode.putVar("データリスト", new JsonObject(append_test_data()));
+
+        FormaWriter sut = new FormaWriter();
+        sut.write(in, outFile.getAbsolutePath(), "password", inputStream, new JsonObject(jsonNode));
+    }
+
+    private JsonNodes append_test_data() {
+        JsonNodes jsonNodes = new JsonNodes();
+        JsonNode jsonNode1 = new JsonNode();
+        jsonNode1.putVar("キー", new JsonObject("TEST\"-1"));
+        jsonNode1.putVar("件名", new JsonObject("xx機能実装する"));
+        jsonNode1.putVar("担当者", new JsonObject("ユー/ザA"));
+        jsonNode1.putVar("状態", new JsonObject("処理\b中"));
+        jsonNode1.putVar("更新日時", new JsonObject("2020/11\n/5"));
+        jsonNode1.putVar("更新者", new JsonObject("ユーザ\tA"));
+        jsonNode1.putVar("登録日時", new JsonObject("2020\\u0041/11/2"));
+        jsonNode1.putVar("登録者", new JsonObject("ユーザB"));
+
+        jsonNodes.add(jsonNode1);
+
+        JsonNode jsonNode2 = new JsonNode();
+        jsonNode2.putVar("キー", new JsonObject("TEST-2"));
+        jsonNode2.putVar("件名", new JsonObject("yy機能を実装する"));
+        jsonNode2.putVar("担当者", new JsonObject(""));
+        jsonNode2.putVar("状態", new JsonObject("未対応"));
+        jsonNode2.putVar("更新日時", new JsonObject("2020/11/2"));
+        jsonNode2.putVar("更新者", new JsonObject("ユーザB"));
+        jsonNode2.putVar("登録日時", new JsonObject("2020/11/2"));
+        jsonNode2.putVar("登録者", new JsonObject("ユーザB"));
+
+        jsonNodes.add(jsonNode2);
+
+        JsonNode jsonNode3 = new JsonNode();
+        jsonNode3.putVar("キー", new JsonObject("TEST-2"));
+        jsonNode3.putVar("件名", new JsonObject("yy機能を実装する"));
+        jsonNode3.putVar("担当者", new JsonObject(""));
+        jsonNode3.putVar("状態", new JsonObject("未対応"));
+        jsonNode3.putVar("更新日時", new JsonObject("2020/11/2"));
+        jsonNode3.putVar("更新者", new JsonObject("ユーザB"));
+        jsonNode3.putVar("登録日時", new JsonObject("2020/11/2"));
+        jsonNode3.putVar("登録者", new JsonObject("ユーザB"));
+
+        jsonNodes.add(jsonNode3);
+
+        return jsonNodes;
     }
 }
