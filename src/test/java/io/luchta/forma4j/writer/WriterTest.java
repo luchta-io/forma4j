@@ -414,7 +414,4 @@ public class WriterTest {
         return jsonNodes;
     }
 
-    @Test
-    void line_break_in_cell() throws Exception {
-    }
 }
