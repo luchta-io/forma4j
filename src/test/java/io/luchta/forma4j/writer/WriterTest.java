@@ -54,7 +54,7 @@ public class WriterTest {
         jsonNode1.putVar("件名", new JsonObject("xx機能実装する"));
         jsonNode1.putVar("担当者", new JsonObject("ユー/ザA"));
         jsonNode1.putVar("状態", new JsonObject("処理\b中"));
-        jsonNode1.putVar("可変項目リスト", new JsonObject(Arrays.asList("タス\rク", "v1.0.0.RELEASE", "1")));
+        jsonNode1.putVar("可変項目リスト", new JsonObject(Arrays.asList("タス\rク", "v1.0.0\n\r.RELEASE", "1")));
         jsonNode1.putVar("更新日時", new JsonObject("2020/11\n/5"));
         jsonNode1.putVar("更新者", new JsonObject("ユーザ\tA"));
         jsonNode1.putVar("登録日時", new JsonObject("2020\\u0041/11/2"));
