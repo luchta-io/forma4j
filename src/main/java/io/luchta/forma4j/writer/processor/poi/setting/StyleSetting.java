@@ -9,6 +9,8 @@ import org.apache.poi.ss.util.CellUtil;
 
 public class StyleSetting {
     public void set(Cell cell, XlsxCellStyles styles) {
+        CellUtil.setCellStyleProperty(cell, CellUtil.WRAP_TEXT, true);
+
         for (XlsxCellStyle style : styles) {
             if (style.isBorder()) {
                 border(cell, (XlsxBorderStyle) style);
