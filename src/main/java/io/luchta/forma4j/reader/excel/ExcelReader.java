@@ -48,17 +48,33 @@ public class ExcelReader {
      * @throws IOException
      */
     public JsonObject read(InputStream inputStream, TagTree tagTree) throws IOException {
-        JsonNodes nodes = new JsonNodes();
-        Workbook workbook = WorkbookFactory.create(inputStream);
-        for (TagTree tree : tagTree.getChildren()) {
-            Tag tag = tree.getTag();
-            if (tag.isSheet()) {
-                JsonObject obj = read(workbook, tree);
+        return read(inputStream, tagTree, null);
+    }
 
-                if (obj.isJsonNodes()) {
-                    nodes.addAll((JsonNodes) obj.getValue());
-                } else if (obj.isJsonNode()) {
-                    nodes.add((JsonNode) obj.getValue());
+    /**
+     * EXCEL の読み込みを行うメソッドです。
+     * <p>
+     * 設定ファイルの内容に従って読み込みを行います。パスワードが {@code NULL} またはブランクの場合はパスワードなしとして読み込みを行います。
+     * </p>
+     * @param inputStream 読み込みを行う EXCEL ファイル
+     * @param tagTree EXCEL の読み込み定義を記述した設定ファイルをツリー構造に変換したオブジェクト
+     * @param password パスワード
+     * @return 読み込んだ EXCEL ファイルを JSON 形式に変換したオブジェクト
+     * @throws IOException
+     */
+    public JsonObject read(InputStream inputStream, TagTree tagTree, String password) throws IOException {
+        JsonNodes nodes = new JsonNodes();
+        try (Workbook workbook = WorkbookFactory.create(inputStream, password)) {
+            for (TagTree tree : tagTree.getChildren()) {
+                Tag tag = tree.getTag();
+                if (tag.isSheet()) {
+                    JsonObject obj = read(workbook, tree);
+
+                    if (obj.isJsonNodes()) {
+                        nodes.addAll((JsonNodes) obj.getValue());
+                    } else if (obj.isJsonNode()) {
+                        nodes.add((JsonNode) obj.getValue());
+                    }
                 }
             }
         }

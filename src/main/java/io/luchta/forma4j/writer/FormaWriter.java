@@ -10,8 +10,10 @@ import io.luchta.forma4j.writer.definition.XmlDocument;
 import io.luchta.forma4j.writer.definition.XmlDocumentReader;
 import io.luchta.forma4j.writer.engine.XlsxModelBuilder;
 import io.luchta.forma4j.writer.engine.model.book.XlsxBook;
+import io.luchta.forma4j.writer.processor.XlsxPassword;
 import io.luchta.forma4j.writer.processor.XlsxWriteProcessor;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -50,11 +52,7 @@ public class FormaWriter {
      * @throws IOException
      */
     public void write(OutputStream outputXlsx, JsonObject jsonObject) throws IOException {
-        Context context = context(jsonObject);
-        XmlDocument definition = XmlDocument.defaultXmlDocument();
-        XlsxModelBuilder modelBuilder = new XlsxModelBuilder(definition, context);
-        XlsxBook model = modelBuilder.build();
-        XlsxWriteProcessor processor = new XlsxWriteProcessor(model);
+        XlsxWriteProcessor processor = processor(null, jsonObject);
         processor.process(outputXlsx);
     }
 
@@ -69,14 +67,72 @@ public class FormaWriter {
      * @throws IOException
      */
     public void write(InputStream definitionXml, OutputStream outputXlsx, JsonObject jsonObject) throws IOException {
+        XlsxWriteProcessor processor = processor(definitionXml, jsonObject);
+        processor.process(outputXlsx);
+    }
+
+    /**
+     * EXCEL の書き込みを行うメソッドです
+     * <p>
+     * 設定ファイルの内容に従い、Excelで作成されたテンプレートへ書き込みを行います
+     * </p>
+     * @param definitionXml 設定ファイル
+     * @param outputXlsx EXCEL の書き込み先
+     * @param templateXlsx EXCEL のテンプレート
+     * @param jsonObject 書き込むデータを JSON 形式にしたオブジェクト
+     * @throws IOException
+     */
+    public void write(InputStream definitionXml, OutputStream outputXlsx, InputStream templateXlsx, JsonObject jsonObject) throws IOException {
+        XlsxWriteProcessor processor = processor(definitionXml, jsonObject);
+        processor.process(outputXlsx, templateXlsx);
+    }
+
+    /**
+     * EXCEL の書き込みを行うメソッドです
+     * <p>
+     * 設定ファイルの内容に従い、Excelで作成されたテンプレートへ書き込みを行います
+     * </p>
+     * @param definitionXml 設定ファイル
+     * @param outputXlsxPath EXCEL の書き込み先
+     * @param password 書き込み先のEXCELに設定するパスワード
+     * @param jsonObject 書き込むデータを JSON 形式にしたオブジェクト
+     * @throws IOException
+     */
+    public void write(InputStream definitionXml, String outputXlsxPath, String password, JsonObject jsonObject) throws IOException {
+        XlsxWriteProcessor processor = processor(definitionXml, jsonObject);
+        processor.process(new FileOutputStream(outputXlsxPath));
+        XlsxPassword xlsxPassword = new XlsxPassword();
+        xlsxPassword.set(outputXlsxPath, password);
+    }
+
+    /**
+     * EXCEL の書き込みを行うメソッドです
+     * <p>
+     * 設定ファイルの内容に従い、Excelで作成されたテンプレートへ書き込みを行います
+     * </p>
+     * @param definitionXml 設定ファイル
+     * @param outputXlsxPath EXCEL の書き込み先
+     * @param password 書き込み先のEXCELに設定するパスワード
+     * @param templateXlsx EXCEL のテンプレート
+     * @param jsonObject 書き込むデータを JSON 形式にしたオブジェクト
+     * @throws IOException
+     */
+    public void write(InputStream definitionXml, String outputXlsxPath, String password, InputStream templateXlsx, JsonObject jsonObject) throws IOException {
+        XlsxWriteProcessor processor = processor(definitionXml, jsonObject);
+        processor.process(new FileOutputStream(outputXlsxPath), templateXlsx);
+        XlsxPassword xlsxPassword = new XlsxPassword();
+        xlsxPassword.set(outputXlsxPath, password);
+    }
+
+    private XlsxWriteProcessor processor(InputStream definitionXml, JsonObject jsonObject) throws IOException {
         Context context = context(jsonObject);
 
         XmlDocumentReader definitionReader = new XmlDocumentReader();
-        XmlDocument definition = definitionReader.read(definitionXml);
+        XmlDocument definition = definitionXml == null ? XmlDocument.defaultXmlDocument() : definitionReader.read(definitionXml);
         XlsxModelBuilder modelBuilder = new XlsxModelBuilder(definition, context);
         XlsxBook model = modelBuilder.build();
         XlsxWriteProcessor processor = new XlsxWriteProcessor(model);
-        processor.process(outputXlsx);
+        return processor;
     }
 
     private Context context(JsonObject jsonObject) throws IOException {
