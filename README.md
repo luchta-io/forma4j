@@ -13,7 +13,7 @@
 ### Gradle
 
 ```gradle
-implementation group: 'io.luchta', name: 'forma4j', version: '1.3.1'
+implementation group: 'io.luchta', name: 'forma4j', version: '1.3.2'
 ```
 
 [Maven Repository](https://mvnrepository.com/artifact/io.luchta/forma4j)
