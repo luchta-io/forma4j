@@ -13,7 +13,7 @@
 ### Gradle
 
 ```gradle
-implementation group: 'io.luchta', name: 'forma4j', version: '1.2.1'
+implementation group: 'io.luchta', name: 'forma4j', version: '1.3.1'
 ```
 
 [Maven Repository](https://mvnrepository.com/artifact/io.luchta/forma4j)
@@ -71,7 +71,7 @@ public class main {
         JsonNode jsonNode = new JsonNode();
         jsonNode.putVar("list", new JsonObject(jsonNodes));
 
-        Writer writer = new Writer();
+        FormaWriter writer = new FormaWriter();
         writer.write(in, out, new JsonObject(jsonNode));
     }
 }
