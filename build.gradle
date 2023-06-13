@@ -41,7 +41,7 @@ dependencies {
     implementation "com.sun.xml.bind:jaxb-impl:4.0.2"
     
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.15.0'
-    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.15.0'
+    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.15.2'
 
     antlr "org.antlr:antlr4:4.13.0"
 
