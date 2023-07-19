@@ -19,7 +19,8 @@ import java.time.LocalDateTime;
 public class FormaReaderTest {
     @ParameterizedTest
     @CsvSource({
-            "reader/simple_cell_read_test.xml, reader/FormaReaderTest.xlsx"
+            "reader/simple_cell_read_test.xml, reader/FormaReaderTest.xlsx",
+            "reader/simple_cell_read_by_index_test.xml, reader/FormaReaderTest.xlsx"
     })
     public void simple_cell_read_test(String configPath, String excelPath) throws Exception {
         try (InputStream config = new FileInputStream(this.getClass().getClassLoader().getResource(configPath).getPath());
