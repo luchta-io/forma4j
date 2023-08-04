@@ -38,14 +38,14 @@ dependencies {
     implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.2.3'
 
     implementation "jakarta.xml.bind:jakarta.xml.bind-api:4.0.0"
-    implementation "com.sun.xml.bind:jaxb-impl:4.0.2"
+    implementation "com.sun.xml.bind:jaxb-impl:4.0.3"
     
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.15.2'
     implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.15.2'
 
     antlr "org.antlr:antlr4:4.13.0"
 
-    testImplementation(platform('org.junit:junit-bom:5.9.3'))
+    testImplementation(platform('org.junit:junit-bom:5.10.0'))
     testImplementation('org.junit.jupiter:junit-jupiter')
 }
 
