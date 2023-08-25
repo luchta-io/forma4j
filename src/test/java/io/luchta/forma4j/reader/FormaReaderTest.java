@@ -11,6 +11,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 /**
  * {@code FormaReaderTest} は {@link FormaReader} のテストを行うクラスです。
  *
@@ -19,7 +21,7 @@ import java.time.LocalDateTime;
 public class FormaReaderTest {
     @ParameterizedTest
     @CsvSource({
-            "reader/simple_cell_read_test.xml, reader/FormaReaderTest.xlsx",
+            "reader/simple_cell_read_by_name_test.xml, reader/FormaReaderTest.xlsx",
             "reader/simple_cell_read_by_index_test.xml, reader/FormaReaderTest.xlsx"
     })
     public void simple_cell_read_test(String configPath, String excelPath) throws Exception {
@@ -559,7 +561,7 @@ public class FormaReaderTest {
      */
     @ParameterizedTest
     @CsvSource({
-            "reader/simple_cell_read_test.xml, reader/FormaReaderTestWithPassword.xlsx"
+            "reader/simple_cell_read_by_name_test.xml, reader/FormaReaderTestWithPassword.xlsx"
     })
     public void simple_cell_read_with_password_test(String configPath, String excelPath) throws Exception {
         try (InputStream config = new FileInputStream(this.getClass().getClassLoader().getResource(configPath).getPath());
@@ -583,6 +585,32 @@ public class FormaReaderTest {
 
             Assertions.assertEquals(true, values.get(1).getVar("outputdate").getValue() instanceof LocalDateTime);
             Assertions.assertEquals(LocalDateTime.of(2020, 11, 6, 0, 0, 0), values.get(1).getVar("outputdate").getValue());
+        }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "reader/sheet_tag/priority_of_sheet_properties.xml, reader/FormaReaderMultipleWorkSheetsTest.xlsx"
+    })
+    void sheet_tag_priority_of_properties_test(String configPath, String excelPath) throws Exception {
+        simple_all_worksheets_test(configPath, excelPath);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "reader/sheet_tag/error_index_out_of_range.xml, reader/FormaReaderTest.xlsx",
+            "reader/sheet_tag/error_index_not_number.xml, reader/FormaReaderTest.xlsx",
+            "reader/sheet_tag/error_index_empty_string.xml, reader/FormaReaderTest.xlsx",
+            "reader/sheet_tag/error_no_properties.xml, reader/FormaReaderTest.xlsx",
+    })
+    void sheet_tag_error_test(String configPath, String excelPath) throws Exception {
+        try (InputStream config = new FileInputStream(this.getClass().getClassLoader().getResource(configPath).getPath());
+             InputStream excel = new FileInputStream(this.getClass().getClassLoader().getResource(excelPath).getPath());) {
+            FormaReader formaReader = new FormaReader();
+            assertThrows(Exception.class, () -> {
+                // FIXME 識別したいエラーがUnsupportedOperationException「存在しないタグが指定されています」に丸まってしまっているので直したい
+                formaReader.read(config, excel);
+            });
         }
     }
 }
