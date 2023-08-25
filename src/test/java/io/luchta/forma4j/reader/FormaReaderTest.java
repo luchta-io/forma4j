@@ -1,5 +1,6 @@
 package io.luchta.forma4j.reader;
 
+import io.luchta.forma4j.context.databind.convert.JsonSerializer;
 import io.luchta.forma4j.context.databind.json.JsonNode;
 import io.luchta.forma4j.context.databind.json.JsonNodes;
 import io.luchta.forma4j.context.databind.json.JsonObject;
@@ -46,6 +47,11 @@ public class FormaReaderTest {
 
             Assertions.assertEquals(true, values.get(1).getVar("outputdate").getValue() instanceof LocalDateTime);
             Assertions.assertEquals(LocalDateTime.of(2020, 11, 6, 0, 0, 0), values.get(1).getVar("outputdate").getValue());
+
+            JsonNode id = ((JsonNode) values.get(2).getVar("id").getValue());
+
+            Assertions.assertEquals(true, id.getVar("value").getValue() instanceof String);
+            Assertions.assertEquals("0001", id.getVar("value").getValue().toString());
         }
     }
 
