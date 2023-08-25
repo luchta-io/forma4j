@@ -55,6 +55,16 @@ public class AllSheets {
         return value;
     }
 
+
+    /**
+     * オブジェクトが {@code false} とみなせるかどうかを返します
+     * @return true: {@code false} とみなせる, false: {@code false} とみなせない
+     */
+    public boolean isFalsy() {
+        if(isEmpty()) return true;
+        return !value;
+    }
+
     /**
      * オブジェクトが等価かどうかを返します
      * @param o 等価かどうか比較するオブジェクト
