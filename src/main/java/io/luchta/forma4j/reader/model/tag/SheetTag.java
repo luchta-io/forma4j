@@ -53,6 +53,15 @@ public class SheetTag implements Tag {
     }
 
     /**
+     * sheet タグに name プロパティが設定されているかどうかを返します
+     *
+     * @return true: name プロパティが設定されている, false: name プロパティが設定されていない
+     */
+    public boolean hasName() {
+        return !name.isEmpty();
+    }
+
+    /**
      * すべてのシートを読み込むかを設定したフラグ
      * @return true: すべてのシートを読み込む, false: 指定されたシートのみを読み込む
      */
