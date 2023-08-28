@@ -1,6 +1,7 @@
 package io.luchta.forma4j.reader.model.tag;
 
 import io.luchta.forma4j.reader.model.tag.property.AllSheets;
+import io.luchta.forma4j.reader.model.tag.property.Index;
 import io.luchta.forma4j.reader.model.tag.property.Name;
 
 /**
@@ -17,10 +18,12 @@ public class SheetTag implements Tag {
     public static final String TAG_NAME = "sheet";
 
     private Name name;
+    private Index index;
     private AllSheets allSheets;
 
-    private SheetTag(Name name, AllSheets allSheets) {
+    public SheetTag(Name name, Index index, AllSheets allSheets) {
         this.name = name;
+        this.index = index;
         this.allSheets = allSheets;
     }
 
@@ -38,6 +41,24 @@ public class SheetTag implements Tag {
      */
     public AllSheets allSheets() {
         return allSheets;
+    }
+
+
+     /**
+     * sheet タグに記述された index プロパティの設定値です
+     * @return index プロパティの設定値
+     */
+    public Index index() {
+        return index;
+    }
+
+    /**
+     * sheet タグに name プロパティが設定されているかどうかを返します
+     *
+     * @return true: name プロパティが設定されている, false: name プロパティが設定されていない
+     */
+    public boolean hasName() {
+        return !name.isEmpty();
     }
 
     /**
@@ -67,6 +88,7 @@ public class SheetTag implements Tag {
      */
     public static class SheetTagBuilder {
         private Name name;
+        private Index index;
         private AllSheets allSheets;
 
         /**
@@ -74,6 +96,7 @@ public class SheetTag implements Tag {
          */
         public SheetTagBuilder() {
             name = new Name();
+            index = new Index();
             allSheets = new AllSheets();
         }
 
@@ -84,6 +107,16 @@ public class SheetTag implements Tag {
          */
         public SheetTagBuilder name(Name name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * index プロパティを設定するメソッドです
+         * @param index index プロパティの設定値
+         * @return {@link SheetTagBuilder}
+         */
+        public SheetTagBuilder index(Index index) {
+            this.index = index;
             return this;
         }
 
@@ -100,18 +133,16 @@ public class SheetTag implements Tag {
         /**
          * {@link SheetTag} を生成するメソッドです
          * <p>
-         * name プロパティに値が設定されない場合は allSheets プロパティが true でないとエラーとなります。
+         * index, name, allSheets のいずれかが設定されていない場合は例外をスローします。
          * </p>
          * @return {@link SheetTag}
          * @exception IllegalArgumentException
          */
         public SheetTag build() {
-            if (name.isEmpty() && (allSheets.isEmpty() || !allSheets.getValue())) {
-                throw new IllegalArgumentException("sheet タグに name プロパティを設定しない場合は allSheets プロパティを true に設定してください");
+            if (index.isEmpty() && name.isEmpty() && allSheets.isFalsy()) {
+                throw new IllegalArgumentException("sheet タグのプロパティにはindex, name, allSheets のいずれかのプロパティを設定してください");
             }
-
-            SheetTag sheetTag = new SheetTag(name, allSheets);
-            return sheetTag;
+            return new SheetTag(name, index, allSheets);
         }
     }
 }
