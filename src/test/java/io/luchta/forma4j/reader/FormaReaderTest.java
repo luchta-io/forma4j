@@ -30,11 +30,13 @@ public class FormaReaderTest {
              InputStream excel = new FileInputStream(this.getClass().getClassLoader().getResource(excelPath).getPath());) {
             FormaReader formaReader = new FormaReader();
             JsonObject obj = formaReader.read(config, excel);
+            JsonSerializer serializer = new JsonSerializer();
+            System.out.println(serializer.serializeFromJsonObject(obj));
 
             Object root = obj.getValue();
             Assertions.assertEquals(true, root instanceof JsonNode);
 
-            JsonObject sheet = ((JsonNode) root).getVar("forma-reader");
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
             JsonObject cell = ((JsonNode) sheet.getValue()).getVar("data");
@@ -52,6 +54,9 @@ public class FormaReaderTest {
 
             Assertions.assertEquals(true, id.getVar("value").getValue() instanceof String);
             Assertions.assertEquals("0001", id.getVar("value").getValue().toString());
+
+            Assertions.assertEquals(true, values.get(3).getVar("nullValue").getValue() == null);
+            Assertions.assertEquals(null, values.get(3).getVar("nullValue").getValue());
         }
     }
 
@@ -68,7 +73,7 @@ public class FormaReaderTest {
             Object root = obj.getValue();
             Assertions.assertEquals(true, root instanceof JsonNode);
 
-            JsonObject sheet = ((JsonNode) root).getVar("forma-reader");
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
             JsonObject data = ((JsonNode) sheet.getValue()).getVar("data");
@@ -125,7 +130,7 @@ public class FormaReaderTest {
             Object root = obj.getValue();
             Assertions.assertEquals(true, root instanceof JsonNode);
 
-            JsonObject sheet = ((JsonNode) root).getVar("forma-reader");
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
             JsonObject cell = ((JsonNode) sheet.getValue()).getVar("data");
@@ -190,7 +195,7 @@ public class FormaReaderTest {
             Object root = obj.getValue();
             Assertions.assertEquals(true, root instanceof JsonNode);
 
-            JsonObject sheet = ((JsonNode) root).getVar("forma-reader");
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
             JsonObject cell = ((JsonNode) sheet.getValue()).getVar("data");
@@ -241,7 +246,7 @@ public class FormaReaderTest {
             Object root = obj.getValue();
             Assertions.assertEquals(true, root instanceof JsonNode);
 
-            JsonObject sheet = ((JsonNode) root).getVar("forma-reader");
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
             JsonObject data = ((JsonNode) sheet.getValue()).getVar("data");
@@ -342,7 +347,7 @@ public class FormaReaderTest {
             Object root = obj.getValue();
             Assertions.assertEquals(true, root instanceof JsonNode);
 
-            JsonObject sheet = ((JsonNode) root).getVar("forma-reader");
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
             JsonObject data = ((JsonNode) sheet.getValue()).getVar("data");
@@ -444,7 +449,7 @@ public class FormaReaderTest {
             Object root = obj.getValue();
             Assertions.assertEquals(true, root instanceof JsonNode);
 
-            JsonObject sheet = ((JsonNode) root).getVar("forma-reader");
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNodes);
             Assertions.assertEquals(2, ((JsonNodes) sheet.getValue()).size());
 
@@ -508,7 +513,7 @@ public class FormaReaderTest {
             Object root = obj.getValue();
             Assertions.assertEquals(true, root instanceof JsonNode);
 
-            JsonObject sheet = ((JsonNode) root).getVar("forma-reader");
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNodes);
             Assertions.assertEquals(2, ((JsonNodes) sheet.getValue()).size());
 
@@ -578,7 +583,7 @@ public class FormaReaderTest {
             Object root = obj.getValue();
             Assertions.assertEquals(true, root instanceof JsonNode);
 
-            JsonObject sheet = ((JsonNode) root).getVar("forma-reader");
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
             JsonObject cell = ((JsonNode) sheet.getValue()).getVar("data");

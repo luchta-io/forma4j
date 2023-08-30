@@ -43,7 +43,7 @@ public class CellReader implements ObjectReader {
         Cell cell = sheet.getRow(row).getCell(col);
 
         if (cell == null) {
-            return setValue(names, new JsonObject(""));
+            return setValue(names, new JsonObject());
         } else if (cell.getCellType() == CellType.NUMERIC) {
             if (DateUtil.isCellDateFormatted(cell)) {
                 Date date = cell.getDateCellValue();
