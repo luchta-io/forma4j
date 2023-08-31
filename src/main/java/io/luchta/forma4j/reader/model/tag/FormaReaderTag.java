@@ -7,7 +7,7 @@ public class FormaReaderTag implements Tag {
     /**
      * 設定ファイルに記述されるタグの名称です
      */
-    public static final String TAG_NAME = "forma-reader";
+    public static final String TAG_NAME = "forma";
 
     /**
      * タグが forma-reader タグかどうかを返します
