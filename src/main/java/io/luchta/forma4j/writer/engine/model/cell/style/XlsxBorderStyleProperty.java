@@ -2,14 +2,14 @@ package io.luchta.forma4j.writer.engine.model.cell.style;
 
 import org.apache.poi.ss.usermodel.BorderStyle;
 
-public class XlsxBorderStyle implements XlsxCellStyle {
+public class XlsxBorderStyleProperty implements XlsxCellStyleProperty {
 	public static final String NAME = "BORDER";
 
 	private BorderStyle borderStyle = BorderStyle.NONE;
 	
-	public XlsxBorderStyle() {}
+	public XlsxBorderStyleProperty() {}
 	
-	public XlsxBorderStyle(BorderStyle borderStyle) {
+	public XlsxBorderStyleProperty(BorderStyle borderStyle) {
 		this.borderStyle = borderStyle;
 	}
 

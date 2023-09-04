@@ -10,7 +10,7 @@ import io.luchta.forma4j.writer.engine.model.cell.XlsxCell;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxCellAddress;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxColumnNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxRowNumber;
-import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStylesBuilder;
+import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyleBuilder;
 import io.luchta.forma4j.writer.engine.model.cell.value.Text;
 
 import java.util.List;
@@ -71,7 +71,7 @@ public class ListHandler {
             return;
         }
 
-        XlsxCellStylesBuilder stylesBuilder = new XlsxCellStylesBuilder();
+        XlsxCellStyleBuilder stylesBuilder = new XlsxCellStyleBuilder();
         Map<String, Object> map = (Map<String, Object>) list.get(0);
         for (String headerName : map.keySet()) {
             buffer.accumulator().put(
@@ -92,7 +92,7 @@ public class ListHandler {
             return;
         }
 
-        XlsxCellStylesBuilder stylesBuilder = new XlsxCellStylesBuilder();
+        XlsxCellStyleBuilder stylesBuilder = new XlsxCellStyleBuilder();
         Long columnIndex = address.columnNumber().toLong();
         for (Object obj : list) {
             if (!(obj instanceof Map<?, ?>)) {

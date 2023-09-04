@@ -1,15 +1,16 @@
 package io.luchta.forma4j.writer.processor.poi.setting;
 
-import io.luchta.forma4j.writer.engine.model.cell.style.XlsxBorderStyle;
+import io.luchta.forma4j.writer.engine.model.cell.style.XlsxBorderStyleProperty;
+import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyleProperty;
 import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyle;
-import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyles;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 
+// TODO このクラスの内容はXlsxCellStyle, XlsxCellStylePropertyの実装クラスに移動するのが良さそう
 public class StyleSetting {
 
-    public void set(Cell cell, XlsxCellStyles styles) {
+    public void set(Cell cell, XlsxCellStyle styles) {
         baseStyle(cell);
         customStyle(cell, styles);
     }
@@ -23,13 +24,13 @@ public class StyleSetting {
         cell.setCellStyle(newStyle);
     }
 
-    private void customStyle(Cell cell, XlsxCellStyles styles) {
-        for (XlsxCellStyle style : styles) {
-            if (style.isBorder()) border(cell, (XlsxBorderStyle) style);
+    private void customStyle(Cell cell, XlsxCellStyle style) {
+        for (XlsxCellStyleProperty property : style) {
+            if (property.isBorder()) border(cell, (XlsxBorderStyleProperty) property);
         }
     }
 
-    private void border(Cell cell, XlsxBorderStyle style) {
+    private void border(Cell cell, XlsxBorderStyleProperty style) {
         CellStyle cellStyle = cell.getCellStyle();
 
         BorderStyle borderStyle = style.getBorderStyle();

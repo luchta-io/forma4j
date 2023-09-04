@@ -4,7 +4,7 @@ import io.luchta.forma4j.writer.definition.schema.element.Cell;
 import io.luchta.forma4j.writer.engine.buffer.BuildBuffer;
 import io.luchta.forma4j.writer.engine.model.cell.XlsxCell;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxCellAddress;
-import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStylesBuilder;
+import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyleBuilder;
 import io.luchta.forma4j.writer.engine.model.cell.value.Text;
 import io.luchta.forma4j.writer.engine.model.cell.value.XlsxCellValue;
 
@@ -17,7 +17,7 @@ public class CellHandler {
 
     public void handle(Cell cell) {
         XlsxCellAddress address = buffer.addressStack().peek();
-		XlsxCellStylesBuilder builder = new XlsxCellStylesBuilder();
+		XlsxCellStyleBuilder builder = new XlsxCellStyleBuilder();
         XlsxCell xlsxCell = new XlsxCell(address, value(cell), builder.build(cell.style()));
         buffer.accumulator().put(address, xlsxCell);
         buffer.addressStack().push(address.columnNumberIncrement());
