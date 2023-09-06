@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<forma-reader>
+  <!-- 複数のプロパティが設定されている場合、優先順位は allSheets > name > index -->
+  <sheet allSheets="true" name="data" index="1">
+    <list name="employeeList" />
+  </sheet>
+</forma-reader>

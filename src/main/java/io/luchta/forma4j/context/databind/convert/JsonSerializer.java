@@ -68,7 +68,9 @@ public class JsonSerializer {
             sb.append("\"");
             sb.append(e.getKey());
             sb.append("\" : ");
-            if (e.getValue().getValue() instanceof JsonNodes) {
+            if (e.getValue().getValue() == null) {
+                sb.append("null");
+            } else if (e.getValue().getValue() instanceof JsonNodes) {
                 sb.append(this.serialize((JsonNodes)e.getValue().getValue()));
             } else if (e.getValue().getValue() instanceof JsonNode) {
                 sb.append(this.serialize((JsonNode)e.getValue().getValue()));

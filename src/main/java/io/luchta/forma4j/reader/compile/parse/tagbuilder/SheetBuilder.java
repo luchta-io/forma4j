@@ -5,6 +5,7 @@ import io.luchta.forma4j.context.syntax.SyntaxErrors;
 import io.luchta.forma4j.reader.model.tag.SheetTag;
 import io.luchta.forma4j.reader.model.tag.Tag;
 import io.luchta.forma4j.reader.model.tag.property.AllSheets;
+import io.luchta.forma4j.reader.model.tag.property.Index;
 import io.luchta.forma4j.reader.model.tag.property.Name;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -28,6 +29,9 @@ public class SheetBuilder implements TagBuilder {
     public Tag build(NamedNodeMap nodeMap, SyntaxErrors syntaxErrors) {
         SheetTag.SheetTagBuilder builder = new SheetTag.SheetTagBuilder();
 
+        Integer index = convertNodeValueToInteger(nodeMap.getNamedItem("index"), syntaxErrors);
+        builder.index(new Index(index));
+
         String name = convertNodeValueToString(nodeMap.getNamedItem(Name.PROPERTY_NAME));
         builder.name(new Name(name));
 
@@ -42,6 +46,16 @@ public class SheetBuilder implements TagBuilder {
             syntaxErrors.add(syntaxError);
         }
         return new Tag() {};
+    }
+
+    private Integer convertNodeValueToInteger(Node node, SyntaxErrors syntaxErrors) {
+        if (node == null) return null;
+        try {
+            return Integer.parseInt(node.getNodeValue());
+        } catch (NumberFormatException e) {
+            syntaxErrors.add(new SyntaxError("sheet タグの index プロパティには数値を指定してください"));
+            return null;
+        }
     }
 
     private String convertNodeValueToString(Node node) {

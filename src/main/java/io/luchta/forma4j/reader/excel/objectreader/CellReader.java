@@ -10,7 +10,7 @@ import org.apache.poi.ss.usermodel.*;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
+import java.util.*;
 
 public class CellReader implements ObjectReader {
 
@@ -34,34 +34,48 @@ public class CellReader implements ObjectReader {
         Integer row = cellTag.rowIsUndefined() ? rowIndex.toInteger() : cellTag.row().toInteger();
         Integer col = cellTag.colIsUndefined() ? colIndex.toInteger() : cellTag.col().toInteger();
 
+        String[] names = cellTag.name().toString().split("\\.");
+
         Row r = sheet.getRow(row);
         if (r == null) {
-            JsonNode node = new JsonNode();
-            node.putVar(cellTag.name().toString(), new JsonObject(""));
-            return node;
+            return setValue(names, new JsonObject());
         }
         Cell cell = sheet.getRow(row).getCell(col);
 
-        if (cell == null) {
-            JsonNode node = new JsonNode();
-            node.putVar(cellTag.name().toString(), new JsonObject(""));
-            return node;
+        if (cell == null || cell.getCellType() == CellType.BLANK) {
+            return setValue(names, new JsonObject());
         } else if (cell.getCellType() == CellType.NUMERIC) {
             if (DateUtil.isCellDateFormatted(cell)) {
                 Date date = cell.getDateCellValue();
                 Instant instant = date.toInstant();
-                JsonNode node = new JsonNode();
-                node.putVar(cellTag.name().toString(), new JsonObject(LocalDateTime.ofInstant(instant, ZoneId.systemDefault())));
-                return node;
+                return setValue(names, new JsonObject(LocalDateTime.ofInstant(instant, ZoneId.systemDefault())));
             } else {
-                JsonNode node = new JsonNode();
-                node.putVar(cellTag.name().toString(), new JsonObject(cell.getNumericCellValue()));
-                return node;
+                return setValue(names, new JsonObject(cell.getNumericCellValue()));
             }
         }
 
-        JsonNode node = new JsonNode();
-        node.putVar(cellTag.name().toString(), new JsonObject(cell.toString()));
-        return node;
+        return setValue(names, new JsonObject(cell.toString()));
+    }
+
+    private JsonNode setValue(String[] names, JsonObject jsonObject) {
+        Map<String, JsonNode> map = new HashMap<>();
+        for (String name : names) {
+            JsonNode node = new JsonNode();
+            map.put(name, node);
+        }
+
+        String valueName = names[names.length - 1];
+        JsonNode result = map.get(valueName);
+        result.putVar(valueName, jsonObject);
+        map.put(valueName, result);
+
+        for (int i = map.size() - 2; i >= 0; i--) {
+            JsonNode parent = map.get(names[i]);
+            JsonNode child = map.get(names[i + 1]);
+            parent.putVar(names[i], new JsonObject(child));
+            map.put(names[i], parent);
+        }
+
+        return map.get(names[0]);
     }
 }

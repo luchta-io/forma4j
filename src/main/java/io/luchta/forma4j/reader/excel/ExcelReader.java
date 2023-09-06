@@ -95,29 +95,38 @@ public class ExcelReader {
 
         JsonObject result = null;
         if (sheetTag.readAllSheets()) {
-            JsonNodes nodes = new JsonNodes();
-            int numberOfSheets = workbook.getNumberOfSheets();
-            for (int i = 0; i < numberOfSheets; i++) {
-                Sheet sheet = workbook.getSheetAt(i);
-
-                JsonObject obj = read(sheet, tagTree.getChildren());
-                JsonNode node = new JsonNode();
-                node.putVar(sheet.getSheetName(), obj);
-                nodes.add(node);
-            }
-
-            result = new JsonObject(nodes);
+            result = readAllSheets(workbook, tagTree);
         } else {
-            Sheet sheet = workbook.getSheet(sheetTag.name().toString());
-
-            JsonObject obj = read(sheet, tagTree.getChildren());
-            JsonNode node = new JsonNode();
-            node.putVar(sheetTag.name().toString(), obj);
-
-            result = new JsonObject(node);
+            Sheet sheet = sheetTag.hasName() ?
+                    workbook.getSheet(sheetTag.name().toString()) :
+                    workbook.getSheetAt(sheetTag.index().toInteger());
+            result = readSingleSheet(sheet, tagTree);
         }
 
         return result;
+    }
+
+    private JsonObject readSingleSheet(Sheet sheet, TagTree tagTree) {
+        JsonObject obj = read(sheet, tagTree.getChildren());
+        JsonNode node = new JsonNode();
+        node.putVar(sheet.getSheetName(), obj);
+
+        return new JsonObject(node);
+    }
+
+    private JsonObject readAllSheets(Workbook workbook, TagTree tagTree) {
+        JsonNodes nodes = new JsonNodes();
+        int numberOfSheets = workbook.getNumberOfSheets();
+        for (int i = 0; i < numberOfSheets; i++) {
+            Sheet sheet = workbook.getSheetAt(i);
+
+            JsonObject obj = read(sheet, tagTree.getChildren());
+            JsonNode node = new JsonNode();
+            node.putVar(sheet.getSheetName(), obj);
+            nodes.add(node);
+        }
+
+        return new JsonObject(nodes);
     }
 
     private JsonObject read(Sheet sheet, TagTrees tagTrees) {

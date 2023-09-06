@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<forma-reader>
+  <sheet index="0">
+    <cell row="1" col="1" name="title" />
+    <cell row="3" col="2" name="outputdate" />
+    <cell row="5" col="1" name="id.value" />
+    <cell row="1" col="2" name="nullValue" />
+  </sheet>
+</forma-reader>
