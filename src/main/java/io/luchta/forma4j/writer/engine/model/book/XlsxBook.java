@@ -2,6 +2,7 @@ package io.luchta.forma4j.writer.engine.model.book;
 
 import io.luchta.forma4j.writer.engine.model.cell.XlsxCell;
 import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyle;
+import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyles;
 import io.luchta.forma4j.writer.engine.model.row.XlsxRow;
 import io.luchta.forma4j.writer.engine.model.sheet.XlsxSheet;
 import io.luchta.forma4j.writer.engine.model.sheet.XlsxSheetList;
@@ -20,7 +21,7 @@ public class XlsxBook {
         return sheets;
     }
 
-    public Set<XlsxCellStyle> styles() {
+    public XlsxCellStyles styles() {
         // TODO XlsxBookを作るときにこのSetを作って保持しておく方が効率がよいので改善する
         Set<XlsxCellStyle> set = new HashSet<>();
         for (XlsxSheet sheet : sheets) {
@@ -31,6 +32,6 @@ public class XlsxBook {
                 }
             }
         }
-        return set;
+        return new XlsxCellStyles(set);
     }
 }
