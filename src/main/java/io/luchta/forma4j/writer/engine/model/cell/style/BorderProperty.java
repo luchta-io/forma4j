@@ -16,10 +16,6 @@ public class BorderProperty implements XlsxCellStyleProperty {
 		this.borderStyle = borderStyle;
 	}
 
-	public BorderStyle getBorderStyle() {
-		return borderStyle;
-	}
-
 	@Override
 	public void overwriteTo(CellStyle cellStyle) {
 		cellStyle.setBorderLeft(borderStyle);
