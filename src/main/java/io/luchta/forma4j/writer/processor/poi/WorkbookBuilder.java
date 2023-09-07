@@ -41,7 +41,7 @@ public class WorkbookBuilder {
      * @return Excel ワークブック
      */
     public Workbook build() {
-        return build(new XSSFWorkbook(), false);
+        return build(new XSSFWorkbook());
     }
 
     /**
@@ -50,10 +50,10 @@ public class WorkbookBuilder {
      * @return Excel ワークブック
      */
     public Workbook build(InputStream in) throws IOException {
-        return build(WorkbookFactory.create(in), true);
+        return build(WorkbookFactory.create(in));
     }
 
-    private Workbook build(Workbook workbook, boolean hasTemplate) {
+    private Workbook build(Workbook workbook) {
         Map<XlsxCellStyle, CellStyle> workbookStyles = new HashMap<>();
         for (XlsxCellStyle style : model.styles()) {
             CellStyle cellStyle = workbook.createCellStyle();
@@ -62,10 +62,8 @@ public class WorkbookBuilder {
         }
 
         for (XlsxSheet sheetModel : model.sheets()) {
-            Sheet sheet = null;
-            if (hasTemplate) {
-                sheet = workbook.getSheet(sheetModel.name().toString());
-            } else {
+            Sheet sheet = workbook.getSheet(sheetModel.name().toString());
+            if (sheet == null) {
                 sheet = workbook.createSheet(sheetModel.name().toString());
             }
 
@@ -75,7 +73,10 @@ public class WorkbookBuilder {
                     row = sheet.createRow(rowModel.rowNumber().toInt());
                 }
                 for (XlsxCell cellModel : rowModel.cells()) {
-                    Cell cell = row.createCell(cellModel.columnNumber().toInt());
+                    Cell cell = row.getCell(cellModel.columnNumber().toInt());
+                    if (cell == null) {
+                        cell = row.createCell(cellModel.columnNumber().toInt());
+                    }
                     cell.setCellValue(cellModel.value().toString());
                     cell.setCellStyle(workbookStyles.get(cellModel.style()));
                 }
