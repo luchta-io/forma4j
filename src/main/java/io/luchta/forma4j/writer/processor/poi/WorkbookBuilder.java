@@ -2,14 +2,16 @@ package io.luchta.forma4j.writer.processor.poi;
 
 import io.luchta.forma4j.writer.engine.model.book.XlsxBook;
 import io.luchta.forma4j.writer.engine.model.cell.XlsxCell;
+import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyle;
 import io.luchta.forma4j.writer.engine.model.row.XlsxRow;
 import io.luchta.forma4j.writer.engine.model.sheet.XlsxSheet;
-import io.luchta.forma4j.writer.processor.poi.setting.StyleSetting;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * {@code WorkbookBuilder} は EXCEL のワークシートを作成するクラスです。
@@ -46,18 +48,19 @@ public class WorkbookBuilder {
      * Excel で作成されたテンプレートを利用したワークブック作成
      * @param in テンプレートファイル
      * @return Excel ワークブック
-     * @throws IOException
      */
     public Workbook build(InputStream in) throws IOException {
         return build(WorkbookFactory.create(in), true);
     }
 
-    /**
-     * {@code model} の内容に従って Excel ワークブックを作成
-     * @param workbook Excel ワークブック
-     * @return
-     */
     private Workbook build(Workbook workbook, boolean hasTemplate) {
+        Map<XlsxCellStyle, CellStyle> workbookStyles = new HashMap<>();
+        for (XlsxCellStyle style : model.styles()) {
+            CellStyle cellStyle = workbook.createCellStyle();
+            style.overwriteTo(cellStyle);
+            workbookStyles.put(style, cellStyle);
+        }
+
         for (XlsxSheet sheetModel : model.sheets()) {
             Sheet sheet = null;
             if (hasTemplate) {
@@ -74,9 +77,7 @@ public class WorkbookBuilder {
                 for (XlsxCell cellModel : rowModel.cells()) {
                     Cell cell = row.createCell(cellModel.columnNumber().toInt());
                     cell.setCellValue(cellModel.value().toString());
-
-                    StyleSetting styleSetting = new StyleSetting();
-                    styleSetting.set(cell, cellModel.style());
+                    cell.setCellStyle(workbookStyles.get(cellModel.style()));
                 }
             }
         }
