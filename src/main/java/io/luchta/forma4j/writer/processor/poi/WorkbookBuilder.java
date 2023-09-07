@@ -76,7 +76,7 @@ public class WorkbookBuilder {
                     cell.setCellValue(cellModel.value().toString());
 
                     StyleSetting styleSetting = new StyleSetting();
-                    styleSetting.set(cell, cellModel.styles());
+                    styleSetting.set(cell, cellModel.style());
                 }
             }
         }

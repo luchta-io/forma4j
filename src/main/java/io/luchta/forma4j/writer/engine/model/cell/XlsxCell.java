@@ -8,12 +8,12 @@ import io.luchta.forma4j.writer.engine.model.cell.value.XlsxCellValue;
 public class XlsxCell {
     XlsxCellAddress address;
     XlsxCellValue value;
-    XlsxCellStyle styles;
+    XlsxCellStyle style;
 
-    public XlsxCell(XlsxCellAddress address, XlsxCellValue value, XlsxCellStyle styles) {
+    public XlsxCell(XlsxCellAddress address, XlsxCellValue value, XlsxCellStyle style) {
         this.address = address;
         this.value = value;
-        this.styles = styles;
+        this.style = style;
     }
 
     public XlsxCellAddress address() {
@@ -28,7 +28,7 @@ public class XlsxCell {
         return value;
     }
     
-    public XlsxCellStyle styles() {
-    	return styles;
+    public XlsxCellStyle style() {
+    	return style;
     }
 }

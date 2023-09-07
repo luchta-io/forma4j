@@ -10,9 +10,9 @@ import org.apache.poi.ss.usermodel.CellStyle;
 // TODO このクラスの内容はXlsxCellStyle, XlsxCellStylePropertyの実装クラスに移動するのが良さそう
 public class StyleSetting {
 
-    public void set(Cell cell, XlsxCellStyle styles) {
+    public void set(Cell cell, XlsxCellStyle style) {
         baseStyle(cell);
-        customStyle(cell, styles);
+        customStyle(cell, style);
     }
 
     private void baseStyle(Cell cell) {
