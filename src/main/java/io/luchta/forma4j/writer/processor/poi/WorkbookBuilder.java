@@ -54,12 +54,7 @@ public class WorkbookBuilder {
     }
 
     private Workbook build(Workbook workbook) {
-        Map<XlsxCellStyle, CellStyle> workbookStyles = new HashMap<>();
-        for (XlsxCellStyle style : model.styles()) {
-            CellStyle cellStyle = workbook.createCellStyle();
-            style.overwriteTo(cellStyle);
-            workbookStyles.put(style, cellStyle);
-        }
+        Map<XlsxCellStyle, CellStyle> styleMap = makeStyleMap(workbook);
 
         for (XlsxSheet sheetModel : model.sheets()) {
             Sheet sheet = workbook.getSheet(sheetModel.name().toString());
@@ -72,16 +67,28 @@ public class WorkbookBuilder {
                 if (row == null) {
                     row = sheet.createRow(rowModel.rowNumber().toInt());
                 }
+
                 for (XlsxCell cellModel : rowModel.cells()) {
                     Cell cell = row.getCell(cellModel.columnNumber().toInt());
                     if (cell == null) {
                         cell = row.createCell(cellModel.columnNumber().toInt());
                     }
+
                     cell.setCellValue(cellModel.value().toString());
-                    cell.setCellStyle(workbookStyles.get(cellModel.style()));
+                    cell.setCellStyle(styleMap.get(cellModel.style()));
                 }
             }
         }
         return workbook;
+    }
+
+    private Map<XlsxCellStyle, CellStyle> makeStyleMap(Workbook workbook) {
+        Map<XlsxCellStyle, CellStyle> map = new HashMap<>();
+        for (XlsxCellStyle style : model.styles()) {
+            CellStyle cellStyle = workbook.createCellStyle();
+            style.overwriteTo(cellStyle);
+            map.put(style, cellStyle);
+        }
+        return map;
     }
 }
