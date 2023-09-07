@@ -34,7 +34,7 @@ public class FormaReaderTest {
             Object root = obj.getValue();
             Assertions.assertEquals(true, root instanceof JsonNode);
 
-            JsonObject sheet = ((JsonNode) root).getVar("forma-reader");
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
             JsonObject cell = ((JsonNode) sheet.getValue()).getVar("data");
@@ -52,6 +52,9 @@ public class FormaReaderTest {
 
             Assertions.assertEquals(true, id.getVar("value").getValue() instanceof String);
             Assertions.assertEquals("0001", id.getVar("value").getValue().toString());
+
+            Assertions.assertEquals(true, values.get(3).getVar("nullValue").getValue() == null);
+            Assertions.assertEquals(null, values.get(3).getVar("nullValue").getValue());
         }
     }
 
@@ -68,7 +71,7 @@ public class FormaReaderTest {
             Object root = obj.getValue();
             Assertions.assertEquals(true, root instanceof JsonNode);
 
-            JsonObject sheet = ((JsonNode) root).getVar("forma-reader");
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
             JsonObject data = ((JsonNode) sheet.getValue()).getVar("data");
@@ -125,7 +128,7 @@ public class FormaReaderTest {
             Object root = obj.getValue();
             Assertions.assertEquals(true, root instanceof JsonNode);
 
-            JsonObject sheet = ((JsonNode) root).getVar("forma-reader");
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
             JsonObject cell = ((JsonNode) sheet.getValue()).getVar("data");
@@ -190,7 +193,7 @@ public class FormaReaderTest {
             Object root = obj.getValue();
             Assertions.assertEquals(true, root instanceof JsonNode);
 
-            JsonObject sheet = ((JsonNode) root).getVar("forma-reader");
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
             JsonObject cell = ((JsonNode) sheet.getValue()).getVar("data");
@@ -241,7 +244,7 @@ public class FormaReaderTest {
             Object root = obj.getValue();
             Assertions.assertEquals(true, root instanceof JsonNode);
 
-            JsonObject sheet = ((JsonNode) root).getVar("forma-reader");
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
             JsonObject data = ((JsonNode) sheet.getValue()).getVar("data");
@@ -263,10 +266,10 @@ public class FormaReaderTest {
             Assertions.assertEquals(4.0, node1.getVar("不定４").getValue());
             Assertions.assertEquals(5.0, node1.getVar("不定５").getValue());
             Assertions.assertEquals(6.0, node1.getVar("不定６").getValue());
-            Assertions.assertEquals("", node1.getVar("不定７").getValue());
-            Assertions.assertEquals("", node1.getVar("不定８").getValue());
-            Assertions.assertEquals("", node1.getVar("不定９").getValue());
-            Assertions.assertEquals("", node1.getVar("不定１０").getValue());
+            Assertions.assertEquals(null, node1.getVar("不定７").getValue());
+            Assertions.assertEquals(null, node1.getVar("不定８").getValue());
+            Assertions.assertEquals(null, node1.getVar("不定９").getValue());
+            Assertions.assertEquals(null, node1.getVar("不定１０").getValue());
 
             JsonNode node2 = nodes.get(1);
             Assertions.assertEquals("0002", node2.getVar("社員コード").getValue());
@@ -276,27 +279,27 @@ public class FormaReaderTest {
             Assertions.assertEquals(8.0, node2.getVar("不定２").getValue());
             Assertions.assertEquals(9.0, node2.getVar("不定３").getValue());
             Assertions.assertEquals(10.0, node2.getVar("不定４").getValue());
-            Assertions.assertEquals("", node2.getVar("不定５").getValue());
-            Assertions.assertEquals("", node2.getVar("不定６").getValue());
-            Assertions.assertEquals("", node2.getVar("不定７").getValue());
-            Assertions.assertEquals("", node2.getVar("不定８").getValue());
-            Assertions.assertEquals("", node2.getVar("不定９").getValue());
-            Assertions.assertEquals("", node2.getVar("不定１０").getValue());
+            Assertions.assertEquals(null, node2.getVar("不定５").getValue());
+            Assertions.assertEquals(null, node2.getVar("不定６").getValue());
+            Assertions.assertEquals(null, node2.getVar("不定７").getValue());
+            Assertions.assertEquals(null, node2.getVar("不定８").getValue());
+            Assertions.assertEquals(null, node2.getVar("不定９").getValue());
+            Assertions.assertEquals(null, node2.getVar("不定１０").getValue());
 
             JsonNode node3 = nodes.get(2);
             Assertions.assertEquals("0003", node3.getVar("社員コード").getValue());
             Assertions.assertEquals("山田", node3.getVar("氏").getValue());
             Assertions.assertEquals("三郎", node3.getVar("名").getValue());
-            Assertions.assertEquals("", node3.getVar("不定１").getValue());
-            Assertions.assertEquals("", node3.getVar("不定２").getValue());
-            Assertions.assertEquals("", node3.getVar("不定３").getValue());
-            Assertions.assertEquals("", node3.getVar("不定４").getValue());
-            Assertions.assertEquals("", node3.getVar("不定５").getValue());
-            Assertions.assertEquals("", node3.getVar("不定６").getValue());
-            Assertions.assertEquals("", node3.getVar("不定７").getValue());
-            Assertions.assertEquals("", node3.getVar("不定８").getValue());
-            Assertions.assertEquals("", node3.getVar("不定９").getValue());
-            Assertions.assertEquals("", node3.getVar("不定１０").getValue());
+            Assertions.assertEquals(null, node3.getVar("不定１").getValue());
+            Assertions.assertEquals(null, node3.getVar("不定２").getValue());
+            Assertions.assertEquals(null, node3.getVar("不定３").getValue());
+            Assertions.assertEquals(null, node3.getVar("不定４").getValue());
+            Assertions.assertEquals(null, node3.getVar("不定５").getValue());
+            Assertions.assertEquals(null, node3.getVar("不定６").getValue());
+            Assertions.assertEquals(null, node3.getVar("不定７").getValue());
+            Assertions.assertEquals(null, node3.getVar("不定８").getValue());
+            Assertions.assertEquals(null, node3.getVar("不定９").getValue());
+            Assertions.assertEquals(null, node3.getVar("不定１０").getValue());
 
             JsonNode node4 = nodes.get(3);
             Assertions.assertEquals("0004", node4.getVar("社員コード").getValue());
@@ -304,13 +307,13 @@ public class FormaReaderTest {
             Assertions.assertEquals("四郎", node4.getVar("名").getValue());
             Assertions.assertEquals(11.0, node4.getVar("不定１").getValue());
             Assertions.assertEquals(12.0, node4.getVar("不定２").getValue());
-            Assertions.assertEquals("", node4.getVar("不定３").getValue());
-            Assertions.assertEquals("", node4.getVar("不定４").getValue());
-            Assertions.assertEquals("", node4.getVar("不定５").getValue());
-            Assertions.assertEquals("", node4.getVar("不定６").getValue());
-            Assertions.assertEquals("", node4.getVar("不定７").getValue());
-            Assertions.assertEquals("", node4.getVar("不定８").getValue());
-            Assertions.assertEquals("", node4.getVar("不定９").getValue());
+            Assertions.assertEquals(null, node4.getVar("不定３").getValue());
+            Assertions.assertEquals(null, node4.getVar("不定４").getValue());
+            Assertions.assertEquals(null, node4.getVar("不定５").getValue());
+            Assertions.assertEquals(null, node4.getVar("不定６").getValue());
+            Assertions.assertEquals(null, node4.getVar("不定７").getValue());
+            Assertions.assertEquals(null, node4.getVar("不定８").getValue());
+            Assertions.assertEquals(null, node4.getVar("不定９").getValue());
             Assertions.assertEquals(99.0, node4.getVar("不定１０").getValue());
 
             JsonNode node5 = nodes.get(4);
@@ -342,7 +345,7 @@ public class FormaReaderTest {
             Object root = obj.getValue();
             Assertions.assertEquals(true, root instanceof JsonNode);
 
-            JsonObject sheet = ((JsonNode) root).getVar("forma-reader");
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
             JsonObject data = ((JsonNode) sheet.getValue()).getVar("data");
@@ -364,10 +367,10 @@ public class FormaReaderTest {
             Assertions.assertEquals(4.0, node1.getVar("不定４").getValue());
             Assertions.assertEquals(5.0, node1.getVar("不定５").getValue());
             Assertions.assertEquals(6.0, node1.getVar("不定６").getValue());
-            Assertions.assertEquals("", node1.getVar("不定７").getValue());
-            Assertions.assertEquals("", node1.getVar("不定８").getValue());
-            Assertions.assertEquals("", node1.getVar("不定９").getValue());
-            Assertions.assertEquals("", node1.getVar("不定１０").getValue());
+            Assertions.assertEquals(null, node1.getVar("不定７").getValue());
+            Assertions.assertEquals(null, node1.getVar("不定８").getValue());
+            Assertions.assertEquals(null, node1.getVar("不定９").getValue());
+            Assertions.assertEquals(null, node1.getVar("不定１０").getValue());
 
             JsonNode node2 = nodes.get(1);
             Assertions.assertEquals("0002", node2.getVar("社員コード").getValue());
@@ -377,27 +380,27 @@ public class FormaReaderTest {
             Assertions.assertEquals(8.0, node2.getVar("不定２").getValue());
             Assertions.assertEquals(9.0, node2.getVar("不定３").getValue());
             Assertions.assertEquals(10.0, node2.getVar("不定４").getValue());
-            Assertions.assertEquals("", node2.getVar("不定５").getValue());
-            Assertions.assertEquals("", node2.getVar("不定６").getValue());
-            Assertions.assertEquals("", node2.getVar("不定７").getValue());
-            Assertions.assertEquals("", node2.getVar("不定８").getValue());
-            Assertions.assertEquals("", node2.getVar("不定９").getValue());
-            Assertions.assertEquals("", node2.getVar("不定１０").getValue());
+            Assertions.assertEquals(null, node2.getVar("不定５").getValue());
+            Assertions.assertEquals(null, node2.getVar("不定６").getValue());
+            Assertions.assertEquals(null, node2.getVar("不定７").getValue());
+            Assertions.assertEquals(null, node2.getVar("不定８").getValue());
+            Assertions.assertEquals(null, node2.getVar("不定９").getValue());
+            Assertions.assertEquals(null, node2.getVar("不定１０").getValue());
 
             JsonNode node3 = nodes.get(2);
             Assertions.assertEquals("0003", node3.getVar("社員コード").getValue());
             Assertions.assertEquals("山田", node3.getVar("氏").getValue());
             Assertions.assertEquals("三郎", node3.getVar("名").getValue());
-            Assertions.assertEquals("", node3.getVar("不定１").getValue());
-            Assertions.assertEquals("", node3.getVar("不定２").getValue());
-            Assertions.assertEquals("", node3.getVar("不定３").getValue());
-            Assertions.assertEquals("", node3.getVar("不定４").getValue());
-            Assertions.assertEquals("", node3.getVar("不定５").getValue());
-            Assertions.assertEquals("", node3.getVar("不定６").getValue());
-            Assertions.assertEquals("", node3.getVar("不定７").getValue());
-            Assertions.assertEquals("", node3.getVar("不定８").getValue());
-            Assertions.assertEquals("", node3.getVar("不定９").getValue());
-            Assertions.assertEquals("", node3.getVar("不定１０").getValue());
+            Assertions.assertEquals(null, node3.getVar("不定１").getValue());
+            Assertions.assertEquals(null, node3.getVar("不定２").getValue());
+            Assertions.assertEquals(null, node3.getVar("不定３").getValue());
+            Assertions.assertEquals(null, node3.getVar("不定４").getValue());
+            Assertions.assertEquals(null, node3.getVar("不定５").getValue());
+            Assertions.assertEquals(null, node3.getVar("不定６").getValue());
+            Assertions.assertEquals(null, node3.getVar("不定７").getValue());
+            Assertions.assertEquals(null, node3.getVar("不定８").getValue());
+            Assertions.assertEquals(null, node3.getVar("不定９").getValue());
+            Assertions.assertEquals(null, node3.getVar("不定１０").getValue());
 
             JsonNode node4 = nodes.get(3);
             Assertions.assertEquals("0004", node4.getVar("社員コード").getValue());
@@ -405,14 +408,14 @@ public class FormaReaderTest {
             Assertions.assertEquals("四郎", node4.getVar("名").getValue());
             Assertions.assertEquals(11.0, node4.getVar("不定１").getValue());
             Assertions.assertEquals(12.0, node4.getVar("不定２").getValue());
-            Assertions.assertEquals("", node4.getVar("不定３").getValue());
-            Assertions.assertEquals("", node4.getVar("不定４").getValue());
-            Assertions.assertEquals("", node4.getVar("不定５").getValue());
-            Assertions.assertEquals("", node4.getVar("不定６").getValue());
-            Assertions.assertEquals("", node4.getVar("不定７").getValue());
-            Assertions.assertEquals("", node4.getVar("不定８").getValue());
-            Assertions.assertEquals("", node4.getVar("不定９").getValue());
-            Assertions.assertEquals("", node4.getVar("不定１０").getValue());
+            Assertions.assertEquals(null, node4.getVar("不定３").getValue());
+            Assertions.assertEquals(null, node4.getVar("不定４").getValue());
+            Assertions.assertEquals(null, node4.getVar("不定５").getValue());
+            Assertions.assertEquals(null, node4.getVar("不定６").getValue());
+            Assertions.assertEquals(null, node4.getVar("不定７").getValue());
+            Assertions.assertEquals(null, node4.getVar("不定８").getValue());
+            Assertions.assertEquals(null, node4.getVar("不定９").getValue());
+            Assertions.assertEquals(null, node4.getVar("不定１０").getValue());
 
             JsonNode node5 = nodes.get(4);
             Assertions.assertEquals("0005", node5.getVar("社員コード").getValue());
@@ -444,7 +447,7 @@ public class FormaReaderTest {
             Object root = obj.getValue();
             Assertions.assertEquals(true, root instanceof JsonNode);
 
-            JsonObject sheet = ((JsonNode) root).getVar("forma-reader");
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNodes);
             Assertions.assertEquals(2, ((JsonNodes) sheet.getValue()).size());
 
@@ -491,7 +494,7 @@ public class FormaReaderTest {
             Assertions.assertEquals("山田", node4.getVar("氏").getValue());
             Assertions.assertEquals("四郎", node4.getVar("名").getValue());
             Assertions.assertEquals(3.0, node4.getVar("不定１").getValue());
-            Assertions.assertEquals("", node4.getVar("不定２").getValue());
+            Assertions.assertEquals(null, node4.getVar("不定２").getValue());
         }
     }
 
@@ -508,7 +511,7 @@ public class FormaReaderTest {
             Object root = obj.getValue();
             Assertions.assertEquals(true, root instanceof JsonNode);
 
-            JsonObject sheet = ((JsonNode) root).getVar("forma-reader");
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNodes);
             Assertions.assertEquals(2, ((JsonNodes) sheet.getValue()).size());
 
@@ -555,7 +558,7 @@ public class FormaReaderTest {
             Assertions.assertEquals("山田", node4.getVar("氏").getValue());
             Assertions.assertEquals("四郎", node4.getVar("名").getValue());
             Assertions.assertEquals(3.0, node4.getVar("不定１").getValue());
-            Assertions.assertEquals("", node4.getVar("不定２").getValue());
+            Assertions.assertEquals(null, node4.getVar("不定２").getValue());
         }
     }
 
@@ -578,7 +581,7 @@ public class FormaReaderTest {
             Object root = obj.getValue();
             Assertions.assertEquals(true, root instanceof JsonNode);
 
-            JsonObject sheet = ((JsonNode) root).getVar("forma-reader");
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
             JsonObject cell = ((JsonNode) sheet.getValue()).getVar("data");

@@ -48,11 +48,11 @@ public class ListReader implements ObjectReader {
             Row row = sheet.getRow(j);
             for (String headerName : headerList) {
                 if (k >= row.getLastCellNum()) {
-                    node.putVar(headerName, new JsonObject(""));
+                    node.putVar(headerName, new JsonObject());
                 } else {
                     Cell cell = row.getCell(k);
-                    if (cell == null) {
-                        node.putVar(headerName, new JsonObject(""));
+                    if (cell == null || cell.getCellType() == CellType.BLANK) {
+                        node.putVar(headerName, new JsonObject());
                     } else if (cell.getCellType() == CellType.NUMERIC) {
                         if (DateUtil.isCellDateFormatted(cell)) {
                             Date date = cell.getDateCellValue();

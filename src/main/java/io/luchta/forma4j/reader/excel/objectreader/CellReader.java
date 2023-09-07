@@ -38,12 +38,12 @@ public class CellReader implements ObjectReader {
 
         Row r = sheet.getRow(row);
         if (r == null) {
-            return setValue(names, new JsonObject(""));
+            return setValue(names, new JsonObject());
         }
         Cell cell = sheet.getRow(row).getCell(col);
 
-        if (cell == null) {
-            return setValue(names, new JsonObject(""));
+        if (cell == null || cell.getCellType() == CellType.BLANK) {
+            return setValue(names, new JsonObject());
         } else if (cell.getCellType() == CellType.NUMERIC) {
             if (DateUtil.isCellDateFormatted(cell)) {
                 Date date = cell.getDateCellValue();
