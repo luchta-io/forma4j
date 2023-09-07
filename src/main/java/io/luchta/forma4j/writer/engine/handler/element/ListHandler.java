@@ -1,4 +1,4 @@
-package io.luchta.forma4j.writer.engine.handler.list;
+package io.luchta.forma4j.writer.engine.handler.element;
 
 import io.luchta.forma4j.writer.definition.schema.attribute.Style;
 import io.luchta.forma4j.writer.definition.schema.attribute.index.ColumnIndex;

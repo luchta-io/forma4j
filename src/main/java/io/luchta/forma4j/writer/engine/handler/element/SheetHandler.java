@@ -1,4 +1,4 @@
-package io.luchta.forma4j.writer.engine.handler.sheet;
+package io.luchta.forma4j.writer.engine.handler.element;
 
 import io.luchta.forma4j.writer.definition.schema.Element;
 import io.luchta.forma4j.writer.definition.schema.ElementList;
@@ -8,12 +8,6 @@ import io.luchta.forma4j.writer.definition.schema.attribute.loop.Index;
 import io.luchta.forma4j.writer.definition.schema.attribute.loop.Item;
 import io.luchta.forma4j.writer.definition.schema.element.*;
 import io.luchta.forma4j.writer.engine.buffer.BuildBuffer;
-import io.luchta.forma4j.writer.engine.handler.cell.CellHandler;
-import io.luchta.forma4j.writer.engine.handler.column.ColumnHandler;
-import io.luchta.forma4j.writer.engine.handler.horizontalfor.HorizontalForHandler;
-import io.luchta.forma4j.writer.engine.handler.list.ListHandler;
-import io.luchta.forma4j.writer.engine.handler.row.RowHandler;
-import io.luchta.forma4j.writer.engine.handler.verticalfor.VerticalForHandler;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxCellAddress;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxColumnNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxRowNumber;
