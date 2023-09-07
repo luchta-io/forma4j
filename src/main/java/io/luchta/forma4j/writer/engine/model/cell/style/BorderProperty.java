@@ -5,14 +5,14 @@ import org.apache.poi.ss.usermodel.CellStyle;
 
 import java.util.Objects;
 
-public class XlsxBorderStyleProperty implements XlsxCellStyleProperty {
+public class BorderProperty implements XlsxCellStyleProperty {
 	public static final String NAME = "BORDER";
 
 	private BorderStyle borderStyle = BorderStyle.NONE;
 	
-	public XlsxBorderStyleProperty() {}
+	public BorderProperty() {}
 	
-	public XlsxBorderStyleProperty(BorderStyle borderStyle) {
+	public BorderProperty(BorderStyle borderStyle) {
 		this.borderStyle = borderStyle;
 	}
 
@@ -32,7 +32,7 @@ public class XlsxBorderStyleProperty implements XlsxCellStyleProperty {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
-		XlsxBorderStyleProperty that = (XlsxBorderStyleProperty) o;
+		BorderProperty that = (BorderProperty) o;
 		return borderStyle == that.borderStyle;
 	}
 
