@@ -1,8 +1,11 @@
-package io.luchta.forma4j.writer.engine.model.cell.style;
+package io.luchta.forma4j.writer.engine.resolver;
 
 import io.luchta.forma4j.antlr.style.StyleLexer;
 import io.luchta.forma4j.antlr.style.StyleParser;
 import io.luchta.forma4j.writer.definition.schema.attribute.Style;
+import io.luchta.forma4j.writer.engine.model.cell.style.XlsxBorderStyleProperty;
+import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyle;
+import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyleProperty;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.apache.poi.ss.usermodel.BorderStyle;
@@ -10,9 +13,8 @@ import org.apache.poi.ss.usermodel.BorderStyle;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO definition（xml）のattributeを処理するhandlerなのでそちらに移して名前も見直すのがいいかも
-public class XlsxCellStyleBuilder {
-    public XlsxCellStyle build(Style style) {
+public class StyleResolver {
+    public XlsxCellStyle get(Style style) {
         if (style.isEmpty()) {
             return new XlsxCellStyle();
         }
