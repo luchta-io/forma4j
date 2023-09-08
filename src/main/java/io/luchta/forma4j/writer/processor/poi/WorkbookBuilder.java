@@ -2,14 +2,16 @@ package io.luchta.forma4j.writer.processor.poi;
 
 import io.luchta.forma4j.writer.engine.model.book.XlsxBook;
 import io.luchta.forma4j.writer.engine.model.cell.XlsxCell;
+import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyle;
 import io.luchta.forma4j.writer.engine.model.row.XlsxRow;
 import io.luchta.forma4j.writer.engine.model.sheet.XlsxSheet;
-import io.luchta.forma4j.writer.processor.poi.setting.StyleSetting;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * {@code WorkbookBuilder} は EXCEL のワークシートを作成するクラスです。
@@ -39,30 +41,24 @@ public class WorkbookBuilder {
      * @return Excel ワークブック
      */
     public Workbook build() {
-        return build(new XSSFWorkbook(), false);
+        return build(new XSSFWorkbook());
     }
 
     /**
      * Excel で作成されたテンプレートを利用したワークブック作成
      * @param in テンプレートファイル
      * @return Excel ワークブック
-     * @throws IOException
      */
     public Workbook build(InputStream in) throws IOException {
-        return build(WorkbookFactory.create(in), true);
+        return build(WorkbookFactory.create(in));
     }
 
-    /**
-     * {@code model} の内容に従って Excel ワークブックを作成
-     * @param workbook Excel ワークブック
-     * @return
-     */
-    private Workbook build(Workbook workbook, boolean hasTemplate) {
+    private Workbook build(Workbook workbook) {
+        Map<XlsxCellStyle, CellStyle> styleMap = makeStyleMap(workbook);
+
         for (XlsxSheet sheetModel : model.sheets()) {
-            Sheet sheet = null;
-            if (hasTemplate) {
-                sheet = workbook.getSheet(sheetModel.name().toString());
-            } else {
+            Sheet sheet = workbook.getSheet(sheetModel.name().toString());
+            if (sheet == null) {
                 sheet = workbook.createSheet(sheetModel.name().toString());
             }
 
@@ -71,15 +67,28 @@ public class WorkbookBuilder {
                 if (row == null) {
                     row = sheet.createRow(rowModel.rowNumber().toInt());
                 }
-                for (XlsxCell cellModel : rowModel.cells()) {
-                    Cell cell = row.createCell(cellModel.columnNumber().toInt());
-                    cell.setCellValue(cellModel.value().toString());
 
-                    StyleSetting styleSetting = new StyleSetting();
-                    styleSetting.set(cell, cellModel.styles());
+                for (XlsxCell cellModel : rowModel.cells()) {
+                    Cell cell = row.getCell(cellModel.columnNumber().toInt());
+                    if (cell == null) {
+                        cell = row.createCell(cellModel.columnNumber().toInt());
+                    }
+
+                    cell.setCellValue(cellModel.value().toString());
+                    cell.setCellStyle(styleMap.get(cellModel.style()));
                 }
             }
         }
         return workbook;
+    }
+
+    private Map<XlsxCellStyle, CellStyle> makeStyleMap(Workbook workbook) {
+        Map<XlsxCellStyle, CellStyle> map = new HashMap<>();
+        for (XlsxCellStyle style : model.styles()) {
+            CellStyle cellStyle = workbook.createCellStyle();
+            style.overwriteTo(cellStyle);
+            map.put(style, cellStyle);
+        }
+        return map;
     }
 }

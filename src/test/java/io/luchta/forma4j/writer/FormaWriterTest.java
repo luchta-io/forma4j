@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class WriterTest {
-    static final Logger logger = Logger.getLogger(WriterTest.class.getName());
+public class FormaWriterTest {
+    static final Logger logger = Logger.getLogger(FormaWriterTest.class.getName());
 
     /**
      * 書き込みのテスト
