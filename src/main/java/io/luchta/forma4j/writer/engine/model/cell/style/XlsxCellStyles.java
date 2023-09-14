@@ -1,25 +1,21 @@
 package io.luchta.forma4j.writer.engine.model.cell.style;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Set;
 
 public class XlsxCellStyles implements Iterable<XlsxCellStyle> {
+    Set<XlsxCellStyle> set = new HashSet<>();
 
-	private List<XlsxCellStyle> list = new ArrayList<>();
-	
-	public XlsxCellStyles() {}
-	
-	public XlsxCellStyles(List<XlsxCellStyle> list) {
-		this.list = list;
-	}
+    public XlsxCellStyles() {
+    }
 
-	public int size() {
-		return list.size();
-	}
+    public XlsxCellStyles(Set<XlsxCellStyle> set) {
+        this.set = set;
+    }
 
-	@Override
-	public Iterator<XlsxCellStyle> iterator() {
-		return this.list.iterator();
-	}
+    @Override
+    public Iterator<XlsxCellStyle> iterator() {
+        return set.iterator();
+    }
 }

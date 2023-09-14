@@ -1,4 +1,4 @@
-package io.luchta.forma4j.writer.engine.handler.list;
+package io.luchta.forma4j.writer.engine.handler.element;
 
 import io.luchta.forma4j.writer.definition.schema.attribute.Style;
 import io.luchta.forma4j.writer.definition.schema.attribute.index.ColumnIndex;
@@ -10,7 +10,7 @@ import io.luchta.forma4j.writer.engine.model.cell.XlsxCell;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxCellAddress;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxColumnNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxRowNumber;
-import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStylesBuilder;
+import io.luchta.forma4j.writer.engine.resolver.StyleResolver;
 import io.luchta.forma4j.writer.engine.model.cell.value.Text;
 
 import java.util.List;
@@ -71,12 +71,12 @@ public class ListHandler {
             return;
         }
 
-        XlsxCellStylesBuilder stylesBuilder = new XlsxCellStylesBuilder();
+        StyleResolver styleResolver = new StyleResolver();
         Map<String, Object> map = (Map<String, Object>) list.get(0);
         for (String headerName : map.keySet()) {
             buffer.accumulator().put(
                     address,
-                    new XlsxCell(address, new Text(headerName), stylesBuilder.build(style)));
+                    new XlsxCell(address, new Text(headerName), styleResolver.get(style)));
             address = address.columnNumberIncrement();
         }
     }
@@ -92,7 +92,7 @@ public class ListHandler {
             return;
         }
 
-        XlsxCellStylesBuilder stylesBuilder = new XlsxCellStylesBuilder();
+        StyleResolver styleResolver = new StyleResolver();
         Long columnIndex = address.columnNumber().toLong();
         for (Object obj : list) {
             if (!(obj instanceof Map<?, ?>)) {
@@ -103,7 +103,7 @@ public class ListHandler {
             for (Object value : line.values()) {
                 buffer.accumulator().put(
                         address,
-                        new XlsxCell(address, new Text(value.toString()), stylesBuilder.build(style)));
+                        new XlsxCell(address, new Text(value.toString()), styleResolver.get(style)));
                 address = address.columnNumberIncrement();
             }
 
