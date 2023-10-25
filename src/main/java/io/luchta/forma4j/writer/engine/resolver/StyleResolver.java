@@ -17,11 +17,7 @@ public class StyleResolver {
             return new XlsxCellStyle();
         }
 
-        StyleLexer styleLexer = new StyleLexer(CharStreams.fromString(style.toString()));
-        CommonTokenStream commonTokenStream = new CommonTokenStream(styleLexer);
-        StyleParser styleParser = new StyleParser(commonTokenStream);
-        StyleParser.StylesContext stylesContext = styleParser.styles();
-
+        StyleParser.StylesContext stylesContext = makeStylesContext(style);
         if (stylesContext.exception != null) {
             return new XlsxCellStyle();
         }
@@ -35,6 +31,13 @@ public class StyleResolver {
         }
 
         return new XlsxCellStyle(list);
+    }
+
+    private static StyleParser.StylesContext makeStylesContext(Style style) {
+        StyleLexer styleLexer = new StyleLexer(CharStreams.fromString(style.toString()));
+        CommonTokenStream commonTokenStream = new CommonTokenStream(styleLexer);
+        StyleParser styleParser = new StyleParser(commonTokenStream);
+        return styleParser.styles();
     }
 
     private String getPropertyName(StyleParser.StyleContext styleContext) {
