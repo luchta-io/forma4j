@@ -10,7 +10,8 @@ import io.luchta.forma4j.context.databind.json.JsonNode;
 public class JsonSerializer {
 	
 	public String serializeFromJsonObject(JsonObject jsonObject) {
-		
+        if (jsonObject.isEmpty()) return "{}";
+
 		if (jsonObject.isJsonNode()) {
 			return this.serialize((JsonNode) jsonObject.getValue());
 		}
