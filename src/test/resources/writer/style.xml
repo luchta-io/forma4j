@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<forma>
+    <sheet name="style">
+        <row rowIndex="0" startColumnIndex="0">
+            <cell style="border:thin;">border</cell>
+            <cell style="font-size:16;">font-size</cell>
+            <cell style="non-support:x;">サポートしていないプロパティ</cell>
+            <cell style="border:thin; font-size:16;">複数指定</cell>
+        </row>
+    </sheet>
+</forma>
