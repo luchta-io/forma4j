@@ -19,7 +19,7 @@ public class NotSupportProperty implements XlsxCellStyleProperty {
     @Override
     public void overwriteTo(CellStyle cellStyle) {
         // do nothing
-        logger.warning("not support property: " + name + " : " + value + ";");
+        logger.warning("not support property [" + name + ":" + value + ";]");
     }
 
     @Override

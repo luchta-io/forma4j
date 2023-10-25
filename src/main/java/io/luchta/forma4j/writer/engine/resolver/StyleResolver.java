@@ -41,11 +41,11 @@ public class StyleResolver {
     }
 
     private String getPropertyName(StyleParser.StyleContext styleContext) {
-        return styleContext.property().getText().toUpperCase();
+        return styleContext.property().getText().strip().toUpperCase();
     }
 
     private String getPropertyValue(StyleParser.StyleContext styleContext) {
-        return styleContext.property_value().getText();
+        return styleContext.property_value().getText().strip();
     }
 
 }
