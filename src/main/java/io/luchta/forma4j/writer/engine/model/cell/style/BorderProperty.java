@@ -6,34 +6,65 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import java.util.Objects;
 
 public class BorderProperty implements XlsxCellStyleProperty {
-	public static final String NAME = "BORDER";
+    public static final String NAME = "BORDER";
+    String value;
 
-	private BorderStyle borderStyle = BorderStyle.NONE;
-	
-	public BorderProperty() {}
-	
-	public BorderProperty(BorderStyle borderStyle) {
-		this.borderStyle = borderStyle;
-	}
+    public BorderProperty(String value) {
+        this.value = value;
+    }
 
-	@Override
-	public void overwriteTo(CellStyle cellStyle) {
-		cellStyle.setBorderLeft(borderStyle);
-		cellStyle.setBorderTop(borderStyle);
-		cellStyle.setBorderRight(borderStyle);
-		cellStyle.setBorderBottom(borderStyle);
-	}
+    private BorderStyle borderStyle() {
+        switch (value.toUpperCase()) {
+            case "THIN":
+                return BorderStyle.THIN;
+            case "MEDIUM":
+                return BorderStyle.MEDIUM;
+            case "DASHED":
+                return BorderStyle.DASHED;
+            case "DOTTED":
+                return BorderStyle.DOTTED;
+            case "THICK":
+                return BorderStyle.THICK;
+            case "DOUBLE":
+                return BorderStyle.DOUBLE;
+            case "HAIR":
+                return BorderStyle.HAIR;
+            case "MEDIUM_DASHED":
+                return BorderStyle.MEDIUM_DASHED;
+            case "DASH_DOT":
+                return BorderStyle.DASH_DOT;
+            case "MEDIUM_DASH_DOT":
+                return BorderStyle.MEDIUM_DASH_DOT;
+            case "DASH_DOT_DOT":
+                return BorderStyle.DASH_DOT_DOT;
+            case "MEDIUM_DASH_DOT_DOT":
+                return BorderStyle.MEDIUM_DASH_DOT_DOT;
+            case "SLANTED_DASH_DOT":
+                return BorderStyle.SLANTED_DASH_DOT;
+            default:
+                return BorderStyle.NONE;
+        }
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		BorderProperty that = (BorderProperty) o;
-		return borderStyle == that.borderStyle;
-	}
+    @Override
+    public void overwriteTo(CellStyle cellStyle) {
+        BorderStyle style = borderStyle();
+        cellStyle.setBorderLeft(style);
+        cellStyle.setBorderTop(style);
+        cellStyle.setBorderRight(style);
+        cellStyle.setBorderBottom(style);
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(borderStyle);
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BorderProperty that = (BorderProperty) o;
+        return Objects.equals(value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
+    }
 }
