@@ -37,11 +37,11 @@ public class StyleResolver {
         return new XlsxCellStyle(list);
     }
 
-    private static String getPropertyName(StyleParser.StyleContext styleContext) {
+    private String getPropertyName(StyleParser.StyleContext styleContext) {
         return styleContext.property().getText().toUpperCase();
     }
 
-    private static String getPropertyValue(StyleParser.StyleContext styleContext) {
+    private String getPropertyValue(StyleParser.StyleContext styleContext) {
         return styleContext.property_value().getText();
     }
 
