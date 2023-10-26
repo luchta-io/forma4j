@@ -1,6 +1,6 @@
 package io.luchta.forma4j.writer.engine.model.cell.style;
 
-import org.apache.poi.ss.usermodel.CellStyle;
+import io.luchta.forma4j.writer.processor.poi.CellStyleBuilder;
 
 public interface XlsxCellStyleProperty {
 
@@ -16,15 +16,18 @@ public interface XlsxCellStyleProperty {
         switch (name) {
             case BorderProperty.NAME:
                 return new BorderProperty(value);
+            case FontSizeProperty.NAME:
+                return new FontSizeProperty(value);
             default:
                 return new NotSupportProperty(name, value);
         }
     }
 
     /**
-     * 引数で渡された {@code CellStyle} に対して、このプロパティの値を上書きします。
+     * 引数で渡された {@code CellStyleBuilder} を受け入れて、
+     * 各プロパティに応じたCellStyleの構築処理を実行します
      *
-     * @param cellStyle 上書き対象の {@code CellStyle}
+     * @param builder CellStyleBuilder
      */
-    void overwriteTo(CellStyle cellStyle);
+    void accept(CellStyleBuilder builder);
 }

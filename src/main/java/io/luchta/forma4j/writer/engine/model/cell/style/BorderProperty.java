@@ -1,7 +1,7 @@
 package io.luchta.forma4j.writer.engine.model.cell.style;
 
+import io.luchta.forma4j.writer.processor.poi.CellStyleBuilder;
 import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.CellStyle;
 
 import java.util.Objects;
 
@@ -47,12 +47,8 @@ public class BorderProperty implements XlsxCellStyleProperty {
     }
 
     @Override
-    public void overwriteTo(CellStyle cellStyle) {
-        BorderStyle style = borderStyle();
-        cellStyle.setBorderLeft(style);
-        cellStyle.setBorderTop(style);
-        cellStyle.setBorderRight(style);
-        cellStyle.setBorderBottom(style);
+    public void accept(CellStyleBuilder builder) {
+        builder.setBorder(borderStyle());
     }
 
     @Override

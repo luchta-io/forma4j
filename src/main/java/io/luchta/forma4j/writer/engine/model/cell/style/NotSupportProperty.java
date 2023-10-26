@@ -1,6 +1,6 @@
 package io.luchta.forma4j.writer.engine.model.cell.style;
 
-import org.apache.poi.ss.usermodel.CellStyle;
+import io.luchta.forma4j.writer.processor.poi.CellStyleBuilder;
 
 import java.util.Objects;
 import java.util.logging.Logger;
@@ -17,8 +17,7 @@ public class NotSupportProperty implements XlsxCellStyleProperty {
     }
 
     @Override
-    public void overwriteTo(CellStyle cellStyle) {
-        // do nothing
+    public void accept(CellStyleBuilder builder) {
         logger.warning("not support property [" + name + ":" + value + ";]");
     }
 
