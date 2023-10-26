@@ -45,4 +45,13 @@ public class CellStyleBuilder {
         targetStyle.setBorderBottom(borderStyle);
     }
 
+    public void setBold(boolean bold) {
+        targetFont.setBold(bold);
+        targetStyle.setFont(targetFont);
+    }
+
+    public void setItalic(boolean italic) {
+        targetFont.setItalic(italic);
+        targetStyle.setFont(targetFont);
+    }
 }

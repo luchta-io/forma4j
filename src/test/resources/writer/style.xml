@@ -5,6 +5,9 @@
             <!-- サポートしているプロパティ -->
             <cell style="border:thin;">border</cell>
             <cell style="font-size:16;">font-size</cell>
+            <cell style="font-style:bold;">font-style bold</cell>
+            <cell style="font-style:italic;">font-style italic</cell>
+            <cell style="font-style:bold-italic;">font-style bold and italic</cell>
             <!-- Style文字列の扱い -->
             <cell style="border:thin; font-size:16;">複数のプロパティ指定は許容する</cell>
             <cell style=" border :  thin ;">Styleのプロパティと値の前後の空白はstripして許容する</cell>

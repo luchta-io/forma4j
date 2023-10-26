@@ -18,6 +18,8 @@ public interface XlsxCellStyleProperty {
                 return new BorderProperty(value);
             case FontSizeProperty.NAME:
                 return new FontSizeProperty(value);
+            case FontStyleProperty.NAME:
+                return new FontStyleProperty(value);
             default:
                 return new NotSupportProperty(name, value);
         }
