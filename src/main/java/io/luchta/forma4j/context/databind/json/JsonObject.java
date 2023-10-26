@@ -65,6 +65,7 @@ public class JsonObject {
 	
 	@Override
 	public String toString() {
+		if (isEmpty()) return "";
 		return this.value.toString();
 	}
 }
