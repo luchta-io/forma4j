@@ -111,11 +111,11 @@ public class JsonSerializer {
         String result = value;
         result = result.replaceAll("\\\\", "\\\\\\\\");
         result = result.replaceAll("\"", "\\\\\"");
-        result = result.replaceAll("\b", "\\\\" + "b");
-        result = result.replaceAll("\r", "\\\\" + "r");
-        result = result.replaceAll("\n", "\\\\" + "n");
-        result = result.replaceAll("\t", "\\\\" + "t");
-        result = result.replaceAll("\f", "\\\\" + "f");
+        result = result.replaceAll("\b", "\\\\b");
+        result = result.replaceAll("\r", "\\\\r");
+        result = result.replaceAll("\n", "\\\\n");
+        result = result.replaceAll("\t", "\\\\t");
+        result = result.replaceAll("\f", "\\\\f");
         return result;
     }
 }
