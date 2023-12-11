@@ -45,7 +45,8 @@ public class JsonDeserializer {
 	}
 	
 	private JsonObject interfiling(Object object) {
-		
+		if (object == null) return new JsonObject();
+
 		if (object instanceof Map) {
 			return this.deserializeFromMap((Map<String, Object>) object);
 		}
