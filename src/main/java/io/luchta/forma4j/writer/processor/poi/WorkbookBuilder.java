@@ -30,6 +30,7 @@ public class WorkbookBuilder {
 
     /**
      * コンストラクタ
+     *
      * @param model Excelへ書き込む内容
      */
     public WorkbookBuilder(XlsxBook model) {
@@ -38,6 +39,7 @@ public class WorkbookBuilder {
 
     /**
      * Excel ワークブック作成
+     *
      * @return Excel ワークブック
      */
     public Workbook build() {
@@ -46,6 +48,7 @@ public class WorkbookBuilder {
 
     /**
      * Excel で作成されたテンプレートを利用したワークブック作成
+     *
      * @param in テンプレートファイル
      * @return Excel ワークブック
      */
@@ -85,8 +88,8 @@ public class WorkbookBuilder {
     private Map<XlsxCellStyle, CellStyle> makeStyleMap(Workbook workbook) {
         Map<XlsxCellStyle, CellStyle> map = new HashMap<>();
         for (XlsxCellStyle style : model.styles()) {
-            CellStyle cellStyle = workbook.createCellStyle();
-            style.overwriteTo(cellStyle);
+            CellStyleBuilder editor = CellStyleBuilder.of(style, workbook);
+            CellStyle cellStyle = editor.build();
             map.put(style, cellStyle);
         }
         return map;

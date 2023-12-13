@@ -413,4 +413,21 @@ public class FormaWriterTest {
 
         return jsonNodes;
     }
+
+    /**
+     * スタイル指定のテスト
+     *
+     * @throws IOException
+     */
+    @Test
+    void style() throws IOException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream in = classLoader.getResource("writer/style.xml").openStream();
+        File outFile = Files.createTempFile("test", String.format("%s.xlsx", LocalDateTime.now())).toFile();
+        FileOutputStream out = new FileOutputStream(outFile);
+        logger.log(Level.INFO, "xlsxファイル出力先: " + outFile.getAbsolutePath());
+
+        FormaWriter sut = new FormaWriter();
+        sut.write(in, out, new JsonObject());
+    }
 }
