@@ -1,5 +1,9 @@
 package io.luchta.forma4j.reader;
 
+import com.fasterxml.jackson.core.json.JsonReadFeature;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.luchta.forma4j.context.databind.convert.JsonSerializer;
 import io.luchta.forma4j.context.databind.json.JsonNode;
 import io.luchta.forma4j.context.databind.json.JsonNodes;
@@ -11,6 +15,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -620,6 +626,31 @@ public class FormaReaderTest {
                 // FIXME 識別したいエラーがUnsupportedOperationException「存在しないタグが指定されています」に丸まってしまっているので直したい
                 formaReader.read(config, excel);
             });
+        }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "reader/simple_cell_read_by_name_test.xml, reader/FormaReaderLineBreakTest.xlsx"
+    })
+    public void simple_line_break_test(String configPath, String excelPath) throws Exception {
+        try (InputStream config = new FileInputStream(this.getClass().getClassLoader().getResource(configPath).getPath());
+             InputStream excel = new FileInputStream(this.getClass().getClassLoader().getResource(excelPath).getPath());) {
+            FormaReader formaReader = new FormaReader();
+            JsonObject obj = formaReader.read(config, excel);
+
+            Object root = obj.getValue();
+            Assertions.assertEquals(true, root instanceof JsonNode);
+
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
+            Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
+
+            JsonObject cell = ((JsonNode) sheet.getValue()).getVar("data");
+            Assertions.assertEquals(true, cell.getValue() instanceof JsonNodes);
+
+            JsonNodes values = ((JsonNodes) cell.getValue());
+
+            Assertions.assertEquals("サンプル\n帳票", values.get(0).getVar("title").getValue().toString());
         }
     }
 }

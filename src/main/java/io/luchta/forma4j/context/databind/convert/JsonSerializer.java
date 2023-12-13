@@ -2,6 +2,7 @@ package io.luchta.forma4j.context.databind.convert;
 
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 
 import io.luchta.forma4j.context.databind.json.JsonNodes;
 import io.luchta.forma4j.context.databind.json.JsonObject;
@@ -10,7 +11,8 @@ import io.luchta.forma4j.context.databind.json.JsonNode;
 public class JsonSerializer {
 	
 	public String serializeFromJsonObject(JsonObject jsonObject) {
-		
+        if (jsonObject.isEmpty()) return "{}";
+
 		if (jsonObject.isJsonNode()) {
 			return this.serialize((JsonNode) jsonObject.getValue());
 		}
@@ -109,10 +111,11 @@ public class JsonSerializer {
         String result = value;
         result = result.replaceAll("\\\\", "\\\\\\\\");
         result = result.replaceAll("\"", "\\\\\"");
-        result = result.replaceAll("\b", "\\\\\b");
-        result = result.replaceAll("\r", "\\\\\r");
-        result = result.replaceAll("\n", "\\\\\n");
-        result = result.replaceAll("\t", "\\\\\t");
+        result = result.replaceAll("\b", "\\\\b");
+        result = result.replaceAll("\r", "\\\\r");
+        result = result.replaceAll("\n", "\\\\n");
+        result = result.replaceAll("\t", "\\\\t");
+        result = result.replaceAll("\f", "\\\\f");
         return result;
     }
 }

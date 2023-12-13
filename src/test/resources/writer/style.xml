@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<forma>
+    <sheet name="style">
+        <row rowIndex="0" startColumnIndex="0">
+            <!-- サポートしているプロパティ -->
+            <cell style="border:thin;">border</cell>
+            <cell style="font-size:16;">font-size</cell>
+            <cell style="font-style:bold;">font-style bold</cell>
+            <cell style="font-style:italic;">font-style italic</cell>
+            <cell style="font-style:bold-italic;">font-style bold and italic</cell>
+            <!-- Style文字列の扱い -->
+            <cell style="border:thin; font-size:16;">複数のプロパティ指定は許容する</cell>
+            <cell style=" border :  thin ;">Styleのプロパティと値の前後の空白はstripして許容する</cell>
+            <cell style="non-support:x;">サポートしていないプロパティは警告を出して無視する</cell>
+            <cell style="">Style文字列が空の場合は無視する</cell>
+            <cell style=":">Style文字列が文法に合わない場合は無視する</cell>
+        </row>
+    </sheet>
+</forma>
