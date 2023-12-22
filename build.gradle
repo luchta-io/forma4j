@@ -110,3 +110,7 @@ signing {
 generateGrammarSource {
     outputDirectory = file("src-gen/main/java")
 }
+
+tasks.named("sourcesJar").configure {
+    dependsOn(":generateGrammarSource")
+}
