@@ -81,6 +81,10 @@ public class WorkbookBuilder {
                     cell.setCellStyle(styleMap.get(cellModel.style()));
                 }
             }
+
+            for (int i = 0; i < sheetModel.columnSize(); i++) {
+                sheet.autoSizeColumn(i);
+            }
         }
         return workbook;
     }

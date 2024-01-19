@@ -1,5 +1,6 @@
 package io.luchta.forma4j.writer.engine.model.sheet;
 
+import io.luchta.forma4j.writer.engine.model.row.XlsxRow;
 import io.luchta.forma4j.writer.engine.model.row.XlsxRowList;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxSheetName;
 
@@ -18,5 +19,10 @@ public class XlsxSheet {
 
     public XlsxRowList rows() {
         return rows;
+    }
+
+    public int columnSize() {
+        XlsxRow longestRow = rows.getLongest();
+        return longestRow.cells().size();
     }
 }
