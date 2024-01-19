@@ -88,8 +88,8 @@ public class WorkbookBuilder {
     private Map<XlsxCellStyle, CellStyle> makeStyleMap(Workbook workbook) {
         Map<XlsxCellStyle, CellStyle> map = new HashMap<>();
         for (XlsxCellStyle style : model.styles()) {
-            CellStyleBuilder editor = CellStyleBuilder.of(style, workbook);
-            CellStyle cellStyle = editor.build();
+            CellStyleBuilder builder = CellStyleBuilder.of(style, workbook);
+            CellStyle cellStyle = builder.build();
             map.put(style, cellStyle);
         }
         return map;
