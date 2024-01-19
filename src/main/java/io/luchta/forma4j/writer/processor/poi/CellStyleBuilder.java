@@ -26,6 +26,7 @@ public class CellStyleBuilder {
 
     public CellStyle build() {
         definition.accept(this);
+        targetStyle.setFont(targetFont);
         return targetStyle;
     }
 
@@ -35,7 +36,6 @@ public class CellStyleBuilder {
 
     public void setFontHeightInPoints(short points) {
         targetFont.setFontHeightInPoints(points);
-        targetStyle.setFont(targetFont);
     }
 
     public void setBorder(BorderStyle borderStyle) {
@@ -47,11 +47,9 @@ public class CellStyleBuilder {
 
     public void setBold(boolean bold) {
         targetFont.setBold(bold);
-        targetStyle.setFont(targetFont);
     }
 
     public void setItalic(boolean italic) {
         targetFont.setItalic(italic);
-        targetStyle.setFont(targetFont);
     }
 }
