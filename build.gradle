@@ -15,7 +15,7 @@ plugins {
 }
 
 group = 'io.luchta'
-version = '1.4.2'
+version = '1.4.3'
 
 sourceCompatibility = compatibility
 targetCompatibility = compatibility
@@ -109,4 +109,8 @@ signing {
 
 generateGrammarSource {
     outputDirectory = file("src-gen/main/java")
+}
+
+tasks.named("sourcesJar").configure {
+    dependsOn(":generateGrammarSource")
 }

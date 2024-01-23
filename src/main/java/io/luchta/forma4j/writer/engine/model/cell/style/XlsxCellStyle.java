@@ -18,8 +18,6 @@ public class XlsxCellStyle {
     }
 
     public void accept(CellStyleBuilder builder) {
-        // TODO このWrapTextをデフォルトで行うのはイマイチな気がするので仕様を見直す
-        builder.setWrapText(true);
         for (XlsxCellStyleProperty property : properties) {
             property.accept(builder);
         }
