@@ -14,6 +14,10 @@ public class XlsxCellList implements Iterable<XlsxCell> {
         this.list = list;
     }
 
+    public int size() {
+        return list.size();
+    }
+
     @Override
     public Iterator<XlsxCell> iterator() {
         return list.iterator();
