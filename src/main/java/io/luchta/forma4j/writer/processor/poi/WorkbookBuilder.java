@@ -56,7 +56,7 @@ public class WorkbookBuilder {
         return build(WorkbookFactory.create(in), false);
     }
 
-    private Workbook build(Workbook workbook, boolean autoColumnWidthEnabled) {
+    private Workbook build(Workbook workbook, boolean autoSizeColumnEnabled) {
         Map<XlsxCellStyle, CellStyle> styleMap = makeStyleMap(workbook);
 
         for (XlsxSheet sheetModel : model.sheets()) {
@@ -82,7 +82,7 @@ public class WorkbookBuilder {
                 }
             }
 
-            if (!autoColumnWidthEnabled) {
+            if (!autoSizeColumn) {
                 continue;
             }
 
