@@ -82,7 +82,7 @@ public class WorkbookBuilder {
                 }
             }
 
-            if (!autoSizeColumn) {
+            if (!autoSizeColumnEnabled) {
                 continue;
             }
 
