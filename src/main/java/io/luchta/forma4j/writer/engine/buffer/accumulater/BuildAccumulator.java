@@ -1,5 +1,6 @@
 package io.luchta.forma4j.writer.engine.buffer.accumulater;
 
+import io.luchta.forma4j.writer.engine.buffer.accumulater.support.ColumnPropertyMap;
 import io.luchta.forma4j.writer.engine.buffer.accumulater.support.RowPropertyMap;
 import io.luchta.forma4j.writer.engine.buffer.accumulater.support.SheetNameList;
 import io.luchta.forma4j.writer.engine.model.book.XlsxBook;
@@ -8,6 +9,9 @@ import io.luchta.forma4j.writer.engine.model.cell.XlsxCellList;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxCellAddress;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxRowNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxSheetName;
+import io.luchta.forma4j.writer.engine.model.column.XlsxColumnAddress;
+import io.luchta.forma4j.writer.engine.model.column.property.XlsxColumnProperties;
+import io.luchta.forma4j.writer.engine.model.column.property.XlsxColumnProperty;
 import io.luchta.forma4j.writer.engine.model.row.XlsxRow;
 import io.luchta.forma4j.writer.engine.model.row.XlsxRowList;
 import io.luchta.forma4j.writer.engine.model.row.address.XlsxRowAddress;
@@ -23,6 +27,7 @@ import java.util.List;
 public class BuildAccumulator {
     SheetNameList sheetNameList = new SheetNameList();
     RowPropertyMap rowPropertyMap = new RowPropertyMap();
+    ColumnPropertyMap columnPropertyMap = new ColumnPropertyMap();
     CellMap cells = new CellMap();
 
     public void add(XlsxSheetName sheetName) {
@@ -42,6 +47,15 @@ public class BuildAccumulator {
         rowPropertyMap.put(address, properties);
     }
 
+    public void putColumnProperties(XlsxColumnAddress address, XlsxColumnProperty property) {
+        XlsxColumnProperties properties = new XlsxColumnProperties();
+        if (columnPropertyMap.containsKey(address)) {
+            properties = columnPropertyMap.get(address);
+        }
+        properties.add(property);
+        columnPropertyMap.put(address, properties);
+    }
+
     public XlsxBook toXlsxBook() {
         return new XlsxBook(toSheetList());
     }
@@ -50,7 +64,7 @@ public class BuildAccumulator {
         List<XlsxSheet> sheetList = new ArrayList<>();
         for (XlsxSheetName sheetName : sheetNameList) {
             XlsxRowList rowList = toRowList(sheetName);
-            sheetList.add(new XlsxSheet(sheetName, rowList));
+            sheetList.add(new XlsxSheet(sheetName, rowList, columnPropertyMap.getBySheetName(sheetName)));
         }
         return new XlsxSheetList(sheetList);
     }
