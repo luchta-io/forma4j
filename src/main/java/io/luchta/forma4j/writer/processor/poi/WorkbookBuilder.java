@@ -1,9 +1,15 @@
 package io.luchta.forma4j.writer.processor.poi;
 
+import io.luchta.forma4j.writer.engine.buffer.accumulater.support.ColumnPropertyMap;
 import io.luchta.forma4j.writer.engine.model.book.XlsxBook;
 import io.luchta.forma4j.writer.engine.model.cell.XlsxCell;
+import io.luchta.forma4j.writer.engine.model.cell.address.XlsxColumnNumber;
 import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyle;
+import io.luchta.forma4j.writer.engine.model.column.XlsxColumnAddress;
 import io.luchta.forma4j.writer.engine.model.column.XlsxColumnRange;
+import io.luchta.forma4j.writer.engine.model.column.property.WidthProperty;
+import io.luchta.forma4j.writer.engine.model.column.property.XlsxColumnProperties;
+import io.luchta.forma4j.writer.engine.model.column.property.XlsxColumnProperty;
 import io.luchta.forma4j.writer.engine.model.row.XlsxRow;
 import io.luchta.forma4j.writer.engine.model.sheet.XlsxSheet;
 import org.apache.poi.ss.usermodel.*;
@@ -68,13 +74,7 @@ public class WorkbookBuilder {
                 }
             }
 
-            if (!autoSizeColumnEnabled) {
-                continue;
-            }
-
-            for (int i = 0; i < sheetModel.columnSize(); i++) {
-                sheet.autoSizeColumn(i);
-            }
+            setColumnStyle(sheetModel, sheet, autoSizeColumnEnabled);
         }
         return workbook;
     }
@@ -87,5 +87,28 @@ public class WorkbookBuilder {
             map.put(style, cellStyle);
         }
         return map;
+    }
+
+    private void setColumnStyle(XlsxSheet sheetModel, Sheet sheet, boolean autoSizeColumnEnabled) {
+        ColumnPropertyMap map = sheetModel.columnPropertyMap();
+        Map<Integer, Integer> skipAutoSizeColumnNumberMap = new HashMap<>();
+        for (Map.Entry<XlsxColumnAddress, XlsxColumnProperties> entry : map.entrySet()) {
+            XlsxColumnNumber columnNumber = entry.getKey().columnNumber();
+            for (XlsxColumnProperty property : entry.getValue()) {
+                if (property instanceof WidthProperty) {
+                    sheet.setColumnWidth(columnNumber.toInt(), ((WidthProperty) property).intValue() * 256);
+                    skipAutoSizeColumnNumberMap.put(columnNumber.toInt(), columnNumber.toInt());
+                }
+            }
+        }
+
+        if (autoSizeColumnEnabled) {
+            for (int i = 0; i < sheetModel.columnSize(); i++) {
+                if (skipAutoSizeColumnNumberMap.containsKey(i)) {
+                    continue;
+                }
+                sheet.autoSizeColumn(i);
+            }
+        }
     }
 }
