@@ -12,6 +12,7 @@ plugins {
     id 'signing'
     id 'maven-publish'
     id 'antlr'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 group = 'io.luchta'
@@ -64,9 +65,9 @@ java {
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        shadow(MavenPublication) { publication ->
             artifactId = 'forma4j'
-            from components.java
+            project.shadow.component(publication)
             pom {
                 name = 'forma4j'
                 description = 'Excelの読み書きを行うライブラリ'
@@ -104,7 +105,7 @@ publishing {
 }
 
 signing {
-    sign publishing.publications.mavenJava
+    sign publishing.publications.shadow
 }
 
 generateGrammarSource {
