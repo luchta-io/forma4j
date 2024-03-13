@@ -29,8 +29,6 @@ public class FormaWriterTest {
         FileOutputStream out = new FileOutputStream(outFile);
         logger.log(Level.INFO, "xlsxファイル出力先: " + outFile.getAbsolutePath());
 
-        JsonObject jsonObject = new JsonObject();
-
         JsonNode jsonNode = new JsonNode();
         jsonNode.putVar("出力日時", new JsonObject(LocalDate.now().toString()));
         jsonNode.putVar("可変項目名リスト", new JsonObject(可変項目名リスト()));
