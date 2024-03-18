@@ -20,6 +20,8 @@ public interface XlsxCellStyleProperty {
                 return new FontSizeProperty(value);
             case FontStyleProperty.NAME:
                 return new FontStyleProperty(value);
+            case WrapTextProperty.NAME:
+                return new WrapTextProperty(value);
             default:
                 return new NotSupportProperty(name, value);
         }
