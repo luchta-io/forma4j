@@ -1,11 +1,19 @@
 package io.luchta.forma4j.writer.processor.poi;
 
+import io.luchta.forma4j.writer.engine.buffer.accumulater.support.ColumnPropertyMap;
 import io.luchta.forma4j.writer.engine.model.book.XlsxBook;
 import io.luchta.forma4j.writer.engine.model.cell.XlsxCell;
+import io.luchta.forma4j.writer.engine.model.cell.address.XlsxColumnNumber;
 import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyle;
+import io.luchta.forma4j.writer.engine.model.column.XlsxColumnAddress;
+import io.luchta.forma4j.writer.engine.model.column.XlsxColumnRange;
+import io.luchta.forma4j.writer.engine.model.column.property.WidthProperty;
+import io.luchta.forma4j.writer.engine.model.column.property.XlsxColumnProperties;
+import io.luchta.forma4j.writer.engine.model.column.property.XlsxColumnProperty;
 import io.luchta.forma4j.writer.engine.model.row.XlsxRow;
 import io.luchta.forma4j.writer.engine.model.sheet.XlsxSheet;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.IOException;
@@ -13,45 +21,17 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * {@code WorkbookBuilder} は EXCEL のワークシートを作成するクラスです。
- *
- * <p>
- * {@link XlsxBook} の内容に従って EXCEL に書き込みを行います。
- * </p>
- *
- * @since 0.1.0
- */
 public class WorkbookBuilder {
-    /**
-     * Excelへ書き込む内容
-     */
     XlsxBook model;
 
-    /**
-     * コンストラクタ
-     *
-     * @param model Excelへ書き込む内容
-     */
     public WorkbookBuilder(XlsxBook model) {
         this.model = model;
     }
 
-    /**
-     * Excel ワークブック作成
-     *
-     * @return Excel ワークブック
-     */
     public Workbook build() {
         return build(new XSSFWorkbook(), true);
     }
 
-    /**
-     * Excel で作成されたテンプレートを利用したワークブック作成
-     *
-     * @param in テンプレートファイル
-     * @return Excel ワークブック
-     */
     public Workbook build(InputStream in) throws IOException {
         return build(WorkbookFactory.create(in), false);
     }
@@ -80,15 +60,21 @@ public class WorkbookBuilder {
                     cell.setCellValue(cellModel.value().toString());
                     cell.setCellStyle(styleMap.get(cellModel.style()));
                 }
+
+                if (rowModel.hasAutoFilter()) {
+                    XlsxColumnRange range = rowModel.columnRange();
+                    sheet.setAutoFilter(
+                            new CellRangeAddress(
+                                    rowModel.rowNumber().toInt(),
+                                    rowModel.rowNumber().toInt(),
+                                    range.firstColumnNumber().toInt(),
+                                    range.lastColumnNumber().toInt()
+                            )
+                    );
+                }
             }
 
-            if (!autoSizeColumnEnabled) {
-                continue;
-            }
-
-            for (int i = 0; i < sheetModel.columnSize(); i++) {
-                sheet.autoSizeColumn(i);
-            }
+            setColumnStyle(sheetModel, sheet, autoSizeColumnEnabled);
         }
         return workbook;
     }
@@ -101,5 +87,28 @@ public class WorkbookBuilder {
             map.put(style, cellStyle);
         }
         return map;
+    }
+
+    private void setColumnStyle(XlsxSheet sheetModel, Sheet sheet, boolean autoSizeColumnEnabled) {
+        ColumnPropertyMap map = sheetModel.columnPropertyMap();
+        Map<Integer, Integer> skipAutoSizeColumnNumberMap = new HashMap<>();
+        for (Map.Entry<XlsxColumnAddress, XlsxColumnProperties> entry : map.entrySet()) {
+            XlsxColumnNumber columnNumber = entry.getKey().columnNumber();
+            for (XlsxColumnProperty property : entry.getValue()) {
+                if (property instanceof WidthProperty) {
+                    sheet.setColumnWidth(columnNumber.toInt(), ((WidthProperty) property).intValue() * 256);
+                    skipAutoSizeColumnNumberMap.put(columnNumber.toInt(), columnNumber.toInt());
+                }
+            }
+        }
+
+        if (autoSizeColumnEnabled) {
+            for (int i = 0; i < sheetModel.columnSize(); i++) {
+                if (skipAutoSizeColumnNumberMap.containsKey(i)) {
+                    continue;
+                }
+                sheet.autoSizeColumn(i);
+            }
+        }
     }
 }
