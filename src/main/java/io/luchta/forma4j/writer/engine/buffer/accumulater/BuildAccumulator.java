@@ -1,5 +1,7 @@
 package io.luchta.forma4j.writer.engine.buffer.accumulater;
 
+import io.luchta.forma4j.writer.engine.buffer.accumulater.support.ColumnPropertyMap;
+import io.luchta.forma4j.writer.engine.buffer.accumulater.support.RowPropertyMap;
 import io.luchta.forma4j.writer.engine.buffer.accumulater.support.SheetNameList;
 import io.luchta.forma4j.writer.engine.model.book.XlsxBook;
 import io.luchta.forma4j.writer.engine.model.cell.XlsxCell;
@@ -7,8 +9,14 @@ import io.luchta.forma4j.writer.engine.model.cell.XlsxCellList;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxCellAddress;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxRowNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxSheetName;
+import io.luchta.forma4j.writer.engine.model.column.XlsxColumnAddress;
+import io.luchta.forma4j.writer.engine.model.column.property.XlsxColumnProperties;
+import io.luchta.forma4j.writer.engine.model.column.property.XlsxColumnProperty;
 import io.luchta.forma4j.writer.engine.model.row.XlsxRow;
 import io.luchta.forma4j.writer.engine.model.row.XlsxRowList;
+import io.luchta.forma4j.writer.engine.model.row.address.XlsxRowAddress;
+import io.luchta.forma4j.writer.engine.model.row.property.XlsxRowProperties;
+import io.luchta.forma4j.writer.engine.model.row.property.XlsxRowProperty;
 import io.luchta.forma4j.writer.engine.model.sheet.XlsxSheet;
 import io.luchta.forma4j.writer.engine.model.sheet.XlsxSheetList;
 import io.luchta.forma4j.writer.engine.buffer.accumulater.support.CellMap;
@@ -18,6 +26,8 @@ import java.util.List;
 
 public class BuildAccumulator {
     SheetNameList sheetNameList = new SheetNameList();
+    RowPropertyMap rowPropertyMap = new RowPropertyMap();
+    ColumnPropertyMap columnPropertyMap = new ColumnPropertyMap();
     CellMap cells = new CellMap();
 
     public void add(XlsxSheetName sheetName) {
@@ -28,6 +38,24 @@ public class BuildAccumulator {
         cells.put(address, cell);
     }
 
+    public void putRowProperty(XlsxRowAddress address, XlsxRowProperty property) {
+        XlsxRowProperties properties = new XlsxRowProperties();
+        if (rowPropertyMap.containsKey(address)) {
+            properties = rowPropertyMap.get(address);
+        }
+        properties.add(property);
+        rowPropertyMap.put(address, properties);
+    }
+
+    public void putColumnProperties(XlsxColumnAddress address, XlsxColumnProperty property) {
+        XlsxColumnProperties properties = new XlsxColumnProperties();
+        if (columnPropertyMap.containsKey(address)) {
+            properties = columnPropertyMap.get(address);
+        }
+        properties.add(property);
+        columnPropertyMap.put(address, properties);
+    }
+
     public XlsxBook toXlsxBook() {
         return new XlsxBook(toSheetList());
     }
@@ -36,7 +64,7 @@ public class BuildAccumulator {
         List<XlsxSheet> sheetList = new ArrayList<>();
         for (XlsxSheetName sheetName : sheetNameList) {
             XlsxRowList rowList = toRowList(sheetName);
-            sheetList.add(new XlsxSheet(sheetName, rowList));
+            sheetList.add(new XlsxSheet(sheetName, rowList, columnPropertyMap.getBySheetName(sheetName)));
         }
         return new XlsxSheetList(sheetList);
     }
@@ -48,6 +76,13 @@ public class BuildAccumulator {
             XlsxCellList thisRowCellList = thisSheetCells
                     .filterBy(rowNumber)
                     .toXlsxCellList();
+
+            XlsxRowAddress rowAddress = new XlsxRowAddress(sheetName, rowNumber);
+            if (rowPropertyMap.containsKey(rowAddress)) {
+                XlsxRowProperties properties = rowPropertyMap.get(rowAddress);
+                list.add(new XlsxRow(rowNumber, thisRowCellList, properties));
+                continue;
+            }
             list.add(new XlsxRow(rowNumber, thisRowCellList));
         }
         return new XlsxRowList(list);
