@@ -10,6 +10,8 @@ import io.luchta.forma4j.writer.engine.buffer.BuildBuffer;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxCellAddress;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxColumnNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxRowNumber;
+import io.luchta.forma4j.writer.engine.model.row.address.XlsxRowAddress;
+import io.luchta.forma4j.writer.engine.model.row.property.AutoFilterProperty;
 
 public class RowHandler {
     BuildBuffer buffer;
@@ -20,11 +22,15 @@ public class RowHandler {
 
     public void handle(Row row) {
         XlsxCellAddress address = buffer.addressStack().peek();
-        if (!(row.rowIndex().isEmpty() && row.startColumnIndex().isEmpty()))
+        if (!(row.rowIndex().isEmpty() && row.startColumnIndex().isEmpty())) {
             buffer.addressStack().push(address.with(
                     new XlsxRowNumber(row.rowIndex()),
                     new XlsxColumnNumber(row.startColumnIndex())
             ));
+            buffer.accumulator().putRowProperty(
+                    new XlsxRowAddress(address.sheetName(), new XlsxRowNumber(row.rowIndex())),
+                    AutoFilterProperty.create(row.autoFilter().value()));
+        }
         dispatch(row.children());
     }
 

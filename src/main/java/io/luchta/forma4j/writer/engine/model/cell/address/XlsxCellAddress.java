@@ -24,6 +24,10 @@ public class XlsxCellAddress {
         return rowNumber.equals(other);
     }
 
+    public XlsxSheetName sheetName() {
+        return sheetName;
+    }
+
     public XlsxRowNumber rowNumber() {
         return rowNumber;
     }
