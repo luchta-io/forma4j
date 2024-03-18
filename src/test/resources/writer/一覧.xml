@@ -6,8 +6,8 @@
             <cell style="border:thin;">#{出力日時}</cell>
         </row>
         <row rowIndex="2" startColumnIndex="0">
-            <cell style="border:thin;">キー</cell>
-            <cell style="border:thin;">件名*</cell>
+            <cell style="border:thin;width:20;">キー</cell>
+            <cell style="border:thin;width:50;">件名*</cell>
             <cell style="border:thin;">担当者</cell>
             <cell style="border:thin;">状態*</cell>
             <horizontal-for item="可変項目名" collection="可変項目名リスト">
