@@ -38,7 +38,7 @@ dependencies {
     implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.2.4'
 
     implementation "jakarta.xml.bind:jakarta.xml.bind-api:4.0.1"
-    implementation "com.sun.xml.bind:jaxb-impl:4.0.5"
+    implementation "com.sun.xml.bind:jaxb-impl:4.0.3"
     
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.15.2'
     implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.15.2'
