@@ -15,6 +15,8 @@
             <cell style="non-support:x;">サポートしていないプロパティは警告を出して無視する</cell>
             <cell style="">Style文字列が空の場合は無視する</cell>
             <cell style=":">Style文字列が文法に合わない場合は無視する</cell>
+            <!-- 背景色 -->
+            <cell style="background-color: #FFC000">背景色をRGBで設定できる</cell>
         </row>
     </sheet>
 </forma>

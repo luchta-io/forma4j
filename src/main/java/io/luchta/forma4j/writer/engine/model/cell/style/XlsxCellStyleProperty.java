@@ -14,6 +14,8 @@ public interface XlsxCellStyleProperty {
      */
     static XlsxCellStyleProperty of(String name, String value) {
         switch (name) {
+            case BackGroundColorProperty.NAME:
+                return new BackGroundColorProperty(value);
             case BorderProperty.NAME:
                 return new BorderProperty(value);
             case FontSizeProperty.NAME:
