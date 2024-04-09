@@ -30,3 +30,6 @@ tmp/
 # antlr
 **/.antlr
 src-gen
+
+node_modules
+_book
