@@ -1,10 +1,8 @@
 package io.luchta.forma4j.writer.processor.poi;
 
 import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyle;
-import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFColor;
 
 public class CellStyleBuilder {
     XlsxCellStyle definition;
@@ -51,5 +49,12 @@ public class CellStyleBuilder {
 
     public void setItalic(boolean italic) {
         targetFont.setItalic(italic);
+    }
+
+    public void setBackGroundColor(String argb) {
+        XSSFColor color = new XSSFColor();
+        color.setARGBHex(argb);
+        targetStyle.setFillForegroundColor(color);
+        targetStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
     }
 }

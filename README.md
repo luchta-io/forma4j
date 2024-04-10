@@ -6,14 +6,46 @@
 
 `forma4j` は XML で記述された設定ファイルに従って EXCEL の読み書きを行います。行数、列数が不定である EXCEL の読み書きの設定が簡単に行えるように設計されています。設定ファイルが XML であるため Git などのバージョン管理システムによる差分管理が容易に行えます。
 
-## 使用例
+## 使い方
 
-簡単な使用方法の例です。詳しい使い方はテストコードが使用方法のサンプルになっているのでそちらを確認してください。
+以下のドキュメントを参照してください。
+
+- [はじめに](docs/README.md)
+- [Gradle](docs/gradle/gradle.md)
+- Writer
+  - [XML](docs/writer/xml.md)
+  - [formaタグ](docs/writer/forma.md)
+  - [sheetタグ](docs/writer/sheet.md)
+  - [rowタグ](docs/writer/row.md)
+  - [columnタグ](docs/writer/column.md)
+  - [cellタグ](docs/writer/cell.md)
+  - [vertical-forタグ](docs/writer/vertical-for.md)
+  - [horizontal-forタグ](docs/writer/horizontal-for.md)
+  - [style](docs/writer/style.md)
+- Reader
+  - [XML](docs/reader/xml.md)
+  - [forma-readerタグ](docs/reader/forma-reader.md)
+  - [sheetタグ](docs/reader/sheet.md)
+  - [cellタグ](docs/reader/cell.md)
+  - [v-forタグ](docs/reader/v-for.md)
+  - [h-forタグ](docs/reader/h-for.md)
+- Java
+  - [Java](docs/java/java.md)
+
+以下は簡単な使い方の例です。
 
 ### Gradle
 
+Gradle
+
 ```gradle
-implementation group: 'io.luchta', name: 'forma4j', version: '1.4.5'
+implementation group: 'io.luchta', name: 'forma4j', version: '1.5.0', classifier: 'all'
+```
+
+Gradle (short)
+
+```gradle
+implementation 'io.luchta:forma4j:1.5.0:all'
 ```
 
 [Maven Repository](https://mvnrepository.com/artifact/io.luchta/forma4j)
