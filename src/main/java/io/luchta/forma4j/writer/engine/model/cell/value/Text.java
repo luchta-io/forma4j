@@ -11,6 +11,11 @@ public class Text implements XlsxCellValue {
     }
 
     @Override
+    public boolean isEmpty() {
+        return value == null || "".equals(value);
+    }
+
+    @Override
     public String toString() {
         if (value == null) return "";
         return value;
