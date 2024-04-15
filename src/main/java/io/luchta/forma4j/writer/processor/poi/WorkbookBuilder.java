@@ -104,7 +104,7 @@ public class WorkbookBuilder {
 
         if (autoSizeColumnEnabled) {
             for (int i = 0; i < sheetModel.columnSize(); i++) {
-                if (skipAutoSizeColumnNumberMap.containsKey(i)) {
+                if (skipAutoSizeColumnNumberMap.containsKey(i) || sheetModel.isEmptyColumn(i)) {
                     continue;
                 }
                 sheet.autoSizeColumn(i);
