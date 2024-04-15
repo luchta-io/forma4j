@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<forma>
+  <sheet name="escape">
+    <row rowIndex="0" startColumnIndex="0">
+      <cell>バックスラッシュ（\\）</cell>
+      <cell>ダブルクォーテーション（\"）</cell>
+      <cell>改行（\n）</cell>
+      <cell>タブ（\t）</cell>
+    </row>
+    <row rowIndex="1" startColumnIndex="0">
+      <cell style="wrapText:true;">#{バックスラッシュ}</cell>
+      <cell style="wrapText:true;">#{ダブルクォーテーション}</cell>
+      <cell style="wrapText:true;">#{改行}</cell>
+      <cell style="wrapText:true;">#{タブ}</cell>
+    </row>
+  </sheet>
+</forma>
