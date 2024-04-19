@@ -37,7 +37,6 @@ public class CellHandler {
         for (XlsxColumnProperty columnProperty : columnProperties) {
             buffer.accumulator().putColumnProperties(columnAddress, columnProperty);
         }
-        buffer.addressStack().push(address.columnNumberIncrement());
     }
 
     private XlsxCellValue value(Cell cell) {

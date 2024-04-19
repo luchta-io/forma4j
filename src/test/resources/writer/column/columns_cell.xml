@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<forma>
+  <sheet name="test">
+    <column startRowIndex="0" columnIndex="0">
+      <cell>#{value1}</cell>
+    </column>
+    <column startRowIndex="0" columnIndex="1">
+      <cell>#{value2}</cell>
+    </column>
+    <column startRowIndex="0" columnIndex="2">
+      <cell>#{value3}</cell>
+    </column>
+  </sheet>
+</forma>

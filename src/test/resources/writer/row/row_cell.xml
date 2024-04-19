@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<forma>
+  <sheet name="test">
+    <row rowIndex="0" startColumnIndex="0">
+      <cell>#{value}</cell>
+    </row>
+  </sheet>
+</forma>
