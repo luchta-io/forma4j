@@ -39,7 +39,7 @@ public class RowHandler {
         if (!(row.rowIndex().isEmpty() && row.startColumnIndex().isEmpty())) {
             buffer.addressStack().push(address.with(
                     new XlsxRowNumber(row.rowIndex()),
-                    new XlsxColumnNumber(row.startColumnIndex().value() - 1)
+                    new XlsxColumnNumber(row.startColumnIndex().value())
             ));
             buffer.accumulator().putRowProperty(
                     new XlsxRowAddress(address.sheetName(), new XlsxRowNumber(row.rowIndex())),
@@ -49,10 +49,14 @@ public class RowHandler {
     }
 
     private void dispatch(ElementList children) {
+        boolean isNotFirst = false;
         for (Element element : children) {
             switch (element.type()) {
                 case CELL:
-                    buffer.addressStack().push(buffer.addressStack().peek().columnNumberIncrement());
+                    if (isNotFirst) {
+                        buffer.addressStack().push(buffer.addressStack().peek().columnNumberIncrement());
+                    }
+                    isNotFirst = true;
                     new CellHandler(buffer).handle((Cell) element);
                     break;
                 case HORIZONTAL_FOR:
