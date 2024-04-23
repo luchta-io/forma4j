@@ -36,7 +36,7 @@ public class ColumnHandler {
         XlsxCellAddress address = buffer.addressStack().peek();
         if (!column.startRowIndex().isEmpty() || !column.columnIndex().isEmpty()) {
             buffer.addressStack().push(address.with(
-                    new XlsxRowNumber(column.startRowIndex().value() - 1),
+                    new XlsxRowNumber(column.startRowIndex().value()),
                     new XlsxColumnNumber(column.columnIndex())
             ));
         }
@@ -44,10 +44,14 @@ public class ColumnHandler {
     }
 
     private void dispatch(ElementList children) {
+        boolean isNotFirst = false;
         for (Element element : children) {
             switch (element.type()) {
                 case CELL:
-                    buffer.addressStack().push(buffer.addressStack().peek().rowNumberIncrement());
+                    if (isNotFirst) {
+                        buffer.addressStack().push(buffer.addressStack().peek().rowNumberIncrement());
+                    }
+                    isNotFirst = true;
                     new CellHandler(buffer).handle((Cell) element);
                     break;
                 case HORIZONTAL_FOR:

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<forma-reader>
+  <sheet index="0">
+    <cell row="0" col="0" name="value1" />
+    <cell row="0" col="1" name="value2" />
+    <cell row="0" col="2" name="value3" />
+    <cell row="1" col="0" name="value4" />
+    <cell row="1" col="1" name="value5" />
+    <cell row="1" col="2" name="value6" />
+  </sheet>
+</forma-reader>

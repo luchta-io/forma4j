@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<forma>
+  <sheet name="test">
+    <horizontal-for item="data" collection="list" startRowIndex="3" startColumnIndex="5">
+      <cell>#{data}</cell>
+    </horizontal-for>
+  </sheet>
+</forma>
