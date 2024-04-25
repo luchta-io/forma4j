@@ -66,12 +66,12 @@ public class HorizontalForHandler {
                 case CELL:
                     new CellHandler(buffer).handle((Cell) element);
                     break;
-                case VERTICAL_FOR:
-                case HORIZONTAL_FOR:
-                case ROW:
                 case COLUMN:
                     new ColumnHandler(buffer).handle((Column) element);
                     break;
+                case VERTICAL_FOR:
+                case HORIZONTAL_FOR:
+                case ROW:
                 case SHEET:
                 case LIST:
                 default:
