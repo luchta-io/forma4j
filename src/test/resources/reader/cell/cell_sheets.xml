@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<forma-reader>
+  <sheet name="ひらがな">
+    <cell row="0" col="0" name="value1" />
+    <cell row="2" col="3" name="value2" />
+    <cell row="1" col="4" name="value3" />
+  </sheet>
+  <sheet name="カタカナ">
+    <cell row="5" col="1" name="value1" />
+  </sheet>
+  <sheet name="半角カタカナ">
+    <cell row="7" col="2" name="value1" />
+    <cell row="1" col="1" name="value2" />
+    <cell row="4" col="0" name="value3" />
+  </sheet>
+</forma-reader>
