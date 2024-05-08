@@ -39,13 +39,13 @@
 Gradle
 
 ```gradle
-implementation group: 'io.luchta', name: 'forma4j', version: '1.5.0', classifier: 'all'
+implementation group: 'io.luchta', name: 'forma4j', version: '1.5.1', classifier: 'all'
 ```
 
 Gradle (short)
 
 ```gradle
-implementation 'io.luchta:forma4j:1.5.0:all'
+implementation 'io.luchta:forma4j:1.5.1:all'
 ```
 
 [Maven Repository](https://mvnrepository.com/artifact/io.luchta/forma4j)
