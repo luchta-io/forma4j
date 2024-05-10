@@ -67,7 +67,6 @@ publishing {
     publications {
         shadow(MavenPublication) { publication ->
             artifactId = 'forma4j'
-//            project.shadow.component(publication)
             artifacts = [ shadowJar, javadocJar, sourcesJar ]
             pom {
                 name = 'forma4j'
