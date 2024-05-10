@@ -67,7 +67,8 @@ publishing {
     publications {
         shadow(MavenPublication) { publication ->
             artifactId = 'forma4j'
-            project.shadow.component(publication)
+//            project.shadow.component(publication)
+            artifacts = [ shadowJar, javadocJar, sourcesJar ]
             pom {
                 name = 'forma4j'
                 description = 'Excelの読み書きを行うライブラリ'
@@ -106,6 +107,10 @@ publishing {
 
 signing {
     sign publishing.publications.shadow
+}
+
+shadowJar {
+    archiveClassifier.set("")
 }
 
 generateGrammarSource {
