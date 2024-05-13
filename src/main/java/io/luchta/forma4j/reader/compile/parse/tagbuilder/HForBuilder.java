@@ -39,6 +39,16 @@ public class HForBuilder implements TagBuilder {
             errorMessages.add("to には0以上の整数を指定してください");
         }
 
+        Node rowNode = nodeMap.getNamedItem("row");
+        boolean rowIsUndefined = false;
+        if (rowNode == null) {
+            rowIsUndefined = true;
+        }
+        Integer rowNumber = convertNodeValueToInteger(rowNode);
+        if (rowNumber == null) {
+            errorMessages.add("row には0以上の整数を指定してください");
+        }
+
         String name = convertNodeValueToString(nodeMap.getNamedItem("name"));
         if (name == null) {
             errorMessages.add("name は必須入力です");
@@ -46,7 +56,7 @@ public class HForBuilder implements TagBuilder {
 
         addSyntaxErrors(errorMessages, syntaxErrors);
 
-        return new HForTag(new Index(fromNumber), fromIsUndefined, new Index(toNumber), toIsUndefined, new Name(name));
+        return new HForTag(new Index(fromNumber), fromIsUndefined, new Index(toNumber), toIsUndefined, new Index(rowNumber), rowIsUndefined, new Name(name));
     }
 
     private Integer convertNodeValueToInteger(Node node) {
