@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<forma>
+  <sheet name="test">
+    <row rowIndex="0" startColumnIndex="0">
+      <cell>#{value1-1}</cell>
+      <cell>#{value1-2}</cell>
+    </row>
+    <row rowIndex="1" startColumnIndex="0">
+      <cell>#{value2-1}</cell>
+      <cell>#{value2-2}</cell>
+    </row>
+    <row rowIndex="2" startColumnIndex="0">
+      <cell>#{value3-1}</cell>
+      <cell>#{value3-2}</cell>
+    </row>
+  </sheet>
+</forma>

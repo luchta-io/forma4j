@@ -16,7 +16,7 @@ plugins {
 }
 
 group = 'io.luchta'
-version = '1.5.0'
+version = '1.5.1'
 
 sourceCompatibility = compatibility
 targetCompatibility = compatibility
@@ -38,8 +38,8 @@ dependencies {
     implementation group: 'org.apache.poi', name: 'poi', version: '5.2.5'
     implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.2.5'
 
-    implementation "jakarta.xml.bind:jakarta.xml.bind-api:4.0.1"
-    implementation "com.sun.xml.bind:jaxb-impl:4.0.3"
+    implementation "jakarta.xml.bind:jakarta.xml.bind-api:4.0.2"
+    implementation "com.sun.xml.bind:jaxb-impl:4.0.5"
     
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.17.0'
     implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.17.0'
@@ -67,7 +67,7 @@ publishing {
     publications {
         shadow(MavenPublication) { publication ->
             artifactId = 'forma4j'
-            project.shadow.component(publication)
+            artifacts = [ shadowJar, javadocJar, sourcesJar ]
             pom {
                 name = 'forma4j'
                 description = 'Excelの読み書きを行うライブラリ'
@@ -106,6 +106,10 @@ publishing {
 
 signing {
     sign publishing.publications.shadow
+}
+
+shadowJar {
+    archiveClassifier.set("")
 }
 
 generateGrammarSource {

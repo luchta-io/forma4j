@@ -13,6 +13,11 @@ public class DateTime implements XlsxCellValue {
     }
 
     @Override
+    public boolean isEmpty() {
+        return value == null;
+    }
+
+    @Override
     public String toString() {
         if (value == null) return "";
         return value.toString();

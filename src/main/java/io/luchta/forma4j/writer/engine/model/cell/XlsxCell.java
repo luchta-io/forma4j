@@ -31,4 +31,8 @@ public class XlsxCell {
     public XlsxCellStyle style() {
     	return style;
     }
+
+    public boolean isEmpty() {
+        return value.isEmpty();
+    }
 }

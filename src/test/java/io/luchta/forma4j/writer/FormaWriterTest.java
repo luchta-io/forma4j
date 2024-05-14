@@ -3,6 +3,9 @@ package io.luchta.forma4j.writer;
 import io.luchta.forma4j.context.databind.json.JsonNode;
 import io.luchta.forma4j.context.databind.json.JsonNodes;
 import io.luchta.forma4j.context.databind.json.JsonObject;
+import io.luchta.forma4j.reader.FormaReader;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
@@ -45,14 +48,14 @@ public class FormaWriterTest {
     private JsonNodes データリスト() {
         JsonNodes jsonNodes = new JsonNodes();
         JsonNode jsonNode1 = new JsonNode();
-        jsonNode1.putVar("キー", new JsonObject("TEST\"-1"));
+        jsonNode1.putVar("キー", new JsonObject("TEST-1"));
         jsonNode1.putVar("件名", new JsonObject("xx機能実装する"));
-        jsonNode1.putVar("担当者", new JsonObject("ユー/ザA"));
-        jsonNode1.putVar("状態", new JsonObject("処理\b中"));
-        jsonNode1.putVar("可変項目リスト", new JsonObject(Arrays.asList("タス\rク", "v1.0.0\n\r.RELEASE", "1")));
-        jsonNode1.putVar("更新日時", new JsonObject("2020/11\n/5"));
-        jsonNode1.putVar("更新者", new JsonObject("ユーザ\tA"));
-        jsonNode1.putVar("登録日時", new JsonObject("2020\\u0041/11/2"));
+        jsonNode1.putVar("担当者", new JsonObject("ユーザA"));
+        jsonNode1.putVar("状態", new JsonObject("処理中"));
+        jsonNode1.putVar("可変項目リスト", new JsonObject(Arrays.asList("タスク", "v1.0.0.RELEASE", "1")));
+        jsonNode1.putVar("更新日時", new JsonObject("2020/11/5"));
+        jsonNode1.putVar("更新者", new JsonObject("ユーザA"));
+        jsonNode1.putVar("登録日時", new JsonObject("2020/11/2"));
         jsonNode1.putVar("登録者", new JsonObject("ユーザB"));
 
         jsonNodes.add(jsonNode1);
@@ -95,13 +98,13 @@ public class FormaWriterTest {
     private JsonNodes データリスト2() {
         JsonNodes jsonNodes = new JsonNodes();
         JsonNode jsonNode1 = new JsonNode();
-        jsonNode1.putVar("キー", new JsonObject("TEST\"-1"));
+        jsonNode1.putVar("キー", new JsonObject("TEST-1"));
         jsonNode1.putVar("件名", new JsonObject("xx機能実装する"));
-        jsonNode1.putVar("担当者", new JsonObject("ユー/ザA"));
-        jsonNode1.putVar("状態", new JsonObject("処理\b中"));
-        jsonNode1.putVar("更新日時", new JsonObject("2020/11\n/5"));
-        jsonNode1.putVar("更新者", new JsonObject("ユーザ\tA"));
-        jsonNode1.putVar("登録日時", new JsonObject("2020\\u0041/11/2"));
+        jsonNode1.putVar("担当者", new JsonObject("ユーザA"));
+        jsonNode1.putVar("状態", new JsonObject("処理中"));
+        jsonNode1.putVar("更新日時", new JsonObject("2020/11/5"));
+        jsonNode1.putVar("更新者", new JsonObject("ユーザA"));
+        jsonNode1.putVar("登録日時", new JsonObject("2020/11/2"));
         jsonNode1.putVar("登録者", new JsonObject("ユーザB"));
 
         jsonNodes.add(jsonNode1);
@@ -141,13 +144,13 @@ public class FormaWriterTest {
     private JsonNodes データリスト3() {
         JsonNodes jsonNodes = new JsonNodes();
         JsonNode jsonNode1 = new JsonNode();
-        jsonNode1.putVar("キー", new JsonObject("TEST\"-1"));
+        jsonNode1.putVar("キー", new JsonObject("TEST-1"));
         jsonNode1.putVar("件名", new JsonObject("xx機能実装する"));
-        jsonNode1.putVar("担当者", new JsonObject("ユー/ザA"));
-        jsonNode1.putVar("状態", new JsonObject("処理\b中"));
-        jsonNode1.putVar("更新日時", new JsonObject("2020/11\n/5"));
-        jsonNode1.putVar("更新者", new JsonObject("ユーザ\tA"));
-        jsonNode1.putVar("登録日時", new JsonObject("2020\\u0041/11/2"));
+        jsonNode1.putVar("担当者", new JsonObject("ユーザA"));
+        jsonNode1.putVar("状態", new JsonObject("処理中"));
+        jsonNode1.putVar("更新日時", new JsonObject("2020/11/5"));
+        jsonNode1.putVar("更新者", new JsonObject("ユーザA"));
+        jsonNode1.putVar("登録日時", new JsonObject("2020/11/2"));
         jsonNode1.putVar("登録者", new JsonObject("ユーザB"));
 
         jsonNodes.add(jsonNode1);
@@ -229,14 +232,14 @@ public class FormaWriterTest {
     private JsonNodes multiple_worksheet_test_data3() {
         JsonNodes jsonNodes = new JsonNodes();
         JsonNode jsonNode1 = new JsonNode();
-        jsonNode1.putVar("キー", new JsonObject("TEST\"-1"));
+        jsonNode1.putVar("キー", new JsonObject("TEST-1"));
         jsonNode1.putVar("件名", new JsonObject("xx機能実装する"));
-        jsonNode1.putVar("担当者", new JsonObject("ユー/ザA"));
-        jsonNode1.putVar("状態", new JsonObject("処理\b中"));
-        jsonNode1.putVar("可変項目リスト", new JsonObject(Arrays.asList("タス\rク", "v1.0.0.RELEASE", "1")));
-        jsonNode1.putVar("更新日時", new JsonObject("2020/11\n/5"));
-        jsonNode1.putVar("更新者", new JsonObject("ユーザ\tA"));
-        jsonNode1.putVar("登録日時", new JsonObject("2020\\u0041/11/2"));
+        jsonNode1.putVar("担当者", new JsonObject("ユーザA"));
+        jsonNode1.putVar("状態", new JsonObject("処理中"));
+        jsonNode1.putVar("可変項目リスト", new JsonObject(Arrays.asList("タスク", "v1.0.0.RELEASE", "1")));
+        jsonNode1.putVar("更新日時", new JsonObject("2020/11/5"));
+        jsonNode1.putVar("更新者", new JsonObject("ユーザA"));
+        jsonNode1.putVar("登録日時", new JsonObject("2020/11/2"));
         jsonNode1.putVar("登録者", new JsonObject("ユーザB"));
 
         jsonNodes.add(jsonNode1);
@@ -374,13 +377,13 @@ public class FormaWriterTest {
     private JsonNodes append_test_data() {
         JsonNodes jsonNodes = new JsonNodes();
         JsonNode jsonNode1 = new JsonNode();
-        jsonNode1.putVar("キー", new JsonObject("TEST\"-1"));
+        jsonNode1.putVar("キー", new JsonObject("TEST-1"));
         jsonNode1.putVar("件名", new JsonObject("xx機能実装する"));
-        jsonNode1.putVar("担当者", new JsonObject("ユー/ザA"));
-        jsonNode1.putVar("状態", new JsonObject("処理\b中"));
-        jsonNode1.putVar("更新日時", new JsonObject("2020/11\n/5"));
-        jsonNode1.putVar("更新者", new JsonObject("ユーザ\tA"));
-        jsonNode1.putVar("登録日時", new JsonObject("2020\\u0041/11/2"));
+        jsonNode1.putVar("担当者", new JsonObject("ユーザA"));
+        jsonNode1.putVar("状態", new JsonObject("処理中"));
+        jsonNode1.putVar("更新日時", new JsonObject("2020/11/5"));
+        jsonNode1.putVar("更新者", new JsonObject("ユーザA"));
+        jsonNode1.putVar("登録日時", new JsonObject("2020/11/2"));
         jsonNode1.putVar("登録者", new JsonObject("ユーザB"));
 
         jsonNodes.add(jsonNode1);
@@ -427,5 +430,27 @@ public class FormaWriterTest {
 
         FormaWriter sut = new FormaWriter();
         sut.write(in, out, new JsonObject());
+    }
+
+    /**
+     * エスケープシーケンスの出力テスト
+     * @throws IOException
+     */
+    @Test
+    void escape() throws IOException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream in = classLoader.getResource("writer/escape.xml").openStream();
+        File outFile = Files.createTempFile("test", String.format("%s.xlsx", LocalDateTime.now().toString())).toFile();
+        FileOutputStream out = new FileOutputStream(outFile);
+        logger.log(Level.INFO, "xlsxファイル出力先: " + outFile.getAbsolutePath());
+
+        JsonNode jsonNode = new JsonNode();
+        jsonNode.putVar("バックスラッシュ", new JsonObject("バックスラッシュ（\\）"));
+        jsonNode.putVar("ダブルクォーテーション", new JsonObject("ダブルクォーテーション（\"）"));
+        jsonNode.putVar("改行", new JsonObject("改行（\n）"));
+        jsonNode.putVar("タブ", new JsonObject("タブ（\t）"));
+
+        FormaWriter sut = new FormaWriter();
+        sut.write(in, out, new JsonObject(jsonNode));
     }
 }

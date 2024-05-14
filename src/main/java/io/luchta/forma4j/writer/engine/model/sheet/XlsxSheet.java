@@ -1,6 +1,8 @@
 package io.luchta.forma4j.writer.engine.model.sheet;
 
 import io.luchta.forma4j.writer.engine.buffer.accumulater.support.ColumnPropertyMap;
+import io.luchta.forma4j.writer.engine.model.cell.XlsxCell;
+import io.luchta.forma4j.writer.engine.model.cell.XlsxCellList;
 import io.luchta.forma4j.writer.engine.model.column.property.XlsxColumnProperties;
 import io.luchta.forma4j.writer.engine.model.row.XlsxRow;
 import io.luchta.forma4j.writer.engine.model.row.XlsxRowList;
@@ -32,5 +34,17 @@ public class XlsxSheet {
     public int columnSize() {
         XlsxRow longestRow = rows.getLongest();
         return longestRow.cells().size();
+    }
+
+    public boolean isEmptyColumn(int index) {
+        for (XlsxRow row : rows) {
+            XlsxCellList cells = row.cells();
+            for (XlsxCell cell : cells) {
+                if (cell.columnNumber().toInt() == index && cell.isEmpty()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

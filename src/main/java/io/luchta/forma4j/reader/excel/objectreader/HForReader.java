@@ -26,8 +26,8 @@ public class HForReader implements ObjectReader {
 
         HForTag hForTag = (HForTag) tagTree.getTag();
 
-        Integer row = rowIndex.toInteger();
-        Integer fromCol = hForTag.fromIsUndefined() ? rowIndex.toInteger() : hForTag.from().toInteger();
+        Integer row = hForTag.rowIsUndefined() ? rowIndex.toInteger() : hForTag.row().toInteger();
+        Integer fromCol = hForTag.fromIsUndefined() ? 0 : hForTag.from().toInteger();
         Integer toCol = hForTag.to().toInteger();
 
         ObjectReaderFactory factory = new ObjectReaderFactory();
@@ -47,14 +47,14 @@ public class HForReader implements ObjectReader {
                     } else {
                         r = sheet.getRow(cellTag.row().toInteger());
                     }
-                    if (r == null || r.getLastCellNum() == i) {
+                    if (r == null || r.getLastCellNum() <= i) {
                         isNotLastCellNum = false;
                         continue;
                     }
                 }
 
                 ObjectReaderFactoryParameter param = new ObjectReaderFactoryParameter(
-                        sheet, rowIndex, new Index(i), child, tag
+                        sheet, new Index(row), new Index(i), child, tag
                 );
                 ObjectReader reader = factory.create(param);
                 JsonNode node = reader.read();
@@ -62,7 +62,7 @@ public class HForReader implements ObjectReader {
                     resultNode.putVar(entry.getKey() + (i - fromCol + 1), entry.getValue());
                 }
             }
-            if (!hForTag.toIsUndefined() && toCol < i) {
+            if (!hForTag.toIsUndefined() && toCol <= i) {
                 break;
             } else if (hForTag.toIsUndefined() && !isNotLastCellNum) {
                 break;
