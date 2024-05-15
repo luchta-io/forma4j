@@ -4,6 +4,10 @@
         <row rowIndex="0" startColumnIndex="0">
             <!-- サポートしているプロパティ -->
             <cell style="border:thin;">border</cell>
+            <cell style="border-top:thin;">border-top</cell>
+            <cell style="border-bottom:thin;">border-bottom</cell>
+            <cell style="border-left:thin;">border-left</cell>
+            <cell style="border-right:thin;">border-right</cell>
             <cell style="font-size:16;">font-size</cell>
             <cell style="font-style:bold;">font-style bold</cell>
             <cell style="font-style:italic;">font-style italic</cell>

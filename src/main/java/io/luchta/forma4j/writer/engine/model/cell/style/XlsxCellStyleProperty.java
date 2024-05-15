@@ -1,5 +1,6 @@
 package io.luchta.forma4j.writer.engine.model.cell.style;
 
+import io.luchta.forma4j.writer.engine.model.cell.style.border.*;
 import io.luchta.forma4j.writer.processor.poi.CellStyleBuilder;
 
 public interface XlsxCellStyleProperty {
@@ -18,6 +19,14 @@ public interface XlsxCellStyleProperty {
                 return new BackGroundColorProperty(value);
             case BorderProperty.NAME:
                 return new BorderProperty(value);
+            case BorderLeftProperty.NAME:
+                return new BorderLeftProperty(value);
+            case BorderRightProperty.NAME:
+                return new BorderRightProperty(value);
+            case BorderTopProperty.NAME:
+                return new BorderTopProperty(value);
+            case BorderBottomProperty.NAME:
+                return new BorderBottomProperty(value);
             case FontSizeProperty.NAME:
                 return new FontSizeProperty(value);
             case FontStyleProperty.NAME:

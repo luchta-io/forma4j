@@ -37,9 +37,25 @@ public class CellStyleBuilder {
     }
 
     public void setBorder(BorderStyle borderStyle) {
+        setBorderLeft(borderStyle);
+        setBorderTop(borderStyle);
+        setBorderRight(borderStyle);
+        setBorderBottom(borderStyle);
+    }
+
+    public void setBorderLeft(BorderStyle borderStyle) {
         targetStyle.setBorderLeft(borderStyle);
-        targetStyle.setBorderTop(borderStyle);
+    }
+
+    public void setBorderRight(BorderStyle borderStyle) {
         targetStyle.setBorderRight(borderStyle);
+    }
+
+    public void setBorderTop(BorderStyle borderStyle) {
+        targetStyle.setBorderTop(borderStyle);
+    }
+
+    public void setBorderBottom(BorderStyle borderStyle) {
         targetStyle.setBorderBottom(borderStyle);
     }
 
