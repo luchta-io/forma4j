@@ -7,18 +7,26 @@
 | プロパティ名 | 役割 |
 | --- | --- |
 | border | 罫線の設定を行います。 |
+| border-left | セルの左の罫線の設定を行います。 |
+| border-right | セルの右の罫線の設定を行います。 |
+| border-top | セルの上部の罫線の設定を行います。 |
+| border-bottom | セルの下部の罫線の設定を行います。 |
 | font-size | フォントサイズの設定を行います。|
 | font-style | フォントスタイルの設定を行います。 |
 | wrapText | テキストの折り返し設定を行います。 |
 | background-color | 背景色の設定を行います。 |
 | width | カラム幅の設置を行います。 |
 
-## border
+## border, border-left, border-right, border-top, border-bottom
 
 設定例
 
 ```xml
 <cell style="border:thin;">value</cell>
+<cell style="border-left:thin;">value</cell>
+<cell style="border-right:thin;">value</cell>
+<cell style="border-top:thin;">value</cell>
+<cell style="border-bottom:thin;">value</cell>
 ```
 
 種別
