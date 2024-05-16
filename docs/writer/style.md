@@ -6,17 +6,28 @@
 
 | プロパティ名 | 役割 |
 | --- | --- |
+| background-color | 背景色の設定を行います。 |
 | border | 罫線の設定を行います。 |
 | border-left | セルの左の罫線の設定を行います。 |
 | border-right | セルの右の罫線の設定を行います。 |
 | border-top | セルの上部の罫線の設定を行います。 |
 | border-bottom | セルの下部の罫線の設定を行います。 |
 | color | 文字色の設定を行います。 |
+| font-family | フォントファミリーの設定を行います。|
 | font-size | フォントサイズの設定を行います。|
 | font-style | フォントスタイルの設定を行います。 |
-| wrapText | テキストの折り返し設定を行います。 |
-| background-color | 背景色の設定を行います。 |
 | width | カラム幅の設置を行います。 |
+| wrapText | テキストの折り返し設定を行います。 |
+
+## background-color
+
+設定例
+
+```xml
+<cell style="background-color:#FFC000">value</cell>
+```
+
+背景色をRBG値で設定します。
 
 ## border, border-left, border-right, border-top, border-bottom
 
@@ -68,6 +79,16 @@
 
 フォントサイズを数値で設定します。
 
+## font-family
+
+設定例
+
+```xml
+<cell style="font-family:Meiryo UI;">value</cell>
+```
+
+フォントファミリーを設定します。
+
 ## font-style
 
 設定例
@@ -84,6 +105,16 @@
 | italic | 斜体 |
 | bold-italic | 太字斜体 |
 
+## width
+
+設定例
+
+```xml
+<cell style="width:100">value</cell>
+```
+
+幅を数値で指定します。0から255までの値を設定できます。
+
 ## wrapText
 
 設定例
@@ -98,26 +129,6 @@
 | --- | --- |
 | true | セルに折り返し設定を行います。 |
 | false | セルに折り返し設定を行いません。 |
-
-## background-color
-
-設定例
-
-```xml
-<cell style="background-color:#FFC000">value</cell>
-```
-
-背景色をRBG値で設定します。
-
-## width
-
-設定例
-
-```xml
-<cell style="width:100">value</cell>
-```
-
-幅を数値で指定します。0から255までの値を設定できます。
 
 ## 複数スタイル設定
 

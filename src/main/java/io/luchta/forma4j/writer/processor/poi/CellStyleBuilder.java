@@ -82,4 +82,8 @@ public class CellStyleBuilder {
             ((XSSFFont) targetFont).setColor(color);
         }
     }
+
+    public void setFontFamily(String fontFamily) {
+        targetFont.setFontName(fontFamily);
+    }
 }
