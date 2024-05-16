@@ -11,6 +11,7 @@
 | border-right | セルの右の罫線の設定を行います。 |
 | border-top | セルの上部の罫線の設定を行います。 |
 | border-bottom | セルの下部の罫線の設定を行います。 |
+| color | 文字色の設定を行います。 |
 | font-size | フォントサイズの設定を行います。|
 | font-style | フォントスタイルの設定を行います。 |
 | wrapText | テキストの折り返し設定を行います。 |
@@ -46,6 +47,16 @@
 | dash_dot_dot | 長点点線 |
 | medium_dash_dot_dot | 長点点線（中太線） |
 | slanted_dash_dot | 斜長点線 |
+
+## color
+
+設定例
+
+```xml
+<cell style="color:#FFC000">value</cell>
+```
+
+文字色をRBG値で設定します。
 
 ## font-size
 
