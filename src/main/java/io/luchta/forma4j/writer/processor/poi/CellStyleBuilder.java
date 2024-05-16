@@ -2,6 +2,7 @@ package io.luchta.forma4j.writer.processor.poi;
 
 import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyle;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 
 public class CellStyleBuilder {
@@ -54,7 +55,8 @@ public class CellStyleBuilder {
     public void setBackGroundColor(String argb) {
         XSSFColor color = new XSSFColor();
         color.setARGBHex(argb);
-        targetStyle.setFillForegroundColor(color);
+
+        ((XSSFCellStyle) targetStyle).setFillForegroundColor(color);
         targetStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
     }
 }
