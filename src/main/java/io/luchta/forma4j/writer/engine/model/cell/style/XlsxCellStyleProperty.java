@@ -27,6 +27,8 @@ public interface XlsxCellStyleProperty {
                 return new BorderTopProperty(value);
             case BorderBottomProperty.NAME:
                 return new BorderBottomProperty(value);
+            case ColorProperty.NAME:
+                return new ColorProperty(value);
             case FontSizeProperty.NAME:
                 return new FontSizeProperty(value);
             case FontStyleProperty.NAME:
