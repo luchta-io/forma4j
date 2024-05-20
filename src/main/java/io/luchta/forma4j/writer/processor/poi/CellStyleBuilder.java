@@ -3,6 +3,7 @@ package io.luchta.forma4j.writer.processor.poi;
 import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyle;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFFont;
 
 public class CellStyleBuilder {
     XlsxCellStyle definition;
@@ -37,9 +38,25 @@ public class CellStyleBuilder {
     }
 
     public void setBorder(BorderStyle borderStyle) {
+        setBorderLeft(borderStyle);
+        setBorderTop(borderStyle);
+        setBorderRight(borderStyle);
+        setBorderBottom(borderStyle);
+    }
+
+    public void setBorderLeft(BorderStyle borderStyle) {
         targetStyle.setBorderLeft(borderStyle);
-        targetStyle.setBorderTop(borderStyle);
+    }
+
+    public void setBorderRight(BorderStyle borderStyle) {
         targetStyle.setBorderRight(borderStyle);
+    }
+
+    public void setBorderTop(BorderStyle borderStyle) {
+        targetStyle.setBorderTop(borderStyle);
+    }
+
+    public void setBorderBottom(BorderStyle borderStyle) {
         targetStyle.setBorderBottom(borderStyle);
     }
 
@@ -56,5 +73,17 @@ public class CellStyleBuilder {
         color.setARGBHex(argb);
         targetStyle.setFillForegroundColor(color);
         targetStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+    }
+
+    public void setColor(String argb) {
+        XSSFColor color = new XSSFColor();
+        color.setARGBHex(argb);
+        if (targetFont instanceof XSSFFont) {
+            ((XSSFFont) targetFont).setColor(color);
+        }
+    }
+
+    public void setFontFamily(String fontFamily) {
+        targetFont.setFontName(fontFamily);
     }
 }

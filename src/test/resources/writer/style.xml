@@ -4,10 +4,15 @@
         <row rowIndex="0" startColumnIndex="0">
             <!-- サポートしているプロパティ -->
             <cell style="border:thin;">border</cell>
+            <cell style="border-top:thin;">border-top</cell>
+            <cell style="border-bottom:thin;">border-bottom</cell>
+            <cell style="border-left:thin;">border-left</cell>
+            <cell style="border-right:thin;">border-right</cell>
             <cell style="font-size:16;">font-size</cell>
             <cell style="font-style:bold;">font-style bold</cell>
             <cell style="font-style:italic;">font-style italic</cell>
             <cell style="font-style:bold-italic;">font-style bold and italic</cell>
+            <cell style="font-family:Meiryo UI;">font-family Meiryo UI</cell>
             <cell style="wrapText:true;">wrapTextプロパティをtrueに設定するとセル内で文字列が改行されるようになります。</cell>
             <cell style="width:50">widthプロパティを設定するとセル幅を指定できます</cell>
             <cell>widthプロパティを設定しないとセル幅が自動設定されます</cell>
@@ -20,6 +25,8 @@
             <cell style=":">Style文字列が文法に合わない場合は無視する</cell>
             <!-- 背景色 -->
             <cell style="background-color: #FFC000">背景色をRGBで設定できる</cell>
+            <!-- 文字色 -->
+            <cell style="color: #FFC000">文字色をRGBで設定できる</cell>
         </row>
     </sheet>
 </forma>
