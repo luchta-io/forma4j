@@ -12,6 +12,9 @@ import io.luchta.forma4j.writer.engine.model.cell.address.XlsxColumnNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxRowNumber;
 import io.luchta.forma4j.writer.engine.model.row.address.XlsxRowAddress;
 import io.luchta.forma4j.writer.engine.model.row.property.AutoFilterProperty;
+import io.luchta.forma4j.writer.engine.resolver.VariableResolver;
+
+import java.util.List;
 
 /**
  * Rowタグのハンドラクラス
@@ -60,6 +63,21 @@ public class RowHandler {
                     new CellHandler(buffer).handle((Cell) element);
                     break;
                 case HORIZONTAL_FOR:
+                    HorizontalFor horizontalFor = (HorizontalFor) element;
+                    VariableResolver variableResolver = buffer.variableResolver();
+                    List<Object> collection = variableResolver.getList(horizontalFor.collection().toString());
+                    if (collection.size() == 0) {
+                        break;
+                    }
+
+                    if (!horizontalFor.hasChildren()) {
+                        break;
+                    }
+
+                    if (isNotFirst) {
+                        buffer.addressStack().push(buffer.addressStack().peek().columnNumberIncrement());
+                    }
+                    isNotFirst = true;
                     new HorizontalForHandler(buffer).handle((HorizontalFor) element);
                     break;
                 case VERTICAL_FOR:
