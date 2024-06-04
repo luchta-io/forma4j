@@ -16,7 +16,7 @@ plugins {
 }
 
 group = 'io.luchta'
-version = '1.6.1'
+version = '1.6.2'
 
 sourceCompatibility = compatibility
 targetCompatibility = compatibility
@@ -42,7 +42,7 @@ dependencies {
     implementation "com.sun.xml.bind:jaxb-impl:4.0.5"
     
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.17.1'
-    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.17.0'
+    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.17.1'
 
     antlr "org.antlr:antlr4:4.13.1"
 
