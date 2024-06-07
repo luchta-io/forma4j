@@ -5,6 +5,7 @@ import io.luchta.forma4j.context.databind.json.JsonObject;
 import io.luchta.forma4j.reader.model.excel.Index;
 import io.luchta.forma4j.reader.model.tag.CellTag;
 import io.luchta.forma4j.reader.model.tag.TagTree;
+import org.apache.poi.ss.formula.FormulaParseException;
 import org.apache.poi.ss.usermodel.*;
 
 import java.time.Instant;
@@ -12,13 +13,38 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
+/**
+ * セル読み込みクラス
+ */
 public class CellReader implements ObjectReader {
 
-    Sheet sheet;
-    Index rowIndex;
-    Index colIndex;
-    TagTree tagTree;
+    /**
+     * シート
+     */
+    private Sheet sheet;
 
+    /**
+     * 行インデックス
+     */
+    private Index rowIndex;
+
+    /**
+     * 列インデックス
+     */
+    private Index colIndex;
+
+    /**
+     * タグ
+     */
+    private TagTree tagTree;
+
+    /**
+     * コンストラクタ
+     * @param sheet
+     * @param rowIndex
+     * @param colIndex
+     * @param tagTree
+     */
     public CellReader(Sheet sheet, Index rowIndex, Index colIndex, TagTree tagTree) {
         this.sheet = sheet;
         this.rowIndex = rowIndex;
@@ -26,6 +52,13 @@ public class CellReader implements ObjectReader {
         this.tagTree = tagTree;
     }
 
+    /**
+     * 読み込み処理
+     * <p>
+     * セルの値を読み取り、読み取り結果を返す。
+     * </p>
+     * @return 読み込み結果
+     */
     @Override
     public JsonNode read() {
 
@@ -42,19 +75,46 @@ public class CellReader implements ObjectReader {
         }
         Cell cell = sheet.getRow(row).getCell(col);
 
-        if (cell == null || cell.getCellType() == CellType.BLANK) {
-            return setValue(names, new JsonObject());
-        } else if (cell.getCellType() == CellType.NUMERIC) {
-            if (DateUtil.isCellDateFormatted(cell)) {
-                Date date = cell.getDateCellValue();
-                Instant instant = date.toInstant();
-                return setValue(names, new JsonObject(LocalDateTime.ofInstant(instant, ZoneId.systemDefault())));
-            } else {
-                return setValue(names, new JsonObject(cell.getNumericCellValue()));
-            }
+        return setValue(names, cellValue(cell));
+    }
+
+    /**
+     * セルの値を読み取る
+     * @param cell 読み取りを行うセル
+     * @return 読み込み結果
+     */
+    private JsonObject cellValue(Cell cell) {
+        FormulaEvaluator formulaEvaluator = sheet.getWorkbook().getCreationHelper().createFormulaEvaluator();
+
+        CellValue cellValue = null;
+        try {
+            cellValue = formulaEvaluator.evaluate(cell);
+        } catch (Exception ex) {
+            return new JsonObject(cell.getErrorCellValue());
         }
 
-        return setValue(names, new JsonObject(cell.toString()));
+        if (cellValue == null) {
+            return new JsonObject();
+        }
+
+        // セルの種別に応じて読み込み処理を分岐する
+        switch (cellValue.getCellType()) {
+            case STRING:
+                return new JsonObject(cellValue.getStringValue());
+            case NUMERIC:
+                if (DateUtil.isCellDateFormatted(cell)) {
+                    // セルの値が数値かつ日付フォーマットであれば日付として読み込みを行う
+                    return new JsonObject(cell.getLocalDateTimeCellValue());
+                } else {
+                    return new JsonObject(cellValue.getNumberValue());
+                }
+            case BOOLEAN:
+                return new JsonObject(cellValue.getBooleanValue());
+            case ERROR:
+                return new JsonObject(cellValue.getErrorValue());
+            default:
+                return new JsonObject();
+        }
     }
 
     private JsonNode setValue(String[] names, JsonObject jsonObject) {

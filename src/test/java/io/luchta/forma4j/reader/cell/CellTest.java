@@ -1,9 +1,11 @@
 package io.luchta.forma4j.reader.cell;
 
+import io.luchta.forma4j.context.databind.convert.JsonSerializer;
 import io.luchta.forma4j.context.databind.json.JsonNode;
 import io.luchta.forma4j.context.databind.json.JsonNodes;
 import io.luchta.forma4j.context.databind.json.JsonObject;
 import io.luchta.forma4j.reader.FormaReader;
+import org.apache.poi.ss.usermodel.FormulaError;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,6 +13,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * cellタグに関するテスト
@@ -138,6 +142,137 @@ public class CellTest {
             JsonNode value = ((JsonNode) cell.getValue());
 
             Assertions.assertEquals(true, value.getVar("value1").isEmpty());
+        }
+    }
+
+    /**
+     * cellタグを使用して未入力行のセルの値を読み取るテスト
+     */
+    @Test
+    public void cell_empty_row() throws Exception {
+        try (InputStream config = new FileInputStream(this.getClass().getClassLoader().getResource("reader/cell/cell_empty_row.xml").getPath());
+             InputStream excel = new FileInputStream(this.getClass().getClassLoader().getResource("reader/Test.xlsx").getPath());) {
+            FormaReader formaReader = new FormaReader();
+            JsonObject obj = formaReader.read(config, excel);
+
+            Object root = obj.getValue();
+            Assertions.assertEquals(true, root instanceof JsonNode);
+
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
+            Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
+
+            JsonObject cell = ((JsonNode) sheet.getValue()).getVar("ひらがな");
+            Assertions.assertEquals(true, cell.getValue() instanceof JsonNode);
+
+            JsonNode value = ((JsonNode) cell.getValue());
+
+            Assertions.assertEquals(true, value.getVar("value").isEmpty());
+        }
+    }
+
+    /**
+     * 数値が入力されているcellの値を読み取るテスト
+     */
+    @Test
+    public void cell_read_numeric() throws Exception {
+        try (InputStream config = new FileInputStream(this.getClass().getClassLoader().getResource("reader/cell/cell_read_numeric.xml").getPath());
+             InputStream excel = new FileInputStream(this.getClass().getClassLoader().getResource("reader/Test.xlsx").getPath());) {
+            FormaReader formaReader = new FormaReader();
+            JsonObject obj = formaReader.read(config, excel);
+
+            Object root = obj.getValue();
+            Assertions.assertEquals(true, root instanceof JsonNode);
+
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
+            Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
+
+            JsonObject cell = ((JsonNode) sheet.getValue()).getVar("数値");
+            Assertions.assertEquals(true, cell.getValue() instanceof JsonNode);
+
+            JsonNode value = ((JsonNode) cell.getValue());
+
+            Assertions.assertEquals(1.0, value.getVar("value").getValue());
+        }
+    }
+
+    /**
+     * 日時が入力されているcellの値を読み取るテスト
+     */
+    @Test
+    public void cell_read_date() throws Exception {
+        try (InputStream config = new FileInputStream(this.getClass().getClassLoader().getResource("reader/cell/cell_read_date.xml").getPath());
+             InputStream excel = new FileInputStream(this.getClass().getClassLoader().getResource("reader/Test.xlsx").getPath());) {
+            FormaReader formaReader = new FormaReader();
+            JsonObject obj = formaReader.read(config, excel);
+
+            Object root = obj.getValue();
+            Assertions.assertEquals(true, root instanceof JsonNode);
+
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
+            Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
+
+            JsonObject cell = ((JsonNode) sheet.getValue()).getVar("日付");
+            Assertions.assertEquals(true, cell.getValue() instanceof JsonNode);
+
+            JsonNode value = ((JsonNode) cell.getValue());
+
+            Assertions.assertEquals(LocalDateTime.of(2024, 6, 1, 0, 0, 0, 0), value.getVar("value").getValue());
+        }
+    }
+
+    /**
+     * 真理値が入力されているcellの値を読み取るテスト
+     */
+    @Test
+    public void cell_read_bool() throws Exception {
+        try (InputStream config = new FileInputStream(this.getClass().getClassLoader().getResource("reader/cell/cell_read_bool.xml").getPath());
+             InputStream excel = new FileInputStream(this.getClass().getClassLoader().getResource("reader/Test.xlsx").getPath());) {
+            FormaReader formaReader = new FormaReader();
+            JsonObject obj = formaReader.read(config, excel);
+
+            Object root = obj.getValue();
+            Assertions.assertEquals(true, root instanceof JsonNode);
+
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
+            Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
+
+            JsonObject cell = ((JsonNode) sheet.getValue()).getVar("真理値");
+            Assertions.assertEquals(true, cell.getValue() instanceof JsonNode);
+
+            JsonNode value = ((JsonNode) cell.getValue());
+
+            Assertions.assertEquals(true, value.getVar("value").getValue());
+        }
+    }
+
+    /**
+     * 計算式が入力されているcellの値を読み取るテスト
+     */
+    @Test
+    public void cell_read_fomula() throws Exception {
+        try (InputStream config = new FileInputStream(this.getClass().getClassLoader().getResource("reader/cell/cell_read_fomula.xml").getPath());
+             InputStream excel = new FileInputStream(this.getClass().getClassLoader().getResource("reader/Test.xlsx").getPath());) {
+            FormaReader formaReader = new FormaReader();
+            JsonObject obj = formaReader.read(config, excel);
+
+            Object root = obj.getValue();
+            Assertions.assertEquals(true, root instanceof JsonNode);
+
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
+            Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
+
+            JsonObject cell = ((JsonNode) sheet.getValue()).getVar("計算式");
+            Assertions.assertEquals(true, cell.getValue() instanceof JsonNodes);
+
+            JsonNodes values = ((JsonNodes) cell.getValue());
+
+            Assertions.assertEquals("あああああ", values.get(0).getVar("string").getValue());
+            Assertions.assertEquals(50.0, values.get(1).getVar("number").getValue());
+            Assertions.assertEquals(LocalDateTime.of(2024, 7, 21, 0, 0, 0, 0), values.get(2).getVar("date").getValue());
+            Assertions.assertEquals(true, values.get(3).getVar("bool").getValue());
+            Assertions.assertEquals(FormulaError.DIV0.getLongCode(), values.get(4).getVar("error").getValue());
+            Assertions.assertEquals(FormulaError.NAME.getLongCode(), values.get(5).getVar("exception").getValue());
+            Assertions.assertEquals(null, values.get(6).getVar("blank").getValue());
         }
     }
 }
