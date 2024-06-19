@@ -28,5 +28,19 @@
             <!-- 文字色 -->
             <cell style="color: #FFC000">文字色をRGBで設定できる</cell>
         </row>
+        <row rowIndex="1" startColumnIndex="0">
+            <!-- 文字の縦方向の位置 -->
+            <cell style="v-align:top;h-align:center">上揃え</cell>
+            <cell style="v-align:center">中央揃え</cell>
+            <cell style="v-align:bottom">下揃え</cell>
+            <cell style="v-align:justify">両端揃え</cell>
+            <!-- 文字の横方向の位置 -->
+            <cell style="h-align:left">左詰め</cell>
+            <cell style="h-align:center">中央揃え</cell>
+            <cell style="h-align:right">右詰め</cell>
+            <cell style="h-align:justify">両端揃え</cell>
+            <cell style="h-align:fill">繰り返し</cell>
+            <cell style="h-align:center-selection">選択範囲内で中央</cell>
+        </row>
     </sheet>
 </forma>

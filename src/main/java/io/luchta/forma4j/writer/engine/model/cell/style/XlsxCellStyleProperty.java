@@ -1,5 +1,7 @@
 package io.luchta.forma4j.writer.engine.model.cell.style;
 
+import io.luchta.forma4j.writer.engine.model.cell.style.align.HorizontalAlignProperty;
+import io.luchta.forma4j.writer.engine.model.cell.style.align.VerticalAlignProperty;
 import io.luchta.forma4j.writer.engine.model.cell.style.border.*;
 import io.luchta.forma4j.writer.processor.poi.CellStyleBuilder;
 
@@ -35,6 +37,10 @@ public interface XlsxCellStyleProperty {
                 return new FontSizeProperty(value);
             case FontStyleProperty.NAME:
                 return new FontStyleProperty(value);
+            case HorizontalAlignProperty.NAME:
+                return new HorizontalAlignProperty(value);
+            case VerticalAlignProperty.NAME:
+                return new VerticalAlignProperty(value);
             case WrapTextProperty.NAME:
                 return new WrapTextProperty(value);
             default:
