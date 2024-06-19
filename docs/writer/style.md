@@ -16,6 +16,8 @@
 | font-family | フォントファミリーの設定を行います。|
 | font-size | フォントサイズの設定を行います。|
 | font-style | フォントスタイルの設定を行います。 |
+| h-align | セル内の水平方向の文字位置設定を行います。 |
+| v-align | セル内の垂直方向の文字位置設定を行います。 |
 | width | カラム幅の設置を行います。 |
 | wrapText | テキストの折り返し設定を行います。 |
 
@@ -114,6 +116,42 @@
 ```
 
 幅を数値で指定します。0から255までの値を設定できます。
+
+## h-align
+
+設定例
+
+```xml
+<cell style="h-align:left">value</cell>
+```
+
+種別
+
+| 種別 | 説明 |
+| --- | --- |
+| left | 左詰め |
+| center | 中央揃え |
+| right | 右詰め |
+| justify | 両端揃え |
+| fill | 繰り返し |
+| center-selection | 選択範囲内で中央 |
+
+## v-align
+
+設定例
+
+```xml
+<cell style="v-align:top">value</cell>
+```
+
+種別
+
+| 種別 | 説明 |
+| --- | --- |
+| top | 上詰め |
+| center | 中央揃え |
+| bottom | 下詰め |
+| justify | 両端揃え |
 
 ## wrapText
 
