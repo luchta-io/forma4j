@@ -4,6 +4,6 @@
     <cell rowIndex="0" columnIndex="0">#{データ.キー１}</cell>
     <cell rowIndex="0" columnIndex="1">#{データ.キー２}</cell>
     <cell rowIndex="1" columnIndex="0">#{データ.キー３}</cell>
-    <cell rowIndex="0" columnIndex="1">#{データ.キー４}</cell>
+    <cell rowIndex="1" columnIndex="1">#{データ.キー４}</cell>
   </sheet>
 </forma>

@@ -14,6 +14,14 @@ public class ElementList implements Iterable<Element> {
         this.list = list;
     }
 
+    public int size() {
+        return list.size();
+    }
+
+    public Element get(int index) {
+        return list.get(index);
+    }
+
     @Override
     public Iterator<Element> iterator() {
         return list.iterator();

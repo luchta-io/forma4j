@@ -40,22 +40,18 @@ public class SheetTest {
         JsonNode rootNode = new JsonNode();
 
         JsonNode sheetNode1 = new JsonNode();
-        JsonNode sheetNode1Data = new JsonNode();
-        sheetNode1Data.putVar("キー１", new JsonObject("あいうえお"));
-        sheetNode1Data.putVar("キー２", new JsonObject("かきくけこ"));
-        sheetNode1Data.putVar("キー３", new JsonObject("さしすせそ"));
-        sheetNode1Data.putVar("キー４", new JsonObject("たちつてと"));
         sheetNode1.putVar("sheetName", new JsonObject("シート名１"));
-        sheetNode1.putVar("data", new JsonObject(sheetNode1Data));
+        sheetNode1.putVar("キー１", new JsonObject("あいうえお"));
+        sheetNode1.putVar("キー２", new JsonObject("かきくけこ"));
+        sheetNode1.putVar("キー３", new JsonObject("さしすせそ"));
+        sheetNode1.putVar("キー４", new JsonObject("たちつてと"));
 
         JsonNode sheetNode2 = new JsonNode();
-        JsonNode sheetNode2Data = new JsonNode();
-        sheetNode1Data.putVar("キー１", new JsonObject("なにぬねの"));
-        sheetNode1Data.putVar("キー２", new JsonObject("はひふへほ"));
-        sheetNode1Data.putVar("キー３", new JsonObject("まみむめも"));
-        sheetNode1Data.putVar("キー４", new JsonObject("やゆよ"));
         sheetNode2.putVar("sheetName", new JsonObject("シート名２"));
-        sheetNode2.putVar("data", new JsonObject(sheetNode2Data));
+        sheetNode2.putVar("キー１", new JsonObject("なにぬねの"));
+        sheetNode2.putVar("キー２", new JsonObject("はひふへほ"));
+        sheetNode2.putVar("キー３", new JsonObject("まみむめも"));
+        sheetNode2.putVar("キー４", new JsonObject("やゆよ"));
 
         JsonNodes sheetListNode = new JsonNodes();
         sheetListNode.add(sheetNode1);
@@ -79,22 +75,22 @@ public class SheetTest {
         JsonObject sheet = ((JsonNode) root).getVar("forma");
         Assertions.assertEquals(true, sheet.getValue() instanceof JsonNodes);
 
-        JsonObject cells1 = ((JsonNode) sheet.getValue()).getVar("シート名１");
+        JsonObject cells1 = ((JsonNodes) sheet.getValue()).get(0).getVar("シート名１");
         Assertions.assertEquals(true, cells1.getValue() instanceof JsonNodes);
 
         JsonNodes values1 = ((JsonNodes) cells1.getValue());
         Assertions.assertEquals("あいうえお", values1.get(0).getVar("キー１").getValue().toString());
-        Assertions.assertEquals("かきくけこ", values1.get(0).getVar("キー２").getValue().toString());
-        Assertions.assertEquals("さしすせそ", values1.get(0).getVar("キー３").getValue().toString());
-        Assertions.assertEquals("たちつてと", values1.get(0).getVar("キー４").getValue().toString());
+        Assertions.assertEquals("かきくけこ", values1.get(1).getVar("キー２").getValue().toString());
+        Assertions.assertEquals("さしすせそ", values1.get(2).getVar("キー３").getValue().toString());
+        Assertions.assertEquals("たちつてと", values1.get(3).getVar("キー４").getValue().toString());
 
-        JsonObject cells2 = ((JsonNode) sheet.getValue()).getVar("シート名２");
+        JsonObject cells2 = ((JsonNodes) sheet.getValue()).get(1).getVar("シート名２");
         Assertions.assertEquals(true, cells2.getValue() instanceof JsonNodes);
 
         JsonNodes values2 = ((JsonNodes) cells2.getValue());
         Assertions.assertEquals("なにぬねの", values2.get(0).getVar("キー１").getValue().toString());
-        Assertions.assertEquals("はひふへほ", values2.get(0).getVar("キー２").getValue().toString());
-        Assertions.assertEquals("まみむめも", values2.get(0).getVar("キー３").getValue().toString());
-        Assertions.assertEquals("やゆよ", values2.get(0).getVar("キー４").getValue().toString());
+        Assertions.assertEquals("はひふへほ", values2.get(1).getVar("キー２").getValue().toString());
+        Assertions.assertEquals("まみむめも", values2.get(2).getVar("キー３").getValue().toString());
+        Assertions.assertEquals("やゆよ", values2.get(3).getVar("キー４").getValue().toString());
     }
 }
