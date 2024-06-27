@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<forma-reader>
+  <sheet name="シート名１">
+    <cell row="0" col="0" name="キー１" />
+    <cell row="0" col="1" name="キー２" />
+    <cell row="1" col="0" name="キー３" />
+    <cell row="1" col="1" name="キー４" />
+  </sheet>
+  <sheet name="シート名２">
+    <cell row="0" col="0" name="キー１" />
+    <cell row="0" col="1" name="キー２" />
+    <cell row="1" col="0" name="キー３" />
+    <cell row="1" col="1" name="キー４" />
+  </sheet>
+</forma-reader>
