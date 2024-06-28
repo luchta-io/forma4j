@@ -8,13 +8,12 @@ import io.luchta.forma4j.writer.engine.model.cell.address.XlsxCellAddress;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxColumnNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxRowNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxSheetName;
+import io.luchta.forma4j.writer.engine.model.cell.value.Text;
+import io.luchta.forma4j.writer.engine.model.cell.value.XlsxCellValue;
 import io.luchta.forma4j.writer.engine.model.column.XlsxColumnAddress;
 import io.luchta.forma4j.writer.engine.model.column.property.XlsxColumnProperties;
 import io.luchta.forma4j.writer.engine.model.column.property.XlsxColumnProperty;
-import io.luchta.forma4j.writer.engine.model.column.property.XlsxColumnStyle;
 import io.luchta.forma4j.writer.engine.resolver.StyleResolver;
-import io.luchta.forma4j.writer.engine.model.cell.value.Text;
-import io.luchta.forma4j.writer.engine.model.cell.value.XlsxCellValue;
 
 /**
  * Cellハンドルクラス

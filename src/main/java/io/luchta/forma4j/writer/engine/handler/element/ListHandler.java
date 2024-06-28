@@ -10,8 +10,8 @@ import io.luchta.forma4j.writer.engine.model.cell.XlsxCell;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxCellAddress;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxColumnNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxRowNumber;
-import io.luchta.forma4j.writer.engine.resolver.StyleResolver;
 import io.luchta.forma4j.writer.engine.model.cell.value.Text;
+import io.luchta.forma4j.writer.engine.resolver.StyleResolver;
 
 import java.util.List;
 import java.util.Map;

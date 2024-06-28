@@ -8,7 +8,6 @@ import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyle;
 import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyleProperty;
 import io.luchta.forma4j.writer.engine.model.column.property.NotSupportColumnProperty;
 import io.luchta.forma4j.writer.engine.model.column.property.XlsxColumnProperties;
-import io.luchta.forma4j.writer.engine.model.column.property.XlsxColumnStyle;
 import io.luchta.forma4j.writer.engine.model.column.property.XlsxColumnProperty;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;

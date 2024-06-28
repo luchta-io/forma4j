@@ -1,10 +1,10 @@
 package io.luchta.forma4j.writer.engine.buffer;
 
 import io.luchta.forma4j.writer.Context;
+import io.luchta.forma4j.writer.engine.buffer.accumulater.BuildAccumulator;
 import io.luchta.forma4j.writer.engine.buffer.loop.LoopContext;
 import io.luchta.forma4j.writer.engine.buffer.stack.AddressStack;
 import io.luchta.forma4j.writer.engine.resolver.VariableResolver;
-import io.luchta.forma4j.writer.engine.buffer.accumulater.BuildAccumulator;
 
 public class BuildBuffer {
     BuildAccumulator accumulator = new BuildAccumulator();
