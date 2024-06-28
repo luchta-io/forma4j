@@ -35,6 +35,7 @@ public class RelationAnalysis {
         TagAnalyzerFactory factory = new TagAnalyzerFactory();
         for (TagTree t : trees) {
             TagAnalyzer analyzer = factory.create(t);
+            analyzeChildren(t.getChildren(), syntaxErrors);
             analyzer.analyze(t, syntaxErrors);
         }
     }
