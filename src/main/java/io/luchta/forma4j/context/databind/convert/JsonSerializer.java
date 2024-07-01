@@ -1,12 +1,11 @@
 package io.luchta.forma4j.context.databind.convert;
 
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-
+import io.luchta.forma4j.context.databind.json.JsonNode;
 import io.luchta.forma4j.context.databind.json.JsonNodes;
 import io.luchta.forma4j.context.databind.json.JsonObject;
-import io.luchta.forma4j.context.databind.json.JsonNode;
+
+import java.util.List;
+import java.util.Map;
 
 public class JsonSerializer {
 	

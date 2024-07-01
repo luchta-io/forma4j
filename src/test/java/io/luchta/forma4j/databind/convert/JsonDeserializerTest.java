@@ -1,14 +1,13 @@
 package io.luchta.forma4j.databind.convert;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import io.luchta.forma4j.context.databind.convert.JsonDeserializer;
 import io.luchta.forma4j.context.databind.convert.JsonSerializer;
 import io.luchta.forma4j.context.databind.json.JsonObject;
 import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class JsonDeserializerTest {
 

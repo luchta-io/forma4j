@@ -3,10 +3,9 @@ package io.luchta.forma4j.writer.engine.model.sheet;
 import io.luchta.forma4j.writer.engine.buffer.accumulater.support.ColumnPropertyMap;
 import io.luchta.forma4j.writer.engine.model.cell.XlsxCell;
 import io.luchta.forma4j.writer.engine.model.cell.XlsxCellList;
-import io.luchta.forma4j.writer.engine.model.column.property.XlsxColumnProperties;
+import io.luchta.forma4j.writer.engine.model.cell.address.XlsxSheetName;
 import io.luchta.forma4j.writer.engine.model.row.XlsxRow;
 import io.luchta.forma4j.writer.engine.model.row.XlsxRowList;
-import io.luchta.forma4j.writer.engine.model.cell.address.XlsxSheetName;
 
 public class XlsxSheet {
     XlsxSheetName name;
