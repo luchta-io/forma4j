@@ -1,5 +1,6 @@
 package io.luchta.forma4j.writer.engine.buffer.accumulater;
 
+import io.luchta.forma4j.writer.engine.buffer.accumulater.support.CellMap;
 import io.luchta.forma4j.writer.engine.buffer.accumulater.support.ColumnPropertyMap;
 import io.luchta.forma4j.writer.engine.buffer.accumulater.support.RowPropertyMap;
 import io.luchta.forma4j.writer.engine.buffer.accumulater.support.SheetNameList;
@@ -19,7 +20,6 @@ import io.luchta.forma4j.writer.engine.model.row.property.XlsxRowProperties;
 import io.luchta.forma4j.writer.engine.model.row.property.XlsxRowProperty;
 import io.luchta.forma4j.writer.engine.model.sheet.XlsxSheet;
 import io.luchta.forma4j.writer.engine.model.sheet.XlsxSheetList;
-import io.luchta.forma4j.writer.engine.buffer.accumulater.support.CellMap;
 
 import java.util.ArrayList;
 import java.util.List;

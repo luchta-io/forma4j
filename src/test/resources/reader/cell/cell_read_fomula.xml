@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<forma-reader>
+  <sheet name="計算式">
+    <cell row="0" col="1" name="string" />
+    <cell row="1" col="1" name="number" />
+    <cell row="2" col="1" name="date" />
+    <cell row="3" col="1" name="bool" />
+    <cell row="4" col="1" name="error" />
+    <cell row="5" col="1" name="exception" />
+    <cell row="6" col="1" name="blank" />
+  </sheet>
+</forma-reader>

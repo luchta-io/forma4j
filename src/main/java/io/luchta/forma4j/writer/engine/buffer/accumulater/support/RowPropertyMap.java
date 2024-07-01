@@ -1,6 +1,5 @@
 package io.luchta.forma4j.writer.engine.buffer.accumulater.support;
 
-import io.luchta.forma4j.writer.engine.model.cell.address.XlsxRowNumber;
 import io.luchta.forma4j.writer.engine.model.row.address.XlsxRowAddress;
 import io.luchta.forma4j.writer.engine.model.row.property.XlsxRowProperties;
 

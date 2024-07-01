@@ -18,6 +18,10 @@ public class JsonObject {
 	public JsonObject(double value) {
 		this.value = value;
 	}
+
+	public JsonObject(boolean value) {
+		this.value = value;
+	}
 	
 	public JsonObject(String value) {
 		this.value = value;
