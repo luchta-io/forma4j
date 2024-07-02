@@ -14,7 +14,16 @@ cellタグは子要素を持つことができません。
 
 ## セルに値を出力する
 
-[row](row.md)、[column](column.md)を参照してください。
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<forma>
+  <sheet name="Example">
+    <cell rowIndex="1" columnIndex="1">value</cell>
+  </sheet>
+</forma>
+```
+
+`row` タグや `column` タグと組み合わせて出力する方法は[row](row.md)、[column](column.md)を参照してください。
 
 ## スタイルを設定する
 
