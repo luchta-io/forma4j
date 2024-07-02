@@ -54,9 +54,35 @@ collectionプロパティを利用することで書き込み定義が同一の�
 <?xml version="1.0" encoding="utf-8"?>
 <forma>
   <sheet item="data" collection="list">
-    <list startRowIndex="0" startColumnIndex="0" collection="data.collection" />
+    <cell rowIndex="0" columnIndex="0">#{data.key1}</cell>
+    <cell rowIndex="0" columnIndex="1">#{data.key2}</cell>
+    <cell rowIndex="1" columnIndex="0">#{data.key3}</cell>
+    <cell rowIndex="1" columnIndex="1">#{data.key4}</cell>
   </sheet>
 </forma>
+```
+
+Forma4jには以下のような形式のJSONを読み込ませてください。`sheetName` というキーが自動的にシート名として扱われます。
+
+```json
+{
+  "list": [
+    {
+      "sheetName": "sheet1",
+      "key1": "あいうえお",
+      "key2": "かきくけこ",
+      "key3": "さしすせそ",
+      "key4": "たちつてと"
+    },
+    {
+      "sheetName": "sheet2",
+      "key1": "なにぬねの",
+      "key2": "はひふへほ",
+      "key3": "まみむめも",
+      "key4": "やゆよ"
+    }
+  ]
+}
 ```
 
 ![Excel](image/writer-sheet-3.svg)
