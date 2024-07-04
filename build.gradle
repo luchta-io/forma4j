@@ -93,12 +93,12 @@ publishing {
     }
     repositories {
         maven {
-            def releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            def snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+            def releasesRepoUrl = "s3://mars-repository-hosting/release/"
+            def snapshotsRepoUrl = "s3://mars-repository-hosting/snapshot/"
             url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
-            credentials {
-                username = project.hasProperty('sonatypeUsername') ? "${sonatypeUsername}" : ""
-                password = project.hasProperty('sonatypePassword') ? "${sonatypePassword}" : ""
+            credentials(AwsCredentials) {
+                accessKey project.hasProperty('FORMA4J_AWS_ACCESS_KEY_ID') ? "${FORMA4J_AWS_ACCESS_KEY_ID}" : ""
+                secretKey project.hasProperty('FORMA4J_AWS_SECRET_ACCESS_KEY') ? "${FORMA4J_AWS_SECRET_ACCESS_KEY}" : ""
             }
         }
     }
