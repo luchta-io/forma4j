@@ -1,7 +1,6 @@
 package io.luchta.forma4j.writer.engine.model.cell.style.border;
 
 import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyleProperty;
-import io.luchta.forma4j.writer.processor.poi.CellStyleBuilder;
 import org.apache.poi.ss.usermodel.BorderStyle;
 
 import java.util.Objects;
