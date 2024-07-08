@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <forma>
   <sheet name="test">
+    <!-- 値 -->
     <cell rowIndex="2" columnIndex="3">#{value}</cell>
+    <!-- 計算式 -->
+    <cell rowIndex="2" columnIndex="4">=D3</cell>
   </sheet>
 </forma>

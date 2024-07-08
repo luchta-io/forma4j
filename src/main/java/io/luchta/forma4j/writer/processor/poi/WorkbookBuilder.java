@@ -21,21 +21,48 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * ワークブックビルドクラス
+ * <p>
+ * {@link XlsxBook} の内容を読み取ってExcelワークブック作成を行います。
+ * </p>
+ */
 public class WorkbookBuilder {
+    /** モデル */
     XlsxBook model;
 
+    /**
+     * コンストラクタ
+     * @param model
+     */
     public WorkbookBuilder(XlsxBook model) {
         this.model = model;
     }
 
+    /**
+     * 列幅の自動調整ありでExcelワークブック作成
+     * @return ワークブック
+     */
     public Workbook build() {
         return build(new XSSFWorkbook(), true);
     }
 
+    /**
+     * 列幅の自動調整なしでExcelワークブック作成
+     * @param in テンプレート
+     * @return ワークブック
+     * @throws IOException
+     */
     public Workbook build(InputStream in) throws IOException {
         return build(WorkbookFactory.create(in), false);
     }
 
+    /**
+     * Excelワークブック作成
+     * @param workbook ワークブック
+     * @param autoSizeColumnEnabled true: 列幅自動調整あり, false: 列幅自動調整なし
+     * @return ワークブック
+     */
     private Workbook build(Workbook workbook, boolean autoSizeColumnEnabled) {
         Map<XlsxCellStyle, CellStyle> styleMap = makeStyleMap(workbook);
 
@@ -57,7 +84,7 @@ public class WorkbookBuilder {
                         cell = row.createCell(cellModel.columnNumber().toInt());
                     }
 
-                    cell.setCellValue(cellModel.value().toString());
+                    cellValue(cell, cellModel);
                     cell.setCellStyle(styleMap.get(cellModel.style()));
                 }
 
@@ -79,6 +106,14 @@ public class WorkbookBuilder {
         return workbook;
     }
 
+    /**
+     * スタイル作成
+     * <p>
+     * 作成したスタイルを{@link Map}にプットして同じスタイルを複数作成しないようにします。
+     * </p>
+     * @param workbook
+     * @return スタイル
+     */
     private Map<XlsxCellStyle, CellStyle> makeStyleMap(Workbook workbook) {
         Map<XlsxCellStyle, CellStyle> map = new HashMap<>();
         for (XlsxCellStyle style : model.styles()) {
@@ -89,6 +124,29 @@ public class WorkbookBuilder {
         return map;
     }
 
+    /**
+     * セルの値をセット
+     * <p>
+     * 先頭が = で始まるときは計算式として扱います
+     * </p>
+     * @param cell
+     * @param cellModel
+     */
+    private void cellValue(Cell cell, XlsxCell cellModel) {
+        String value = cellModel.value().toString();
+        if (value.startsWith("=")) {
+            cell.setCellFormula(value.substring(1));
+        } else {
+            cell.setCellValue(value);
+        }
+    }
+
+    /**
+     * 列のスタイル設定
+     * @param sheetModel
+     * @param sheet
+     * @param autoSizeColumnEnabled
+     */
     private void setColumnStyle(XlsxSheet sheetModel, Sheet sheet, boolean autoSizeColumnEnabled) {
         ColumnPropertyMap map = sheetModel.columnPropertyMap();
         Map<Integer, Integer> skipAutoSizeColumnNumberMap = new HashMap<>();
