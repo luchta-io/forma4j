@@ -12,6 +12,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -185,11 +186,13 @@ public class CellTest {
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
             JsonObject cell = ((JsonNode) sheet.getValue()).getVar("数値");
-            Assertions.assertEquals(true, cell.getValue() instanceof JsonNode);
+            Assertions.assertEquals(true, cell.getValue() instanceof JsonNodes);
 
-            JsonNode value = ((JsonNode) cell.getValue());
+            JsonNodes value = ((JsonNodes) cell.getValue());
 
-            Assertions.assertEquals(1.0, value.getVar("value").getValue());
+            Assertions.assertEquals(new BigDecimal(1), value.get(0).getVar("value1").getValue());
+            Assertions.assertEquals(new BigDecimal(1.3), value.get(1).getVar("value2").getValue());
+            Assertions.assertEquals(new BigDecimal(18000000), value.get(2).getVar("value3").getValue());
         }
     }
 
@@ -265,7 +268,7 @@ public class CellTest {
             JsonNodes values = ((JsonNodes) cell.getValue());
 
             Assertions.assertEquals("あああああ", values.get(0).getVar("string").getValue());
-            Assertions.assertEquals(50.0, values.get(1).getVar("number").getValue());
+            Assertions.assertEquals(new BigDecimal(50), values.get(1).getVar("number").getValue());
             Assertions.assertEquals(LocalDateTime.of(2024, 7, 21, 0, 0, 0, 0), values.get(2).getVar("date").getValue());
             Assertions.assertEquals(true, values.get(3).getVar("bool").getValue());
             Assertions.assertEquals(FormulaError.DIV0.getLongCode(), values.get(4).getVar("error").getValue());
