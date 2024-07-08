@@ -64,7 +64,7 @@ public class CellStyleBuilder {
      */
     public void setBackGroundColor(String argb) {
         XSSFColor color = new XSSFColor();
-        color.setARGBHex(argb);
+        color.setARGBHex(argb.startsWith("#") ? argb.substring(1) : argb);
         targetStyle.setFillForegroundColor(color);
         targetStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
     }
@@ -126,7 +126,7 @@ public class CellStyleBuilder {
      */
     public void setColor(String argb) {
         XSSFColor color = new XSSFColor();
-        color.setARGBHex(argb);
+        color.setARGBHex(argb.startsWith("#") ? argb.substring(1) : argb);
         if (targetFont instanceof XSSFFont) {
             ((XSSFFont) targetFont).setColor(color);
         }
