@@ -1,5 +1,6 @@
 package io.luchta.forma4j.context.databind.json;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,6 +17,10 @@ public class JsonObject {
 	}
 	
 	public JsonObject(double value) {
+		this.value = value;
+	}
+
+	public JsonObject(BigDecimal value) {
 		this.value = value;
 	}
 
