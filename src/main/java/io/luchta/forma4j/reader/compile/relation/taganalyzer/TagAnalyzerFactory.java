@@ -25,10 +25,6 @@ public class TagAnalyzerFactory {
             return new HForTagAnalyzer();
         }
 
-        if (tag.isBreak()) {
-            return new BreakTagAnalyzer();
-        }
-
         if (tag.isList()) {
             return new ListTagAnalyzer();
         }
