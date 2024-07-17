@@ -28,10 +28,6 @@ public class TagBuilderFactory {
             return new HForBuilder();
         }
 
-        if ("break".equals(nodeName)) {
-            return new BreakBuilder();
-        }
-
         if ("list".equals(nodeName)) {
             return new ListBuilder();
         }
