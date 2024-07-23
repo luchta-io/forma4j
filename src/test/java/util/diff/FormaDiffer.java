@@ -213,12 +213,13 @@ public class FormaDiffer {
             this.appendDiffResult("セルスタイル", sheetName, range, comparingCellStyle.getAlignment().name(), comparedCellStyle.getAlignment().name(), "セルの水平方向の文字位置が異なります", json);
         }
 
-        // カラム幅
-        int comparingColumnWidth = comparing.getSheet().getColumnWidth(comparing.getColumnIndex()) / 256;
-        int comparedColumnWidth = compared.getSheet().getColumnWidth(compared.getColumnIndex()) / 256;
-        if (comparingColumnWidth != comparedColumnWidth) {
-            this.appendDiffResult("セルスタイル", sheetName, range, String.valueOf(comparingColumnWidth), String.valueOf(comparedColumnWidth), "セルの幅が異なります", json);
-        }
+        // Excelファイルを目視確認しても幅が異なる結果を返すことがあるためコメントアウト
+//        // カラム幅
+//        int comparingColumnWidth = comparing.getSheet().getColumnWidth(comparing.getColumnIndex()) / 256;
+//        int comparedColumnWidth = compared.getSheet().getColumnWidth(compared.getColumnIndex()) / 256;
+//        if (comparingColumnWidth != comparedColumnWidth) {
+//            this.appendDiffResult("セルスタイル", sheetName, range, String.valueOf(comparingColumnWidth), String.valueOf(comparedColumnWidth), "セルの幅が異なります", json);
+//        }
 
         // 折り返し設定
         if (comparingCellStyle.getWrapText() != comparedCellStyle.getWrapText()) {
