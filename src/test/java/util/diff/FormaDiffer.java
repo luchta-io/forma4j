@@ -1,4 +1,4 @@
-package io.luchta.forma4j.util.diff;
+package util.diff;
 
 import io.luchta.forma4j.context.databind.json.JsonNode;
 import io.luchta.forma4j.context.databind.json.JsonNodes;
@@ -154,7 +154,11 @@ public class FormaDiffer {
         // 背景色
         String comparingForegroundRGB = convertColorToRGB((XSSFColor) comparingCellStyle.getFillForegroundColorColor());
         String comparedForegroundRGB = convertColorToRGB((XSSFColor) comparedCellStyle.getFillForegroundColorColor());
-        if (comparingForegroundRGB != null && comparedForegroundRGB != null && !comparingForegroundRGB.equals(comparedForegroundRGB)) {
+        if (comparingForegroundRGB == null || comparedForegroundRGB == null) {
+            if (comparingForegroundRGB != null || comparedForegroundRGB != null) {
+                this.appendDiffResult("セルスタイル", sheetName, range, comparingForegroundRGB, comparedForegroundRGB, "セルの背景色が異なります", json);
+            }
+        } else if (comparingForegroundRGB != null && comparedForegroundRGB != null && !comparingForegroundRGB.equals(comparedForegroundRGB)) {
             this.appendDiffResult("セルスタイル", sheetName, range, comparingForegroundRGB, comparedForegroundRGB, "セルの背景色が異なります", json);
         }
 
@@ -175,7 +179,11 @@ public class FormaDiffer {
         // 文字色
         String comparingRGB = fontColorRGB(comparingWorkbook, comparingCellStyle);
         String comparedRGB = fontColorRGB(comparedWorkbook, comparedCellStyle);
-        if (comparingRGB != null && comparedRGB != null && !comparingRGB.equals(comparedRGB)) {
+        if (comparingRGB == null || comparedRGB == null) {
+            if (comparingRGB != null || comparedRGB != null) {
+                this.appendDiffResult("セルスタイル", sheetName, range, comparingRGB, comparedRGB, "セルの文字色が異なります", json);
+            }
+        } else if (!comparingRGB.equals(comparedRGB)) {
             this.appendDiffResult("セルスタイル", sheetName, range, comparingRGB, comparedRGB, "セルの文字色が異なります", json);
         }
 
@@ -205,12 +213,13 @@ public class FormaDiffer {
             this.appendDiffResult("セルスタイル", sheetName, range, comparingCellStyle.getAlignment().name(), comparedCellStyle.getAlignment().name(), "セルの水平方向の文字位置が異なります", json);
         }
 
-        // カラム幅
-        int comparingColumnWidth = comparing.getSheet().getColumnWidth(comparing.getColumnIndex()) / 256;
-        int comparedColumnWidth = compared.getSheet().getColumnWidth(compared.getColumnIndex()) / 256;
-        if (comparingColumnWidth != comparedColumnWidth) {
-            this.appendDiffResult("セルスタイル", sheetName, range, String.valueOf(comparingColumnWidth), String.valueOf(comparedColumnWidth), "セルの幅が異なります", json);
-        }
+        // Excelファイルを目視確認しても幅が異なる結果を返すことがあるためコメントアウト
+//        // カラム幅
+//        int comparingColumnWidth = comparing.getSheet().getColumnWidth(comparing.getColumnIndex()) / 256;
+//        int comparedColumnWidth = compared.getSheet().getColumnWidth(compared.getColumnIndex()) / 256;
+//        if (comparingColumnWidth != comparedColumnWidth) {
+//            this.appendDiffResult("セルスタイル", sheetName, range, String.valueOf(comparingColumnWidth), String.valueOf(comparedColumnWidth), "セルの幅が異なります", json);
+//        }
 
         // 折り返し設定
         if (comparingCellStyle.getWrapText() != comparedCellStyle.getWrapText()) {

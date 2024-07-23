@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import util.diff.FormaDiffer;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -265,21 +266,29 @@ public class FormaDifferTest {
             Assertions.assertEquals("CENTER", jsonNode10.getVar("comparedValue").getValue());
             Assertions.assertEquals("セルの水平方向の文字位置が異なります", jsonNode10.getVar("description").getValue());
 
+//            JsonNode jsonNode11 = jsonNodes.get(10);
+//            Assertions.assertEquals("セルスタイル", jsonNode11.getVar("target").getValue());
+//            Assertions.assertEquals("テスト", jsonNode11.getVar("sheet").getValue());
+//            Assertions.assertEquals("H1", jsonNode11.getVar("range").getValue());
+//            Assertions.assertEquals("10", jsonNode11.getVar("comparingValue").getValue());
+//            Assertions.assertEquals("21", jsonNode11.getVar("comparedValue").getValue());
+//            Assertions.assertEquals("セルの幅が異なります", jsonNode11.getVar("description").getValue());
+
+//            JsonNode jsonNode12 = jsonNodes.get(11);
+//            Assertions.assertEquals("セルスタイル", jsonNode12.getVar("target").getValue());
+//            Assertions.assertEquals("テスト", jsonNode12.getVar("sheet").getValue());
+//            Assertions.assertEquals("I1", jsonNode12.getVar("range").getValue());
+//            Assertions.assertEquals("true", jsonNode12.getVar("comparingValue").getValue());
+//            Assertions.assertEquals("false", jsonNode12.getVar("comparedValue").getValue());
+//            Assertions.assertEquals("セルの折り返し設定が異なります", jsonNode12.getVar("description").getValue());
+
             JsonNode jsonNode11 = jsonNodes.get(10);
             Assertions.assertEquals("セルスタイル", jsonNode11.getVar("target").getValue());
             Assertions.assertEquals("テスト", jsonNode11.getVar("sheet").getValue());
-            Assertions.assertEquals("H1", jsonNode11.getVar("range").getValue());
-            Assertions.assertEquals("10", jsonNode11.getVar("comparingValue").getValue());
-            Assertions.assertEquals("21", jsonNode11.getVar("comparedValue").getValue());
-            Assertions.assertEquals("セルの幅が異なります", jsonNode11.getVar("description").getValue());
-
-            JsonNode jsonNode12 = jsonNodes.get(11);
-            Assertions.assertEquals("セルスタイル", jsonNode12.getVar("target").getValue());
-            Assertions.assertEquals("テスト", jsonNode12.getVar("sheet").getValue());
-            Assertions.assertEquals("I1", jsonNode12.getVar("range").getValue());
-            Assertions.assertEquals("true", jsonNode12.getVar("comparingValue").getValue());
-            Assertions.assertEquals("false", jsonNode12.getVar("comparedValue").getValue());
-            Assertions.assertEquals("セルの折り返し設定が異なります", jsonNode12.getVar("description").getValue());
+            Assertions.assertEquals("I1", jsonNode11.getVar("range").getValue());
+            Assertions.assertEquals("true", jsonNode11.getVar("comparingValue").getValue());
+            Assertions.assertEquals("false", jsonNode11.getVar("comparedValue").getValue());
+            Assertions.assertEquals("セルの折り返し設定が異なります", jsonNode11.getVar("description").getValue());
         }
     }
 }

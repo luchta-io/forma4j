@@ -38,7 +38,7 @@ public class ColorProperty implements XlsxCellStyleProperty {
         if (argb.startsWith("#")) {
             argb = value.substring(1);
         }
-        builder.setBackGroundColor(argb);
+        builder.setColor(argb);
     }
 
     /**
