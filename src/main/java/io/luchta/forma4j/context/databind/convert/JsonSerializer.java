@@ -92,7 +92,7 @@ public class JsonSerializer {
     private String serialize(JsonNodes jsonNodes) {
     
         if (jsonNodes.size() == 0) {
-            return "{}";
+            return "[]";
         }
     
         StringBuilder sb = new StringBuilder();

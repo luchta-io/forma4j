@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <forma-reader>
   <sheet name="数値">
-    <cell row="0" col="0" name="value" />
+    <!-- 整数を読み込む -->
+    <cell row="0" col="0" name="value1" />
+    <!-- 小数を読み込む -->
+    <cell row="20" col="2" name="value2" />
+    <!-- 桁数の大きい数値を読み込む -->
+    <cell row="21" col="3" name="value3" />
   </sheet>
 </forma-reader>

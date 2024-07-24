@@ -29,8 +29,12 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew clean build --stacktrace
-      - name: status report
-        run: echo "This job's status is ${{ job.status }}."
+      - name: Upload JUnit test results
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: junit-results-${{ matrix.java-version }}
+          path: build/reports/tests/test
 
     notification:
       needs: [ test ]
