@@ -25,8 +25,10 @@
             <cell style=":">Style文字列が文法に合わない場合は無視する</cell>
             <!-- 背景色 -->
             <cell style="background-color: #FFC000">背景色をRGBで設定できる</cell>
+            <cell style="background-color: FFC000">背景色をRGBで設定できる</cell>
             <!-- 文字色 -->
             <cell style="color: #FFC000">文字色をRGBで設定できる</cell>
+            <cell style="color: FFC000">文字色をRGBで設定できる</cell>
         </row>
         <row rowIndex="1" startColumnIndex="0">
             <!-- 文字の縦方向の位置 -->

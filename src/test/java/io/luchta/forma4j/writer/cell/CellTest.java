@@ -1,6 +1,7 @@
 package io.luchta.forma4j.writer.cell;
 
 import io.luchta.forma4j.context.databind.json.JsonNode;
+import io.luchta.forma4j.context.databind.json.JsonNodes;
 import io.luchta.forma4j.context.databind.json.JsonObject;
 import io.luchta.forma4j.reader.FormaReader;
 import io.luchta.forma4j.writer.FormaWriter;
@@ -58,9 +59,10 @@ public class CellTest {
         Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
         JsonObject cell = ((JsonNode) sheet.getValue()).getVar("test");
-        Assertions.assertEquals(true, cell.getValue() instanceof JsonNode);
+        Assertions.assertEquals(true, cell.getValue() instanceof JsonNodes);
 
-        JsonNode value = ((JsonNode) cell.getValue());
-        Assertions.assertEquals("あいうえお", value.getVar("value").getValue().toString());
+        JsonNodes values = ((JsonNodes) cell.getValue());
+        Assertions.assertEquals("あいうえお", values.get(0).getVar("value1").getValue().toString());
+        Assertions.assertEquals("あいうえお", values.get(1).getVar("value2").getValue().toString());
     }
 }
