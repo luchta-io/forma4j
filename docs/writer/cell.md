@@ -18,7 +18,10 @@ cellタグは子要素を持つことができません。
 <?xml version="1.0" encoding="utf-8"?>
 <forma>
   <sheet name="Example">
+    <!-- 値を出力する -->
     <cell rowIndex="1" columnIndex="1">value</cell>
+    <!-- 先頭が = の場合は計算式として出力される -->
+    <cell rowIndex="1" columnIndex="2">=A1*3</cell>
   </sheet>
 </forma>
 ```
