@@ -1,5 +1,6 @@
 package io.luchta.forma4j.reader.cell;
 
+import io.luchta.forma4j.context.databind.convert.JsonSerializer;
 import io.luchta.forma4j.context.databind.json.JsonNode;
 import io.luchta.forma4j.context.databind.json.JsonNodes;
 import io.luchta.forma4j.context.databind.json.JsonObject;
@@ -190,9 +191,9 @@ public class CellTest {
 
             JsonNodes value = ((JsonNodes) cell.getValue());
 
-            Assertions.assertEquals(new BigDecimal(1), value.get(0).getVar("value1").getValue());
-            Assertions.assertEquals(new BigDecimal(1.3), value.get(1).getVar("value2").getValue());
-            Assertions.assertEquals(new BigDecimal(18000000), value.get(2).getVar("value3").getValue());
+            Assertions.assertEquals(new BigDecimal("1"), value.get(0).getVar("value1").getValue());
+            Assertions.assertEquals(new BigDecimal("1.3"), value.get(1).getVar("value2").getValue());
+            Assertions.assertEquals(new BigDecimal("18000000"), value.get(2).getVar("value3").getValue());
         }
     }
 
