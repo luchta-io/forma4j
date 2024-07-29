@@ -1,9 +1,12 @@
 package io.luchta.forma4j.writer;
 
+import io.luchta.forma4j.context.databind.convert.JsonSerializer;
 import io.luchta.forma4j.context.databind.json.JsonNode;
 import io.luchta.forma4j.context.databind.json.JsonNodes;
 import io.luchta.forma4j.context.databind.json.JsonObject;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import util.diff.FormaDiffer;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -427,6 +430,15 @@ public class FormaWriterTest {
 
         FormaWriter sut = new FormaWriter();
         sut.write(in, out, new JsonObject());
+
+        InputStream comparing = new FileInputStream(this.getClass().getClassLoader().getResource("writer/style.xlsx").getPath());
+        InputStream compared = new FileInputStream(outFile.getAbsolutePath());
+        FormaDiffer differ = new FormaDiffer();
+        JsonObject jsonObject = differ.diff(comparing, compared);
+        logger.log(Level.INFO, new JsonSerializer().serializeFromJsonObject(jsonObject));
+
+        JsonNodes jsonNodes = (JsonNodes) jsonObject.getValue();
+        Assertions.assertEquals(0, jsonNodes.size());
     }
 
     /**

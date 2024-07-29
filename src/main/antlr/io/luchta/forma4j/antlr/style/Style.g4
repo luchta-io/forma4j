@@ -13,21 +13,13 @@ style
   ;
 
 property
-  : Any+
+  : Property_Character+
   ;
 
 property_value
-  : Any+
+  : Property_Character+
   ;
 
-Any
-  : (Any_Alphabet | Unsigned_Integer | '-' | ' ')
-  ;
-
-Any_Alphabet
-  : [a-zA-Z]
-  ;
-
-Unsigned_Integer
-  : [0-9]
+Property_Character
+  : ~([,\n\r"] | ':' | ';' | [ \t])
   ;

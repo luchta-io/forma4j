@@ -7,6 +7,7 @@ import io.luchta.forma4j.reader.model.tag.CellTag;
 import io.luchta.forma4j.reader.model.tag.TagTree;
 import org.apache.poi.ss.usermodel.*;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -103,7 +104,11 @@ public class CellReader implements ObjectReader {
                     // セルの値が数値かつ日付フォーマットであれば日付として読み込みを行う
                     return new JsonObject(cell.getLocalDateTimeCellValue());
                 } else {
-                    return new JsonObject(cellValue.getNumberValue());
+                    double numericValue = cellValue.getNumberValue();
+                    if (numericValue % 1 == 0) {
+                        return new JsonObject(new BigDecimal(((Double) cellValue.getNumberValue()).intValue()));
+                    }
+                    return new JsonObject(new BigDecimal(String.valueOf(cellValue.getNumberValue())));
                 }
             case BOOLEAN:
                 return new JsonObject(cellValue.getBooleanValue());
