@@ -12,13 +12,25 @@ import io.luchta.forma4j.writer.engine.resolver.VariableResolver;
 
 import java.util.List;
 
+/**
+ * vertical-forタグのハンドラクラス
+ */
 public class VerticalForHandler {
+    /** バッファ */
     BuildBuffer buffer;
 
+    /**
+     * コンストラクタ
+     * @param buffer
+     */
     public VerticalForHandler(BuildBuffer buffer) {
         this.buffer = buffer;
     }
 
+    /**
+     * ハンドル
+     * @param verticalFor
+     */
     public void handle(VerticalFor verticalFor) {
         VariableResolver variableResolver = buffer.variableResolver();
         List<Object> collection = variableResolver.getList(verticalFor.collection().toString());
@@ -44,22 +56,18 @@ public class VerticalForHandler {
         buffer.loopContext().remove(verticalFor.item());
     }
 
+    /**
+     * ディスパッチ
+     * @param children
+     */
     private void dispatch(ElementList children) {
         for (Element element : children) {
             switch (element.type()) {
                 case ROW:
-                    new RowHandler(buffer)
-                            .handle((Row) element);
+                    new RowHandler(buffer).handle((Row) element);
                     break;
-                case CELL:
-                case VERTICAL_FOR:
-                case HORIZONTAL_FOR:
-                case COLUMN:
-                case SHEET:
-                case LIST:
                 default:
-                    // TODO
-                    throw new IllegalStateException();
+                    throw new IllegalStateException("vertical-forの子タグにはrowタグのみが設定可能です");
             }
         }
     }
