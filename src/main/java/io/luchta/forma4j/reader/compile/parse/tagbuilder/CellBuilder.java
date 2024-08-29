@@ -4,6 +4,7 @@ import io.luchta.forma4j.context.syntax.SyntaxError;
 import io.luchta.forma4j.context.syntax.SyntaxErrors;
 import io.luchta.forma4j.reader.model.tag.CellTag;
 import io.luchta.forma4j.reader.model.tag.Tag;
+import io.luchta.forma4j.reader.model.tag.property.DisplayValue;
 import io.luchta.forma4j.reader.model.tag.property.Index;
 import io.luchta.forma4j.reader.model.tag.property.Name;
 import org.w3c.dom.NamedNodeMap;
@@ -12,77 +13,54 @@ import org.w3c.dom.Node;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * セルタグ生成クラス
+ */
 public class CellBuilder implements TagBuilder {
-
+    /**
+     * ビルド
+     * @param nodeMap
+     * @param syntaxErrors
+     * @return {@link io.luchta.forma4j.reader.model.tag.CellTag}
+     */
     @Override
     public Tag build(NamedNodeMap nodeMap, SyntaxErrors syntaxErrors) {
-
         List<String> errorMessages = new ArrayList<>();
 
+        // row属性
         Node rowNode = nodeMap.getNamedItem("row");
         boolean rowIsUndefined = false;
         if (rowNode == null) {
             rowIsUndefined = true;
         }
-        Integer rowNumber = convertNodeValueToInteger(rowNode);
+        Integer rowNumber = NodeValueConverter.toInteger(rowNode, 0);
         if (rowNumber == null) {
             errorMessages.add("row には0以上の整数を指定してください");
         }
 
+        // col属性
         Node colNode = nodeMap.getNamedItem("col");
         boolean colIsUndefined = false;
         if (colNode == null) {
             colIsUndefined = true;
         }
-        Integer colNumber = convertNodeValueToInteger(nodeMap.getNamedItem("col"));
+        Integer colNumber = NodeValueConverter.toInteger(nodeMap.getNamedItem("col"), 0);
         if (colNumber == null) {
             errorMessages.add("col には0以上の整数を指定してください");
         }
 
-        String name = convertNodeValueToString(nodeMap.getNamedItem("name"));
+        // name属性
+        String name = NodeValueConverter.toString(nodeMap.getNamedItem("name"), null);
         if (name == null) {
             errorMessages.add("name は必須入力です");
         }
 
-        addSyntaxErrors(errorMessages, syntaxErrors);
+        // displayValue属性
+        Boolean displayValue = NodeValueConverter.toBoolean(nodeMap.getNamedItem(DisplayValue.PROPERTY_NAME), false);
 
-        return new CellTag(new Index(rowNumber), rowIsUndefined, new Index(colNumber), colIsUndefined, new Name(name));
-    }
+        // エラーメッセージ追加
+        AddBuilderSyntaxErrors.run(errorMessages, syntaxErrors);
 
-    private Integer convertNodeValueToInteger(Node node) {
-
-        Integer value = null;
-        if (node == null) {
-            value = 0;
-        } else {
-            Integer rowNumber = null;
-            try {
-                rowNumber = Integer.parseInt(node.getNodeValue());
-            } catch (NumberFormatException e) {
-                return value;
-            }
-
-            if (rowNumber >= 0) {
-                value = Integer.parseInt(node.getNodeValue());
-            }
-        }
-        return value;
-    }
-
-    private String convertNodeValueToString(Node node) {
-
-        String value = "";
-        if (node != null) {
-            value = node.getNodeValue();
-        }
-        return value;
-    }
-
-    private void addSyntaxErrors(List<String> errorMessages, SyntaxErrors syntaxErrors) {
-
-        for (String message : errorMessages) {
-            SyntaxError syntaxError = new SyntaxError(message, new UnsupportedOperationException());
-            syntaxErrors.add(syntaxError);
-        }
+        return new CellTag(new Index(rowNumber), rowIsUndefined, new Index(colNumber), colIsUndefined, new Name(name), new DisplayValue(displayValue));
     }
 }

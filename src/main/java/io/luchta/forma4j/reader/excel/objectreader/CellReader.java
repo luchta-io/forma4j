@@ -8,6 +8,7 @@ import io.luchta.forma4j.reader.model.tag.TagTree;
 import org.apache.poi.ss.usermodel.*;
 
 import java.math.BigDecimal;
+import java.text.Format;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,6 +74,10 @@ public class CellReader implements ObjectReader {
         }
         Cell cell = sheet.getRow(row).getCell(col);
 
+        if (cellTag.displayValue().truthy()) {
+            return setValue(names, cellDisplayValue(cell));
+        }
+
         return setValue(names, cellValue(cell));
     }
 
@@ -104,10 +109,15 @@ public class CellReader implements ObjectReader {
                     // セルの値が数値かつ日付フォーマットであれば日付として読み込みを行う
                     return new JsonObject(cell.getLocalDateTimeCellValue());
                 } else {
+//                    DataFormatter formatter = new DataFormatter();
+//                    Format format = formatter.createFormat(cell);
+//                    String formattedCellValue = format.format(cell.getNumericCellValue());
+
                     double numericValue = cellValue.getNumberValue();
                     if (numericValue % 1 == 0) {
                         return new JsonObject(new BigDecimal(((Double) cellValue.getNumberValue()).intValue()));
                     }
+//                    return new JsonObject(new BigDecimal(String.valueOf(formattedCellValue)));
                     return new JsonObject(new BigDecimal(String.valueOf(cellValue.getNumberValue())));
                 }
             case BOOLEAN:
@@ -117,6 +127,21 @@ public class CellReader implements ObjectReader {
             default:
                 return new JsonObject();
         }
+    }
+
+    /**
+     * セルの値を読み取る
+     * <p>
+     * セルに表示されている値を取得する
+     * </p>
+     * @param cell 読み取りを行うセル
+     * @return 読み込み結果
+     */
+    private JsonObject cellDisplayValue(Cell cell) {
+        FormulaEvaluator formulaEvaluator = sheet.getWorkbook().getCreationHelper().createFormulaEvaluator();
+        DataFormatter formatter = new DataFormatter();
+        String formattedCellValue = formatter.formatCellValue(cell, formulaEvaluator);
+        return new JsonObject(formattedCellValue);
     }
 
     private JsonNode setValue(String[] names, JsonObject jsonObject) {
