@@ -33,7 +33,7 @@ public class CellBuilder implements TagBuilder {
         if (rowNode == null) {
             rowIsUndefined = true;
         }
-        Integer rowNumber = NodeValueConverter.toInteger(rowNode, 0);
+        Integer rowNumber = convertNodeValueToInteger(rowNode);
         if (rowNumber == null) {
             errorMessages.add("row には0以上の整数を指定してください");
         }
@@ -44,23 +44,85 @@ public class CellBuilder implements TagBuilder {
         if (colNode == null) {
             colIsUndefined = true;
         }
-        Integer colNumber = NodeValueConverter.toInteger(nodeMap.getNamedItem("col"), 0);
+        Integer colNumber = convertNodeValueToInteger(nodeMap.getNamedItem("col"));
         if (colNumber == null) {
             errorMessages.add("col には0以上の整数を指定してください");
         }
 
         // name属性
-        String name = NodeValueConverter.toString(nodeMap.getNamedItem("name"), null);
+        String name = convertNodeValueToString(nodeMap.getNamedItem("name"));
         if (name == null) {
             errorMessages.add("name は必須入力です");
         }
 
         // displayValue属性
-        Boolean displayValue = NodeValueConverter.toBoolean(nodeMap.getNamedItem(DisplayValue.PROPERTY_NAME), false);
+        Boolean displayValue = convertNodeValueToBoolean(nodeMap.getNamedItem(DisplayValue.PROPERTY_NAME));
 
         // エラーメッセージ追加
-        AddBuilderSyntaxErrors.run(errorMessages, syntaxErrors);
+        addSyntaxErrors(errorMessages, syntaxErrors);
 
         return new CellTag(new Index(rowNumber), rowIsUndefined, new Index(colNumber), colIsUndefined, new Name(name), new DisplayValue(displayValue));
+    }
+
+    /**
+     * Nodeから数値を取得する処理
+     * @param node
+     * @return Nodeの設定値
+     */
+    private Integer convertNodeValueToInteger(Node node) {
+        Integer value = null;
+        if (node == null) {
+            value = 0;
+        } else {
+            Integer rowNumber = null;
+            try {
+                rowNumber = Integer.parseInt(node.getNodeValue());
+            } catch (NumberFormatException e) {
+                return value;
+            }
+
+            if (rowNumber >= 0) {
+                value = Integer.parseInt(node.getNodeValue());
+            }
+        }
+        return value;
+    }
+
+    /**
+     * Nodeから文字列を取得する処理
+     * @param node
+     * @return Nodeから取得した文字列
+     */
+    private String convertNodeValueToString(Node node) {
+        String value = "";
+        if (node != null) {
+            value = node.getNodeValue();
+        }
+        return value;
+    }
+
+    /**
+     * Nodeから真理値を取得する処理
+     * @param node
+     * @return Nodeから取得した真理値
+     */
+    private Boolean convertNodeValueToBoolean(Node node) {
+        Boolean value = false;
+        if (node != null) {
+            value = Boolean.valueOf(node.getNodeValue());
+        }
+        return value;
+    }
+
+    /**
+     * シンタックスエラーを追加する処理
+     * @param errorMessages
+     * @param syntaxErrors
+     */
+    private void addSyntaxErrors(List<String> errorMessages, SyntaxErrors syntaxErrors) {
+        for (String message : errorMessages) {
+            SyntaxError syntaxError = new SyntaxError(message, new UnsupportedOperationException());
+            syntaxErrors.add(syntaxError);
+        }
     }
 }
