@@ -277,4 +277,34 @@ public class CellTest {
             Assertions.assertEquals(null, values.get(6).getVar("blank").getValue());
         }
     }
+
+    /**
+     * displayValueプロパティのテスト
+     */
+    @Test
+    public void cell_display_value_property() throws Exception {
+        try (InputStream config = new FileInputStream(this.getClass().getClassLoader().getResource("reader/cell/cell_display_value_property.xml").getPath());
+             InputStream excel = new FileInputStream(this.getClass().getClassLoader().getResource("reader/Test.xlsx").getPath());) {
+            FormaReader formaReader = new FormaReader();
+            JsonObject obj = formaReader.read(config, excel);
+
+            Object root = obj.getValue();
+            Assertions.assertEquals(true, root instanceof JsonNode);
+
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
+            Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
+
+            JsonObject cell = ((JsonNode) sheet.getValue()).getVar("表示形式");
+            Assertions.assertEquals(true, cell.getValue() instanceof JsonNodes);
+
+            JsonNodes value = ((JsonNodes) cell.getValue());
+            Assertions.assertEquals("1.1", value.get(0).getVar("value1").getValue());
+            Assertions.assertEquals(new BigDecimal("1.051234"), value.get(1).getVar("value2").getValue());
+            Assertions.assertEquals(new BigDecimal("1.051234"), value.get(2).getVar("value3").getValue());
+            Assertions.assertEquals("1.123456789", value.get(3).getVar("value4").getValue());
+            Assertions.assertEquals("1.123456789", value.get(4).getVar("value5").getValue());
+            Assertions.assertEquals("1,234", value.get(5).getVar("value6").getValue());
+            Assertions.assertEquals("¥1,234", value.get(6).getVar("value7").getValue());
+        }
+    }
 }
