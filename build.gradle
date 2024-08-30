@@ -16,7 +16,7 @@ plugins {
 }
 
 group = 'io.luchta'
-version = '1.7.2'
+version = '1.8.0'
 
 sourceCompatibility = compatibility
 targetCompatibility = compatibility
