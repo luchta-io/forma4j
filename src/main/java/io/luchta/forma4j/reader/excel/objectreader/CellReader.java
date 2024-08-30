@@ -109,15 +109,10 @@ public class CellReader implements ObjectReader {
                     // セルの値が数値かつ日付フォーマットであれば日付として読み込みを行う
                     return new JsonObject(cell.getLocalDateTimeCellValue());
                 } else {
-//                    DataFormatter formatter = new DataFormatter();
-//                    Format format = formatter.createFormat(cell);
-//                    String formattedCellValue = format.format(cell.getNumericCellValue());
-
                     double numericValue = cellValue.getNumberValue();
                     if (numericValue % 1 == 0) {
                         return new JsonObject(new BigDecimal(((Double) cellValue.getNumberValue()).intValue()));
                     }
-//                    return new JsonObject(new BigDecimal(String.valueOf(formattedCellValue)));
                     return new JsonObject(new BigDecimal(String.valueOf(cellValue.getNumberValue())));
                 }
             case BOOLEAN:
