@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<forma-reader>
+  <sheet name="ひらがな">
+    <v-for from="0" name="data" break="all_blank">
+      <cell col="1" name="value1" />
+      <cell col="3" name="value2" />
+    </v-for>
+  </sheet>
+</forma-reader>
