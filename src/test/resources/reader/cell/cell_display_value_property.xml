@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<forma-reader>
+  <sheet name="表示形式">
+    <!-- displayValueがtrueのとき -->
+    <cell row="0" col="1" name="value1" displayValue="true"/>
+    <!-- displayValueがfalseのとき -->
+    <cell row="0" col="1" name="value2" displayValue="false"/>
+    <!-- displayValueが設定されていないのとき -->
+    <cell row="0" col="1" name="value3"/>
+    <!-- セルの表示設定が標準のとき -->
+    <cell row="1" col="1" name="value4" displayValue="true"/>
+    <!-- セルの値が計算式のとき -->
+    <cell row="2" col="1" name="value5" displayValue="true"/>
+    <!-- セルの表示形式が数値かつカンマ区切りのとき -->
+    <cell row="3" col="1" name="value6" displayValue="true"/>
+    <!-- セルの表示形式が通貨のとき -->
+    <cell row="4" col="1" name="value7" displayValue="true"/>
+  </sheet>
+</forma-reader>
