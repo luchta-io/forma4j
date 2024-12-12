@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<forma>
+  <sheet name="test">
+    <vertical-for item="data" collection="list" startRowIndex="0" startColumnIndex="0">
+      <row>
+        <cell>#{data}</cell>
+      </row>
+    </vertical-for>
+  </sheet>
+</forma>

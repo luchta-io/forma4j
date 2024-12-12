@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<forma>
+  <sheet name="test">
+    <cell rowIndex="0" columnIndex="0">#{employee.id.value}</cell>
+  </sheet>
+</forma>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<forma>
+  <sheet name="test">
+    <horizontal-for item="data" collection="list" startRowIndex="0" startColumnIndex="0">
+      <column>
+        <cell>#{data.key1}</cell>
+        <cell>#{data.key2}</cell>
+        <cell>#{data.key3}</cell>
+      </column>
+    </horizontal-for>
+  </sheet>
+</forma>
