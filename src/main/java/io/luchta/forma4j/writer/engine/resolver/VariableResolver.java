@@ -5,21 +5,36 @@ import io.luchta.forma4j.writer.engine.buffer.loop.LoopContext;
 import io.luchta.forma4j.writer.engine.model.cell.value.Text;
 import io.luchta.forma4j.writer.engine.model.cell.value.XlsxCellValue;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
+/**
+ * 変数解決クラス
+ * <p>
+ * 書き込み定義が記述されたXMLファイルの内容に従って変数の値を解決する
+ * </p>
+ */
 public class VariableResolver {
 
-    Context context;
-    LoopContext loopContext;
+    /** コンテキスト */
+    private Context context;
+    /** ループ処理用のコンテキスト */
+    private LoopContext loopContext;
 
+    /**
+     * コンストラクタ
+     * @param context
+     * @param loopContext
+     */
     public VariableResolver(Context context, LoopContext loopContext) {
         this.context = context;
         this.loopContext = loopContext;
     }
 
+    /**
+     * 変数の値を取得する処理
+     * @param key
+     * @return 変数の値（すべてText型として返る）
+     */
     public XlsxCellValue get(String key) {
         // TODO とりあえず全部Text型にしてるのでちゃんと直す
         Object contextVar = getValue(key, context);
@@ -29,6 +44,11 @@ public class VariableResolver {
         return new Text();
     }
 
+    /**
+     * 変数の値をListで取得する処理
+     * @param key
+     * @return 変数の値
+     */
     public List<Object> getList(String key) {
         Object contextVar = getValue(key, context);
         if (contextVar != null) return (List<Object>) contextVar;
@@ -37,13 +57,26 @@ public class VariableResolver {
         return Collections.emptyList();
     }
 
+    /**
+     * contextに格納されているkeysetを返す
+     * @return keyset
+     */
     public Set<String> getKeySet() {
         return context.getKeys();
     }
 
+    /**
+     * 変数の値を取得する処理
+     * @param key
+     * @param context
+     * @return 変数の値
+     */
     private Object getValue(String key, Context context) {
+        // 値が取得できたらそのまま返す
         Object value = context.getVar(key);
         if (value != null) return value;
+
+        // 値が取得できない場合はドット区切りでkeyを分割してcontextの中を確認する
         String first = key.split("\\.")[0];
         Object contextVar = context.getVar(first);
         if (contextVar == null) return null;
@@ -51,12 +84,19 @@ public class VariableResolver {
         String rewriteKey = key.replaceFirst(first + ".", "");
 
         if (contextVar instanceof Map) {
-            Map<?, ?> map = (Map<?, ?>) contextVar;
-            return map.get(rewriteKey);
+            String[] rewriteKeys = rewriteKey.split("\\.", 255);
+            return getValueFromVariable(rewriteKeys, (Map<?, ?>) contextVar);
         }
+
         return null;
     }
 
+    /**
+     * ループ処理の内部にある変数の値を取得する処理
+     * @param key
+     * @param loopContext
+     * @return 変数の値
+     */
     private Object getValue(String key, LoopContext loopContext) {
         Object value = loopContext.getItem(key);
         if (value != null) return value;
@@ -67,8 +107,33 @@ public class VariableResolver {
         String rewriteKey = key.replaceFirst(first + ".", "");
 
         if (loopContextVar instanceof Map) {
-            Map<?, ?> map = (Map<?, ?>) loopContextVar;
-            return map.get(rewriteKey);
+            String[] rewriteKeys = rewriteKey.split("\\.", 255);
+            return getValueFromVariable(rewriteKeys, (Map<?, ?>) loopContextVar);
+        }
+        return null;
+    }
+
+    /**
+     * 変数テーブルから値を取得する
+     * @param keys
+     * @param map
+     * @return 値
+     */
+    private Object getValueFromVariable(String[] keys, Map<?, ?> map) {
+        Object contextVar = null;
+        Map<?, ?> current = map;
+        for (int i = 0; i < keys.length; i ++) {
+            String key = keys[i];
+            contextVar = current.get(key);
+            if (contextVar == null) {
+                return null;
+            }
+
+            if (contextVar instanceof Map) {
+                current = (Map<?, ?>) contextVar;
+                continue;
+            }
+            return contextVar;
         }
         return null;
     }
