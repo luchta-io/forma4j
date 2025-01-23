@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  * horizontal-forタグに関するテスト
  */
 public class HorizontalForTest {
-    private static final Logger logger = Logger.getLogger(HorizontalFor.class.getName());
+    private static final Logger logger = Logger.getLogger(HorizontalForTest.class.getName());
 
     /**
      * horizontal-forタグを使用してcellへ値を出力するテスト
