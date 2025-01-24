@@ -77,7 +77,7 @@ public class FormaReader {
         TagTree tree = compiler.compile(config, syntaxErrors);
 
         if (syntaxErrors.hasErrors()) {
-            throw new IllegalArgumentException("設定ファイルの構文にエラーがあります");
+            throw new IllegalArgumentException("設定ファイルの構文にエラーがあります\n" + syntaxErrors.errorMessage());
         }
 
         ExcelReader excelReader = new ExcelReader();

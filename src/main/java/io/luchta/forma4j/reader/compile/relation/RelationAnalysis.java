@@ -22,7 +22,7 @@ public class RelationAnalysis {
         TagTrees children = tree.getChildren();
         for (TagTree child : children) {
             if (!child.getTag().isSheet()) {
-                SyntaxError syntaxError = new SyntaxError("forma-reader は子要素に指定できるのは sheet タグのみです");
+                SyntaxError syntaxError = new SyntaxError("forma-reader が子要素に指定できるのは sheet タグのみです");
                 syntaxErrors.add(syntaxError);
                 break;
             }
