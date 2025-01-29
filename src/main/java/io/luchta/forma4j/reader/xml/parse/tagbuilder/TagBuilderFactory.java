@@ -1,4 +1,4 @@
-package io.luchta.forma4j.reader.compile.parse.tagbuilder;
+package io.luchta.forma4j.reader.xml.parse.tagbuilder;
 
 import org.w3c.dom.Node;
 

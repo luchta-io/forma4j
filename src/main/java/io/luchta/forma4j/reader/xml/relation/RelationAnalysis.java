@@ -1,9 +1,9 @@
-package io.luchta.forma4j.reader.compile.relation;
+package io.luchta.forma4j.reader.xml.relation;
 
 import io.luchta.forma4j.context.syntax.SyntaxError;
 import io.luchta.forma4j.context.syntax.SyntaxErrors;
-import io.luchta.forma4j.reader.compile.relation.taganalyzer.TagAnalyzer;
-import io.luchta.forma4j.reader.compile.relation.taganalyzer.TagAnalyzerFactory;
+import io.luchta.forma4j.reader.xml.relation.taganalyzer.TagAnalyzer;
+import io.luchta.forma4j.reader.xml.relation.taganalyzer.TagAnalyzerFactory;
 import io.luchta.forma4j.reader.model.tag.Tag;
 import io.luchta.forma4j.reader.model.tag.TagTree;
 import io.luchta.forma4j.reader.model.tag.TagTrees;
