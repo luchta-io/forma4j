@@ -11,6 +11,12 @@ public class JsonNode {
 	public void putVar(String key, JsonObject object) {
 		this.var.put(key, object);
 	}
+
+    public void putJsonNode(JsonNode node) {
+        for (Map.Entry<String, JsonObject> entry : node.entrySet()) {
+            var.put(entry.getKey(), entry.getValue());
+        }
+    }
 	
 	public JsonObject getVar(String key) {
         return this.var.get(key);

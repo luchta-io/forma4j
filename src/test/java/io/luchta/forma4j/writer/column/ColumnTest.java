@@ -1,12 +1,13 @@
 package io.luchta.forma4j.writer.column;
 
+import io.luchta.forma4j.context.databind.convert.JsonSerializer;
 import io.luchta.forma4j.context.databind.json.JsonNode;
 import io.luchta.forma4j.context.databind.json.JsonNodes;
 import io.luchta.forma4j.context.databind.json.JsonObject;
-import io.luchta.forma4j.reader.FormaReader;
 import io.luchta.forma4j.writer.FormaWriter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import util.diff.FormaDiffer;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -48,22 +49,14 @@ public class ColumnTest {
         sut.write(in, out, new JsonObject(jsonNode));
 
         // 書き込んだ内容のチェック
-        InputStream readerConfig = classLoader.getResource("writer/column/column_cell_check.xml").openStream();
-        InputStream outputExcel = new FileInputStream(absolutePath);
-        FormaReader reader = new FormaReader();
-        JsonObject obj = reader.read(readerConfig, outputExcel);
+        FormaDiffer differ = new FormaDiffer();
+        FileInputStream comparing = new FileInputStream(absolutePath);
+        InputStream compared = classLoader.getResource("writer/column/column_cell.xlsx").openStream();
+        JsonObject jsonObject = differ.diff(comparing, compared);
+        logger.log(Level.INFO, "比較結果: " + new JsonSerializer().serializeFromJsonObject(jsonObject));
 
-        Object root = obj.getValue();
-        Assertions.assertEquals(true, root instanceof JsonNode);
-
-        JsonObject sheet = ((JsonNode) root).getVar("forma");
-        Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
-
-        JsonObject cell = ((JsonNode) sheet.getValue()).getVar("test");
-        Assertions.assertEquals(true, cell.getValue() instanceof JsonNode);
-
-        JsonNode values = ((JsonNode) cell.getValue());
-        Assertions.assertEquals("あいうえお", values.getVar("value").getValue().toString());
+        Assertions.assertEquals(true, jsonObject.isJsonNodes());
+        Assertions.assertEquals(0, ((JsonNodes) jsonObject.getValue()).size());
     }
 
     /**
@@ -93,24 +86,14 @@ public class ColumnTest {
         sut.write(in, out, new JsonObject(jsonNode));
 
         // 書き込んだ内容のチェック
-        InputStream readerConfig = classLoader.getResource("writer/column/column_cells_check.xml").openStream();
-        InputStream outputExcel = new FileInputStream(absolutePath);
-        FormaReader reader = new FormaReader();
-        JsonObject obj = reader.read(readerConfig, outputExcel);
+        FormaDiffer differ = new FormaDiffer();
+        FileInputStream comparing = new FileInputStream(absolutePath);
+        InputStream compared = classLoader.getResource("writer/column/column_cells.xlsx").openStream();
+        JsonObject jsonObject = differ.diff(comparing, compared);
+        logger.log(Level.INFO, "比較結果: " + new JsonSerializer().serializeFromJsonObject(jsonObject));
 
-        Object root = obj.getValue();
-        Assertions.assertEquals(true, root instanceof JsonNode);
-
-        JsonObject sheet = ((JsonNode) root).getVar("forma");
-        Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
-
-        JsonObject cell = ((JsonNode) sheet.getValue()).getVar("test");
-        Assertions.assertEquals(true, cell.getValue() instanceof JsonNodes);
-
-        JsonNodes values = ((JsonNodes) cell.getValue());
-        Assertions.assertEquals("あいうえお", values.get(0).getVar("value1").getValue().toString());
-        Assertions.assertEquals("かきくけこ", values.get(1).getVar("value2").getValue().toString());
-        Assertions.assertEquals("さしすせそ", values.get(2).getVar("value3").getValue().toString());
+        Assertions.assertEquals(true, jsonObject.isJsonNodes());
+        Assertions.assertEquals(0, ((JsonNodes) jsonObject.getValue()).size());
     }
 
     /**
@@ -140,24 +123,14 @@ public class ColumnTest {
         sut.write(in, out, new JsonObject(jsonNode));
 
         // 書き込んだ内容のチェック
-        InputStream readerConfig = classLoader.getResource("writer/column/columns_cell_check.xml").openStream();
-        InputStream outputExcel = new FileInputStream(absolutePath);
-        FormaReader reader = new FormaReader();
-        JsonObject obj = reader.read(readerConfig, outputExcel);
+        FormaDiffer differ = new FormaDiffer();
+        FileInputStream comparing = new FileInputStream(absolutePath);
+        InputStream compared = classLoader.getResource("writer/column/columns_cell.xlsx").openStream();
+        JsonObject jsonObject = differ.diff(comparing, compared);
+        logger.log(Level.INFO, "比較結果: " + new JsonSerializer().serializeFromJsonObject(jsonObject));
 
-        Object root = obj.getValue();
-        Assertions.assertEquals(true, root instanceof JsonNode);
-
-        JsonObject sheet = ((JsonNode) root).getVar("forma");
-        Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
-
-        JsonObject cell = ((JsonNode) sheet.getValue()).getVar("test");
-        Assertions.assertEquals(true, cell.getValue() instanceof JsonNodes);
-
-        JsonNodes values = ((JsonNodes) cell.getValue());
-        Assertions.assertEquals("あいうえお", values.get(0).getVar("value1").getValue().toString());
-        Assertions.assertEquals("かきくけこ", values.get(1).getVar("value2").getValue().toString());
-        Assertions.assertEquals("さしすせそ", values.get(2).getVar("value3").getValue().toString());
+        Assertions.assertEquals(true, jsonObject.isJsonNodes());
+        Assertions.assertEquals(0, ((JsonNodes) jsonObject.getValue()).size());
     }
 
     /**
@@ -190,26 +163,13 @@ public class ColumnTest {
         sut.write(in, out, new JsonObject(jsonNode));
 
         // 書き込んだ内容のチェック
-        InputStream readerConfig = classLoader.getResource("writer/column/columns_cells_check.xml").openStream();
-        InputStream outputExcel = new FileInputStream(absolutePath);
-        FormaReader reader = new FormaReader();
-        JsonObject obj = reader.read(readerConfig, outputExcel);
+        FormaDiffer differ = new FormaDiffer();
+        FileInputStream comparing = new FileInputStream(absolutePath);
+        InputStream compared = classLoader.getResource("writer/column/columns_cells.xlsx").openStream();
+        JsonObject jsonObject = differ.diff(comparing, compared);
+        logger.log(Level.INFO, "比較結果: " + new JsonSerializer().serializeFromJsonObject(jsonObject));
 
-        Object root = obj.getValue();
-        Assertions.assertEquals(true, root instanceof JsonNode);
-
-        JsonObject sheet = ((JsonNode) root).getVar("forma");
-        Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
-
-        JsonObject cell = ((JsonNode) sheet.getValue()).getVar("test");
-        Assertions.assertEquals(true, cell.getValue() instanceof JsonNodes);
-
-        JsonNodes values = ((JsonNodes) cell.getValue());
-        Assertions.assertEquals("あいうえお", values.get(0).getVar("value1-1").getValue().toString());
-        Assertions.assertEquals("かきくけこ", values.get(1).getVar("value1-2").getValue().toString());
-        Assertions.assertEquals("さしすせそ", values.get(2).getVar("value2-1").getValue().toString());
-        Assertions.assertEquals("たちつてと", values.get(3).getVar("value2-2").getValue().toString());
-        Assertions.assertEquals("なにぬねの", values.get(4).getVar("value3-1").getValue().toString());
-        Assertions.assertEquals("はひふへほ", values.get(5).getVar("value3-2").getValue().toString());
+        Assertions.assertEquals(true, jsonObject.isJsonNodes());
+        Assertions.assertEquals(0, ((JsonNodes) jsonObject.getValue()).size());
     }
 }
