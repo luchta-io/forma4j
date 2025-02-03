@@ -1,8 +1,8 @@
-package io.luchta.forma4j.reader.compile.parse;
+package io.luchta.forma4j.reader.xml.parse;
 
 import io.luchta.forma4j.context.syntax.SyntaxErrors;
-import io.luchta.forma4j.reader.compile.parse.tagbuilder.TagBuilder;
-import io.luchta.forma4j.reader.compile.parse.tagbuilder.TagBuilderFactory;
+import io.luchta.forma4j.reader.xml.parse.tagbuilder.TagBuilder;
+import io.luchta.forma4j.reader.xml.parse.tagbuilder.TagBuilderFactory;
 import io.luchta.forma4j.reader.model.tag.Tag;
 import io.luchta.forma4j.reader.model.tag.TagTree;
 import io.luchta.forma4j.reader.model.tag.TagTrees;

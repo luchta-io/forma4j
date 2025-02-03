@@ -2,7 +2,7 @@ package io.luchta.forma4j.reader;
 
 import io.luchta.forma4j.context.databind.json.JsonObject;
 import io.luchta.forma4j.context.syntax.SyntaxErrors;
-import io.luchta.forma4j.reader.compile.FormaReaderCompiler;
+import io.luchta.forma4j.reader.xml.XmlReader;
 import io.luchta.forma4j.reader.excel.ExcelReader;
 import io.luchta.forma4j.reader.model.tag.TagTree;
 import org.xml.sax.SAXException;
@@ -73,7 +73,7 @@ public class FormaReader {
      * @throws SAXException
      */
     public JsonObject read(InputStream config, InputStream excel, String password) throws ParserConfigurationException, IOException, SAXException {
-        FormaReaderCompiler compiler = new FormaReaderCompiler();
+        XmlReader compiler = new XmlReader();
         TagTree tree = compiler.compile(config, syntaxErrors);
 
         if (syntaxErrors.hasErrors()) {

@@ -1,4 +1,4 @@
-package io.luchta.forma4j.reader.compile.relation.taganalyzer;
+package io.luchta.forma4j.reader.xml.relation.taganalyzer;
 
 import io.luchta.forma4j.context.syntax.SyntaxErrors;
 import io.luchta.forma4j.reader.model.tag.TagTree;

@@ -135,47 +135,47 @@ public class FormaReaderTest {
             Assertions.assertEquals(true, cell.getValue() instanceof JsonNode);
 
             JsonObject value = ((JsonNode) cell.getValue()).getVar("hfor");
-            Assertions.assertEquals(true, value.getValue() instanceof JsonNode);
-            JsonNode valueNode = (JsonNode) value.getValue();
-            Assertions.assertEquals(13, valueNode.size());
+            Assertions.assertEquals(true, value.getValue() instanceof JsonNodes);
+            JsonNodes valueNodes = (JsonNodes) value.getValue();
+            Assertions.assertEquals(13, valueNodes.size());
 
-            JsonObject obj1 = valueNode.getVar("value1");
+            JsonObject obj1 = valueNodes.get(0).getVar("value");
             Assertions.assertEquals("社員コード", obj1.toString());
 
-            JsonObject obj2 = valueNode.getVar("value2");
+            JsonObject obj2 = valueNodes.get(1).getVar("value");
             Assertions.assertEquals("氏", obj2.toString());
 
-            JsonObject obj3 = valueNode.getVar("value3");
+            JsonObject obj3 = valueNodes.get(2).getVar("value");
             Assertions.assertEquals("名", obj3.toString());
 
-            JsonObject obj4 = valueNode.getVar("value4");
+            JsonObject obj4 = valueNodes.get(3).getVar("value");
             Assertions.assertEquals("不定１", obj4.toString());
 
-            JsonObject obj5 = valueNode.getVar("value5");
+            JsonObject obj5 = valueNodes.get(4).getVar("value");
             Assertions.assertEquals("不定２", obj5.toString());
 
-            JsonObject obj6 = valueNode.getVar("value6");
+            JsonObject obj6 = valueNodes.get(5).getVar("value");
             Assertions.assertEquals("不定３", obj6.toString());
 
-            JsonObject obj7 = valueNode.getVar("value7");
+            JsonObject obj7 = valueNodes.get(6).getVar("value");
             Assertions.assertEquals("不定４", obj7.toString());
 
-            JsonObject obj8 = valueNode.getVar("value8");
+            JsonObject obj8 = valueNodes.get(7).getVar("value");
             Assertions.assertEquals("不定５", obj8.toString());
 
-            JsonObject obj9 = valueNode.getVar("value9");
+            JsonObject obj9 = valueNodes.get(8).getVar("value");
             Assertions.assertEquals("不定６", obj9.toString());
 
-            JsonObject obj10 = valueNode.getVar("value10");
+            JsonObject obj10 = valueNodes.get(9).getVar("value");
             Assertions.assertEquals("不定７", obj10.toString());
 
-            JsonObject obj11 = valueNode.getVar("value11");
+            JsonObject obj11 = valueNodes.get(10).getVar("value");
             Assertions.assertEquals("不定８", obj11.toString());
 
-            JsonObject obj12 = valueNode.getVar("value12");
+            JsonObject obj12 = valueNodes.get(11).getVar("value");
             Assertions.assertEquals("不定９", obj12.toString());
 
-            JsonObject obj13 = valueNode.getVar("value13");
+            JsonObject obj13 = valueNodes.get(12).getVar("value");
             Assertions.assertEquals("不定１０", obj13.toString());
         }
     }
@@ -206,27 +206,27 @@ public class FormaReaderTest {
 
             JsonNode node1 = employeeNodes.get(0);
             Assertions.assertEquals(4, node1.size());
-            JsonNode node1HFor = (JsonNode) node1.getVar("hfor").getValue();
+            JsonNodes node1HFor = (JsonNodes) node1.getVar("hfor").getValue();
             Assertions.assertEquals(10, node1HFor.size());
 
             JsonNode node2 = employeeNodes.get(1);
             Assertions.assertEquals(4, node1.size());
-            JsonNode node2HFor = (JsonNode) node2.getVar("hfor").getValue();
+            JsonNodes node2HFor = (JsonNodes) node2.getVar("hfor").getValue();
             Assertions.assertEquals(4, node2HFor.size());
 
             JsonNode node3 = employeeNodes.get(2);
             Assertions.assertEquals(4, node3.size());
-            JsonNode node3HFor = (JsonNode) node3.getVar("hfor").getValue();
+            JsonNodes node3HFor = (JsonNodes) node3.getVar("hfor").getValue();
             Assertions.assertEquals(0, node3HFor.size());
 
             JsonNode node4 = employeeNodes.get(3);
             Assertions.assertEquals(4, node4.size());
-            JsonNode node4HFor = (JsonNode) node4.getVar("hfor").getValue();
+            JsonNodes node4HFor = (JsonNodes) node4.getVar("hfor").getValue();
             Assertions.assertEquals(10, node4HFor.size());
 
             JsonNode node5 = employeeNodes.get(4);
             Assertions.assertEquals(4, node5.size());
-            JsonNode node5HFor = (JsonNode) node5.getVar("hfor").getValue();
+            JsonNodes node5HFor = (JsonNodes) node5.getVar("hfor").getValue();
             Assertions.assertEquals(10, node5HFor.size());
         }
     }
