@@ -1,5 +1,6 @@
 package io.luchta.forma4j.reader;
 
+import io.luchta.forma4j.context.databind.convert.JsonSerializer;
 import io.luchta.forma4j.context.databind.json.JsonNode;
 import io.luchta.forma4j.context.databind.json.JsonNodes;
 import io.luchta.forma4j.context.databind.json.JsonObject;
@@ -37,23 +38,23 @@ public class FormaReaderTest {
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
             JsonObject cell = ((JsonNode) sheet.getValue()).getVar("data");
-            Assertions.assertEquals(true, cell.getValue() instanceof JsonNodes);
+            Assertions.assertEquals(true, cell.getValue() instanceof JsonNode);
 
-            JsonNodes values = ((JsonNodes) cell.getValue());
+            JsonNode values = ((JsonNode) cell.getValue());
 
-            Assertions.assertEquals(true, values.get(0).getVar("title").getValue() instanceof String);
-            Assertions.assertEquals("サンプル帳票", values.get(0).getVar("title").getValue().toString());
+            Assertions.assertEquals(true, values.getVar("title").getValue() instanceof String);
+            Assertions.assertEquals("サンプル帳票", values.getVar("title").getValue().toString());
 
-            Assertions.assertEquals(true, values.get(1).getVar("outputdate").getValue() instanceof LocalDateTime);
-            Assertions.assertEquals(LocalDateTime.of(2020, 11, 6, 0, 0, 0), values.get(1).getVar("outputdate").getValue());
+            Assertions.assertEquals(true, values.getVar("outputdate").getValue() instanceof LocalDateTime);
+            Assertions.assertEquals(LocalDateTime.of(2020, 11, 6, 0, 0, 0), values.getVar("outputdate").getValue());
 
-            JsonNode id = ((JsonNode) values.get(2).getVar("id").getValue());
+            JsonNode id = ((JsonNode) values.getVar("id").getValue());
 
             Assertions.assertEquals(true, id.getVar("value").getValue() instanceof String);
             Assertions.assertEquals("0001", id.getVar("value").getValue().toString());
 
-            Assertions.assertEquals(true, values.get(3).getVar("nullValue").getValue() == null);
-            Assertions.assertEquals(null, values.get(3).getVar("nullValue").getValue());
+            Assertions.assertEquals(true, values.getVar("nullValue").getValue() == null);
+            Assertions.assertEquals(null, values.getVar("nullValue").getValue());
         }
     }
 
@@ -74,15 +75,15 @@ public class FormaReaderTest {
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
             JsonObject data = ((JsonNode) sheet.getValue()).getVar("data");
-            Assertions.assertEquals(true, data.getValue() instanceof JsonNodes);
+            Assertions.assertEquals(true, data.getValue() instanceof JsonNode);
 
-            JsonNodes nodes = (JsonNodes) data.getValue();
+            JsonNode node = (JsonNode) data.getValue();
 
-            JsonObject title = nodes.get(0).getVar("title");
+            JsonObject title = node.getVar("title");
             Assertions.assertEquals(true, title.getValue() instanceof String);
             Assertions.assertEquals("サンプル帳票", title.getValue().toString());
 
-            JsonObject value = nodes.get(1).getVar("employee");
+            JsonObject value = node.getVar("employee");
             Assertions.assertEquals(true, value.getValue() instanceof JsonNodes);
             JsonNodes employeeNodes = (JsonNodes) value.getValue();
             Assertions.assertEquals(5, employeeNodes.size());
@@ -584,15 +585,15 @@ public class FormaReaderTest {
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
             JsonObject cell = ((JsonNode) sheet.getValue()).getVar("data");
-            Assertions.assertEquals(true, cell.getValue() instanceof JsonNodes);
+            Assertions.assertEquals(true, cell.getValue() instanceof JsonNode);
 
-            JsonNodes values = ((JsonNodes) cell.getValue());
+            JsonNode values = ((JsonNode) cell.getValue());
 
-            Assertions.assertEquals(true, values.get(0).getVar("title").getValue() instanceof String);
-            Assertions.assertEquals("サンプル帳票", values.get(0).getVar("title").getValue().toString());
+            Assertions.assertEquals(true, values.getVar("title").getValue() instanceof String);
+            Assertions.assertEquals("サンプル帳票", values.getVar("title").getValue().toString());
 
-            Assertions.assertEquals(true, values.get(1).getVar("outputdate").getValue() instanceof LocalDateTime);
-            Assertions.assertEquals(LocalDateTime.of(2020, 11, 6, 0, 0, 0), values.get(1).getVar("outputdate").getValue());
+            Assertions.assertEquals(true, values.getVar("outputdate").getValue() instanceof LocalDateTime);
+            Assertions.assertEquals(LocalDateTime.of(2020, 11, 6, 0, 0, 0), values.getVar("outputdate").getValue());
         }
     }
 
@@ -639,11 +640,11 @@ public class FormaReaderTest {
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
             JsonObject cell = ((JsonNode) sheet.getValue()).getVar("data");
-            Assertions.assertEquals(true, cell.getValue() instanceof JsonNodes);
+            Assertions.assertEquals(true, cell.getValue() instanceof JsonNode);
 
-            JsonNodes values = ((JsonNodes) cell.getValue());
+            JsonNode values = ((JsonNode) cell.getValue());
 
-            Assertions.assertEquals("サンプル\n帳票", values.get(0).getVar("title").getValue().toString());
+            Assertions.assertEquals("サンプル\n帳票", values.getVar("title").getValue().toString());
         }
     }
 }
