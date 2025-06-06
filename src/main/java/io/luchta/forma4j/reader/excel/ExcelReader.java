@@ -15,6 +15,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 /**
  * {@code ExcelReader} は EXCEL の読み込みを行うクラスです。
@@ -133,19 +134,16 @@ public class ExcelReader {
         ObjectReaderFactory factory = new ObjectReaderFactory();
         Index rowIndex = new Index(0);
         Index colIndex = new Index(0);
-        JsonNodes nodes = new JsonNodes();
+        JsonNode node = new JsonNode();
         for (TagTree tree : tagTrees) {
             Tag tag = tree.getTag();
             ObjectReaderFactoryParameter param = new ObjectReaderFactoryParameter(
                     sheet, rowIndex, colIndex, tree, tag
             );
             ObjectReader reader = factory.create(param);
-            nodes.add(reader.read());
+            node.putJsonNode(reader.read());
         }
 
-        if (nodes.size() > 1) {
-            return new JsonObject(nodes);
-        }
-        return new JsonObject(nodes.get(0));
+        return new JsonObject(node);
     }
 }

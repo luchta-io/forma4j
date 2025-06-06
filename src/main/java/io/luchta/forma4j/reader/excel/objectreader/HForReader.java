@@ -1,12 +1,15 @@
 package io.luchta.forma4j.reader.excel.objectreader;
 
 import io.luchta.forma4j.context.databind.json.JsonNode;
+import io.luchta.forma4j.context.databind.json.JsonNodes;
 import io.luchta.forma4j.context.databind.json.JsonObject;
 import io.luchta.forma4j.reader.model.excel.Index;
 import io.luchta.forma4j.reader.model.tag.*;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class HForReader implements ObjectReader {
@@ -31,10 +34,12 @@ public class HForReader implements ObjectReader {
         Integer toCol = hForTag.to().toInteger();
 
         ObjectReaderFactory factory = new ObjectReaderFactory();
-        JsonNode resultNode = new JsonNode();
+        List<JsonNode> nodeList = new ArrayList<>();
         Integer i = fromCol;
         do {
+            // 子要素をループしながら横方向にExcelを読み込む
             boolean isNotLastCellNum = true;
+            JsonNode childrenNode = new JsonNode();
             TagTrees children = tagTree.getChildren();
             for (TagTree child : children) {
                 Tag tag = child.getTag();
@@ -59,9 +64,15 @@ public class HForReader implements ObjectReader {
                 ObjectReader reader = factory.create(param);
                 JsonNode node = reader.read();
                 for (Map.Entry<String, JsonObject> entry : node.entrySet()) {
-                    resultNode.putVar(entry.getKey() + (i - fromCol + 1), entry.getValue());
+                    childrenNode.putVar(entry.getKey(), entry.getValue());
                 }
             }
+
+            if (childrenNode.size() != 0) {
+                nodeList.add(childrenNode);
+            }
+
+            // ループの完了判定
             if (!hForTag.toIsUndefined() && toCol <= i) {
                 break;
             } else if (hForTag.toIsUndefined() && !isNotLastCellNum) {
@@ -71,7 +82,8 @@ public class HForReader implements ObjectReader {
         } while (true);
 
         JsonNode node = new JsonNode();
-        node.putVar(hForTag.name().toString(), new JsonObject(resultNode));
+        node.putVar(hForTag.name().toString(), new JsonObject(new JsonNodes(nodeList)));
+
         return node;
     }
 }
