@@ -6,7 +6,7 @@ import java.util.List;
 
 public class SyntaxErrors implements Iterable<SyntaxError> {
 
-    List<SyntaxError> list;
+    private List<SyntaxError> list;
 
     public SyntaxErrors() {
         list = new ArrayList<>();
@@ -26,6 +26,14 @@ public class SyntaxErrors implements Iterable<SyntaxError> {
 
     public boolean hasErrors() {
         return size() != 0;
+    }
+
+    public String errorMessage() {
+        String message = "";
+        for (SyntaxError syntaxError : list) {
+            message += "  " + syntaxError.getMessage() + "\n";
+        }
+        return message;
     }
 
     @Override
