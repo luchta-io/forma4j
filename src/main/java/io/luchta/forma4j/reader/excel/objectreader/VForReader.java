@@ -84,8 +84,11 @@ public class VForReader implements ObjectReader {
                 break;
             }
 
+            if (childrenNode.size() != 0) {
+                nodeList.add(childrenNode);
+            }
+
             // ループの完了判定
-            nodeList.add(childrenNode);
             if (!vForTag.toIsUndefined() && toRow < i) {
                 break;
             } else if (vForTag.toIsUndefined() && sheet.getLastRowNum() < i) {
