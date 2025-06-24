@@ -9,10 +9,10 @@ plugins {
     id 'java'
     id 'eclipse'
     id 'idea'
-    id 'signing'
     id 'maven-publish'
     id 'antlr'
     id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'org.jreleaser' version '1.18.0'
 }
 
 group = 'io.luchta'
@@ -66,9 +66,11 @@ java {
 
 publishing {
     publications {
-        shadow(MavenPublication) { publication ->
+        shadow(MavenPublication) {
             artifactId = 'forma4j'
-            artifacts = [ shadowJar, javadocJar, sourcesJar ]
+            artifact shadowJar
+            artifact sourcesJar
+            artifact javadocJar
             pom {
                 name = 'forma4j'
                 description = 'Excelの読み書きを行うライブラリ'
@@ -94,19 +96,35 @@ publishing {
     }
     repositories {
         maven {
-            def releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            def snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
-            credentials {
-                username = project.hasProperty('sonatypeUsername') ? "${sonatypeUsername}" : ""
-                password = project.hasProperty('sonatypePassword') ? "${sonatypePassword}" : ""
-            }
+            name = 'localStaging'
+            url  = layout.buildDirectory.dir('staging-deploy')
         }
     }
 }
 
-signing {
-    sign publishing.publications.shadow
+jreleaser {
+    project {
+        name = 'forma4j'
+        description = 'Excelの読み書きを行うライブラリ'
+        website = 'https://github.com/actier-luchta/forma4j'
+        authors = ['Actier,inc']
+        license = 'Apache-2.0'
+    }
+    signing {
+        active = 'ALWAYS'
+        armored = true
+    }
+    deploy {
+        maven {
+            mavenCentral {
+                sonatype {
+                    active = 'ALWAYS'
+                    url = 'https://central.sonatype.com/api/v1/publisher'
+                    stagingRepository("${layout.buildDirectory.get().asFile}/staging-deploy")
+                }
+            }
+        }
+    }
 }
 
 shadowJar {
