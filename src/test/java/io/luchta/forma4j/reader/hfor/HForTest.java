@@ -2,6 +2,7 @@ package io.luchta.forma4j.reader.hfor;
 
 import io.luchta.forma4j.context.databind.convert.JsonSerializer;
 import io.luchta.forma4j.context.databind.json.JsonNode;
+import io.luchta.forma4j.context.databind.json.JsonNodes;
 import io.luchta.forma4j.context.databind.json.JsonObject;
 import io.luchta.forma4j.reader.FormaReader;
 import org.junit.jupiter.api.Assertions;
@@ -37,15 +38,16 @@ public class HForTest {
             Assertions.assertEquals(true, sheets.getValue() instanceof JsonNode);
 
             JsonObject data = ((JsonNode) sheets.getValue()).getVar("data");
-            Assertions.assertEquals(true, data.getValue() instanceof JsonNode);
+            Assertions.assertEquals(true, data.getValue() instanceof JsonNodes);
 
-            JsonNode value = ((JsonNode) data.getValue());
+            JsonNodes values = ((JsonNodes) data.getValue());
 
-            Assertions.assertEquals("あああああ", value.getVar("value1").getValue().toString());
-            Assertions.assertEquals("いいいいい", value.getVar("value2").getValue().toString());
-            Assertions.assertEquals("ううううう", value.getVar("value3").getValue().toString());
-            Assertions.assertEquals("えええええ", value.getVar("value4").getValue().toString());
-            Assertions.assertEquals("おおおおお", value.getVar("value5").getValue().toString());
+            Assertions.assertEquals(5, values.size());
+            Assertions.assertEquals("あああああ", values.get(0).getVar("value").getValue().toString());
+            Assertions.assertEquals("いいいいい", values.get(1).getVar("value").getValue().toString());
+            Assertions.assertEquals("ううううう", values.get(2).getVar("value").getValue().toString());
+            Assertions.assertEquals("えええええ", values.get(3).getVar("value").getValue().toString());
+            Assertions.assertEquals("おおおおお", values.get(4).getVar("value").getValue().toString());
         }
     }
 
@@ -73,13 +75,14 @@ public class HForTest {
             Assertions.assertEquals(true, sheets.getValue() instanceof JsonNode);
 
             JsonObject data = ((JsonNode) sheets.getValue()).getVar("data");
-            Assertions.assertEquals(true, data.getValue() instanceof JsonNode);
+            Assertions.assertEquals(true, data.getValue() instanceof JsonNodes);
 
-            JsonNode value = ((JsonNode) data.getValue());
+            JsonNodes values = ((JsonNodes) data.getValue());
 
-            Assertions.assertEquals("いいいいい", value.getVar("value1").getValue().toString());
-            Assertions.assertEquals("ううううう", value.getVar("value2").getValue().toString());
-            Assertions.assertEquals("えええええ", value.getVar("value3").getValue().toString());
+            Assertions.assertEquals(3, values.size());
+            Assertions.assertEquals("いいいいい", values.get(0).getVar("value").getValue().toString());
+            Assertions.assertEquals("ううううう", values.get(1).getVar("value").getValue().toString());
+            Assertions.assertEquals("えええええ", values.get(2).getVar("value").getValue().toString());
         }
     }
 
@@ -107,15 +110,16 @@ public class HForTest {
             Assertions.assertEquals(true, sheets.getValue() instanceof JsonNode);
 
             JsonObject data = ((JsonNode) sheets.getValue()).getVar("data");
-            Assertions.assertEquals(true, data.getValue() instanceof JsonNode);
+            Assertions.assertEquals(true, data.getValue() instanceof JsonNodes);
 
-            JsonNode value = ((JsonNode) data.getValue());
+            JsonNodes values = ((JsonNodes) data.getValue());
 
-            Assertions.assertEquals("ややややや", value.getVar("value1").getValue().toString());
-            Assertions.assertEquals(true, value.getVar("value2").isEmpty());
-            Assertions.assertEquals("ゆゆゆゆゆ", value.getVar("value3").getValue().toString());
-            Assertions.assertEquals(true, value.getVar("value4").isEmpty());
-            Assertions.assertEquals("よよよよよ", value.getVar("value5").getValue().toString());
+            Assertions.assertEquals(5, values.size());
+            Assertions.assertEquals("ややややや", values.get(0).getVar("value").getValue().toString());
+            Assertions.assertEquals(true, values.get(1).getVar("value").isEmpty());
+            Assertions.assertEquals("ゆゆゆゆゆ", values.get(2).getVar("value").getValue().toString());
+            Assertions.assertEquals(true, values.get(3).getVar("value").isEmpty());
+            Assertions.assertEquals("よよよよよ", values.get(4).getVar("value").getValue().toString());
         }
     }
 
@@ -143,13 +147,14 @@ public class HForTest {
             Assertions.assertEquals(true, sheets.getValue() instanceof JsonNode);
 
             JsonObject data = ((JsonNode) sheets.getValue()).getVar("data");
-            Assertions.assertEquals(true, data.getValue() instanceof JsonNode);
+            Assertions.assertEquals(true, data.getValue() instanceof JsonNodes);
 
-            JsonNode value = ((JsonNode) data.getValue());
+            JsonNodes values = ((JsonNodes) data.getValue());
 
-            Assertions.assertEquals("ちちちちち", value.getVar("value1").getValue().toString());
-            Assertions.assertEquals("つつつつつ", value.getVar("value2").getValue().toString());
-            Assertions.assertEquals("ててててて", value.getVar("value3").getValue().toString());
+            Assertions.assertEquals(3, values.size());
+            Assertions.assertEquals("ちちちちち", values.get(0).getVar("value").getValue().toString());
+            Assertions.assertEquals("つつつつつ", values.get(1).getVar("value").getValue().toString());
+            Assertions.assertEquals("ててててて", values.get(2).getVar("value").getValue().toString());
         }
     }
 
@@ -176,10 +181,10 @@ public class HForTest {
             Assertions.assertEquals(true, sheets.getValue() instanceof JsonNode);
 
             JsonObject data = ((JsonNode) sheets.getValue()).getVar("data");
-            Assertions.assertEquals(true, data.getValue() instanceof JsonNode);
+            Assertions.assertEquals(true, data.getValue() instanceof JsonNodes);
 
-            JsonNode value = ((JsonNode) data.getValue());
-            Assertions.assertEquals(0, value.size());
+            JsonNodes values = ((JsonNodes) data.getValue());
+            Assertions.assertEquals(0, values.size());
         }
     }
 }

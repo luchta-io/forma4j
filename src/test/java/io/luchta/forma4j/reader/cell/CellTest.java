@@ -60,6 +60,9 @@ public class CellTest {
             FormaReader formaReader = new FormaReader();
             JsonObject obj = formaReader.read(config, excel);
 
+            JsonSerializer serializer = new JsonSerializer();
+            System.out.println(serializer.serializeFromJsonObject(obj));
+
             Object root = obj.getValue();
             Assertions.assertEquals(true, root instanceof JsonNode);
 
@@ -67,13 +70,13 @@ public class CellTest {
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
             JsonObject cells = ((JsonNode) sheet.getValue()).getVar("ひらがな");
-            Assertions.assertEquals(true, cells.getValue() instanceof JsonNodes);
+            Assertions.assertEquals(true, cells.getValue() instanceof JsonNode);
 
-            JsonNodes values = ((JsonNodes) cells.getValue());
+            JsonNode value = ((JsonNode) cells.getValue());
 
-            Assertions.assertEquals("あああああ", values.get(0).getVar("value1").getValue().toString());
-            Assertions.assertEquals("せせせせせ", values.get(1).getVar("value2").getValue().toString());
-            Assertions.assertEquals("こここここ", values.get(2).getVar("value3").getValue().toString());
+            Assertions.assertEquals("あああああ", value.getVar("value1").getValue().toString());
+            Assertions.assertEquals("せせせせせ", value.getVar("value2").getValue().toString());
+            Assertions.assertEquals("こここここ", value.getVar("value3").getValue().toString());
         }
     }
 
@@ -94,13 +97,13 @@ public class CellTest {
             Assertions.assertEquals(true, sheets.getValue() instanceof JsonNodes);
 
             JsonObject cells1 = ((JsonNodes) sheets.getValue()).get(0).getVar("ひらがな");
-            Assertions.assertEquals(true, cells1.getValue() instanceof JsonNodes);
+            Assertions.assertEquals(true, cells1.getValue() instanceof JsonNode);
 
-            JsonNodes values1 = ((JsonNodes) cells1.getValue());
+            JsonNode values1 = ((JsonNode) cells1.getValue());
 
-            Assertions.assertEquals("あああああ", values1.get(0).getVar("value1").getValue().toString());
-            Assertions.assertEquals("せせせせせ", values1.get(1).getVar("value2").getValue().toString());
-            Assertions.assertEquals("こここここ", values1.get(2).getVar("value3").getValue().toString());
+            Assertions.assertEquals("あああああ", values1.getVar("value1").getValue().toString());
+            Assertions.assertEquals("せせせせせ", values1.getVar("value2").getValue().toString());
+            Assertions.assertEquals("こここここ", values1.getVar("value3").getValue().toString());
 
             JsonObject cells2 = ((JsonNodes) sheets.getValue()).get(1).getVar("カタカナ");
             Assertions.assertEquals(true, cells2.getValue() instanceof JsonNode);
@@ -110,13 +113,13 @@ public class CellTest {
             Assertions.assertEquals("ヒヒヒヒヒ", values2.getVar("value1").getValue().toString());
 
             JsonObject cells3 = ((JsonNodes) sheets.getValue()).get(2).getVar("半角カタカナ");
-            Assertions.assertEquals(true, cells3.getValue() instanceof JsonNodes);
+            Assertions.assertEquals(true, cells3.getValue() instanceof JsonNode);
 
-            JsonNodes values3 = ((JsonNodes) cells3.getValue());
+            JsonNode values3 = ((JsonNode) cells3.getValue());
 
-            Assertions.assertEquals("ﾕﾕﾕﾕﾕ", values3.get(0).getVar("value1").getValue().toString());
-            Assertions.assertEquals("ｷｷｷｷｷ", values3.get(1).getVar("value2").getValue().toString());
-            Assertions.assertEquals("ﾅﾅﾅﾅﾅ", values3.get(2).getVar("value3").getValue().toString());
+            Assertions.assertEquals("ﾕﾕﾕﾕﾕ", values3.getVar("value1").getValue().toString());
+            Assertions.assertEquals("ｷｷｷｷｷ", values3.getVar("value2").getValue().toString());
+            Assertions.assertEquals("ﾅﾅﾅﾅﾅ", values3.getVar("value3").getValue().toString());
         }
     }
 
@@ -187,13 +190,13 @@ public class CellTest {
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
             JsonObject cell = ((JsonNode) sheet.getValue()).getVar("数値");
-            Assertions.assertEquals(true, cell.getValue() instanceof JsonNodes);
+            Assertions.assertEquals(true, cell.getValue() instanceof JsonNode);
 
-            JsonNodes value = ((JsonNodes) cell.getValue());
+            JsonNode value = ((JsonNode) cell.getValue());
 
-            Assertions.assertEquals(new BigDecimal("1"), value.get(0).getVar("value1").getValue());
-            Assertions.assertEquals(new BigDecimal("1.3"), value.get(1).getVar("value2").getValue());
-            Assertions.assertEquals(new BigDecimal("18000000"), value.get(2).getVar("value3").getValue());
+            Assertions.assertEquals(new BigDecimal("1"), value.getVar("value1").getValue());
+            Assertions.assertEquals(new BigDecimal("1.3"), value.getVar("value2").getValue());
+            Assertions.assertEquals(new BigDecimal("18000000"), value.getVar("value3").getValue());
         }
     }
 
@@ -264,17 +267,17 @@ public class CellTest {
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
             JsonObject cell = ((JsonNode) sheet.getValue()).getVar("計算式");
-            Assertions.assertEquals(true, cell.getValue() instanceof JsonNodes);
+            Assertions.assertEquals(true, cell.getValue() instanceof JsonNode);
 
-            JsonNodes values = ((JsonNodes) cell.getValue());
+            JsonNode values = ((JsonNode) cell.getValue());
 
-            Assertions.assertEquals("あああああ", values.get(0).getVar("string").getValue());
-            Assertions.assertEquals(new BigDecimal(50), values.get(1).getVar("number").getValue());
-            Assertions.assertEquals(LocalDateTime.of(2024, 7, 21, 0, 0, 0, 0), values.get(2).getVar("date").getValue());
-            Assertions.assertEquals(true, values.get(3).getVar("bool").getValue());
-            Assertions.assertEquals(FormulaError.DIV0.getLongCode(), values.get(4).getVar("error").getValue());
-            Assertions.assertEquals(FormulaError.NAME.getLongCode(), values.get(5).getVar("exception").getValue());
-            Assertions.assertEquals(null, values.get(6).getVar("blank").getValue());
+            Assertions.assertEquals("あああああ", values.getVar("string").getValue());
+            Assertions.assertEquals(new BigDecimal(50), values.getVar("number").getValue());
+            Assertions.assertEquals(LocalDateTime.of(2024, 7, 21, 0, 0, 0, 0), values.getVar("date").getValue());
+            Assertions.assertEquals(true, values.getVar("bool").getValue());
+            Assertions.assertEquals(FormulaError.DIV0.getLongCode(), values.getVar("error").getValue());
+            Assertions.assertEquals(FormulaError.NAME.getLongCode(), values.getVar("exception").getValue());
+            Assertions.assertEquals(null, values.getVar("blank").getValue());
         }
     }
 
@@ -295,16 +298,16 @@ public class CellTest {
             Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
 
             JsonObject cell = ((JsonNode) sheet.getValue()).getVar("表示形式");
-            Assertions.assertEquals(true, cell.getValue() instanceof JsonNodes);
+            Assertions.assertEquals(true, cell.getValue() instanceof JsonNode);
 
-            JsonNodes value = ((JsonNodes) cell.getValue());
-            Assertions.assertEquals("1.1", value.get(0).getVar("value1").getValue());
-            Assertions.assertEquals(new BigDecimal("1.051234"), value.get(1).getVar("value2").getValue());
-            Assertions.assertEquals(new BigDecimal("1.051234"), value.get(2).getVar("value3").getValue());
-            Assertions.assertEquals("1.123456789", value.get(3).getVar("value4").getValue());
-            Assertions.assertEquals("1.123456789", value.get(4).getVar("value5").getValue());
-            Assertions.assertEquals("1,234", value.get(5).getVar("value6").getValue());
-            Assertions.assertEquals("¥1,234", value.get(6).getVar("value7").getValue());
+            JsonNode value = ((JsonNode) cell.getValue());
+            Assertions.assertEquals("1.1", value.getVar("value1").getValue());
+            Assertions.assertEquals(new BigDecimal("1.051234"), value.getVar("value2").getValue());
+            Assertions.assertEquals(new BigDecimal("1.051234"), value.getVar("value3").getValue());
+            Assertions.assertEquals("1.123456789", value.getVar("value4").getValue());
+            Assertions.assertEquals("1.123456789", value.getVar("value5").getValue());
+            Assertions.assertEquals("1,234", value.getVar("value6").getValue());
+            Assertions.assertEquals("¥1,234", value.getVar("value7").getValue());
         }
     }
 }
