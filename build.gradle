@@ -131,6 +131,11 @@ shadowJar {
     archiveClassifier.set("")
 }
 
+tasks.named("publishShadowPublicationToLocalStagingRepository") {
+    dependsOn("jar")
+    dependsOn("shadowJar", "sourcesJar", "javadocJar")
+}
+
 generateGrammarSource {
     outputDirectory = file("src-gen/main/java")
 }
