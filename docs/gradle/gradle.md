@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-  implementation group: 'io.luchta', name: 'forma4j', version: '1.8.1'
+  implementation group: 'io.luchta', name: 'forma4j', version: '1.8.2'
 }
 ```
 
@@ -26,6 +26,6 @@ repositories {
 }
 
 dependencies {
-  implementation 'io.luchta:forma4j:1.8.1'
+  implementation 'io.luchta:forma4j:1.8.2'
 }
 ```
