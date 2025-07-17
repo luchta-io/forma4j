@@ -18,10 +18,11 @@ import java.util.Map;
  */
 public class BreakConditionHandler {
     /** break条件 */
-    private BreakCondition condition;
+    private final BreakCondition condition;
 
     /**
      * コンストラクタ
+     *
      * @param condition break条件
      */
     public BreakConditionHandler(BreakCondition condition) {
@@ -30,20 +31,26 @@ public class BreakConditionHandler {
 
     /**
      * breakするかをチェック
-     * @param node
+     *
+     * @param node ノード
      * @return true: breakする, false: breakしない
      */
     public boolean shouldBreak(JsonNode node) {
         BreakType type = condition.breakType();
-        switch(type) {
-            case ALL_BLANK: return allBlank(node);
-            default: return false;
+        if (type == BreakType.ALL_BLANK) {
+            return allBlank(node);
         }
+        return false;
     }
 
     /**
-     * break条件がall_breakのとき
-     * @param node
+     * break条件がall_blankのとき
+     *
+     * <p>
+     * ノードに含まれるすべての値がブランクのときにbreakする
+     * </p>
+     *
+     * @param node ノード
      * @return true: breakする, false: breakしない
      */
     private boolean allBlank(JsonNode node) {
@@ -53,9 +60,17 @@ public class BreakConditionHandler {
             if (obj.isJsonNodes()) {
                 for (JsonNode n : (JsonNodes) obj.getValue()) {
                     shouldBreak = allBlank(n);
+
+                    if (!shouldBreak) {
+                        break;
+                    }
                 }
             } else {
-                shouldBreak = obj.isEmpty() || obj.getValue().toString().equals("");
+                shouldBreak = obj.isEmpty() || obj.getValue().toString().isEmpty();
+            }
+
+            if (!shouldBreak) {
+                break;
             }
         }
         return shouldBreak;
