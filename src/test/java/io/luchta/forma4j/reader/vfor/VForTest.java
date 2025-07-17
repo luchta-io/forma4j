@@ -109,4 +109,35 @@ public class VForTest {
             Assertions.assertEquals(7, values.size());
         }
     }
+
+    /**
+     * v-forタグでbreakプロパティにall_blankをセットしh-forタグと組み合わせた時のテスト
+     */
+    @Test
+    public void vfor_all_blank_with_hfor() throws Exception {
+        try (InputStream config = new FileInputStream(this.getClass().getClassLoader().getResource("reader/vfor/vfor_all_blank_with_hfor.xml").getPath());
+             InputStream excel = new FileInputStream(this.getClass().getClassLoader().getResource("reader/Test.xlsx").getPath());) {
+            FormaReader formaReader = new FormaReader();
+            JsonObject obj = formaReader.read(config, excel);
+
+            JsonSerializer serializer = new JsonSerializer();
+            System.out.println(serializer.serializeFromJsonObject(obj));
+
+            Object root = obj.getValue();
+            Assertions.assertEquals(true, root instanceof JsonNode);
+
+            JsonObject sheet = ((JsonNode) root).getVar("forma");
+            Assertions.assertEquals(true, sheet.getValue() instanceof JsonNode);
+
+            JsonObject sheets = ((JsonNode) sheet.getValue()).getVar("ひらがな");
+            Assertions.assertEquals(true, sheets.getValue() instanceof JsonNode);
+
+            JsonObject data = ((JsonNode) sheets.getValue()).getVar("data");
+            Assertions.assertEquals(true, data.getValue() instanceof JsonNodes);
+
+            JsonNodes values = ((JsonNodes) data.getValue());
+
+            Assertions.assertEquals(9, values.size());
+        }
+    }
 }
