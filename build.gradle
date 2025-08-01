@@ -41,7 +41,7 @@ dependencies {
     implementation "jakarta.xml.bind:jakarta.xml.bind-api:4.0.2"
     implementation "com.sun.xml.bind:jaxb-impl:4.0.5"
     
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.19.0'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.19.2'
     implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.19.0'
 
 
