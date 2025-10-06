@@ -47,13 +47,13 @@ public class CellHandler {
 
         // cellへの出力内容を設定
 		StyleResolver styleResolver = new StyleResolver();
-        XlsxCell xlsxCell = new XlsxCell(address, value(cell), styleResolver.get(cell.style()));
+        XlsxCell xlsxCell = new XlsxCell(address, value(cell), styleResolver.get(cell.style(), buffer.variableResolver()));
 
         // 列へのスタイル設定
         XlsxColumnAddress columnAddress = new XlsxColumnAddress(
                 new XlsxSheetName(new Name(address.sheetName().toString())),
                 new XlsxColumnNumber(address.columnNumber().toLong()));
-        XlsxColumnProperties columnProperties = styleResolver.getColumnProperties(cell.style());
+        XlsxColumnProperties columnProperties = styleResolver.getColumnProperties(cell.style(), buffer.variableResolver());
 
         // 設定した内容をbufferへセットする
         buffer.accumulator().put(address, xlsxCell);

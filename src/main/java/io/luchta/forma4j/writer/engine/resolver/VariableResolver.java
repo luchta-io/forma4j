@@ -2,9 +2,11 @@ package io.luchta.forma4j.writer.engine.resolver;
 
 import io.luchta.forma4j.writer.Context;
 import io.luchta.forma4j.writer.engine.buffer.loop.LoopContext;
+import io.luchta.forma4j.writer.engine.model.cell.value.Numeric;
 import io.luchta.forma4j.writer.engine.model.cell.value.Text;
 import io.luchta.forma4j.writer.engine.model.cell.value.XlsxCellValue;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -38,9 +40,9 @@ public class VariableResolver {
     public XlsxCellValue get(String key) {
         // TODO とりあえず全部Text型にしてるのでちゃんと直す
         Object contextVar = getValue(key, context);
-        if (contextVar != null) return new Text((String) contextVar);
+        if (contextVar != null) return toXlsxCellValue(contextVar);
         Object loopContextVar = getValue(key, loopContext);
-        if (loopContextVar != null) return new Text((String) loopContextVar);
+        if (loopContextVar != null) return toXlsxCellValue(loopContextVar);
         return new Text();
     }
 
@@ -136,5 +138,11 @@ public class VariableResolver {
             return contextVar;
         }
         return null;
+    }
+
+    private XlsxCellValue toXlsxCellValue(Object obj) {
+        if (obj == null) return new Text();
+        if (obj instanceof Number) return new Numeric(new BigDecimal(obj.toString()));
+        return new Text(String.valueOf(obj));
     }
 }
