@@ -23,7 +23,7 @@
 
 ## background-color
 
-設定例
+### 設定例
 
 ```xml
 <cell style="background-color:#FFC000">value</cell>
@@ -33,7 +33,7 @@
 
 ## border, border-left, border-right, border-top, border-bottom
 
-設定例
+### 設定例
 
 ```xml
 <cell style="border:thin;">value</cell>
@@ -43,7 +43,7 @@
 <cell style="border-bottom:thin;">value</cell>
 ```
 
-種別
+### 種別
 
 | 種別 | 説明 |
 | --- | --- |
@@ -63,7 +63,7 @@
 
 ## color
 
-設定例
+### 設定例
 
 ```xml
 <cell style="color:#FFC000">value</cell>
@@ -73,7 +73,7 @@
 
 ## font-size
 
-設定例
+### 設定例
 
 ```xml
 <cell style="font-size:16;">value</cell>
@@ -83,7 +83,7 @@
 
 ## font-family
 
-設定例
+### 設定例
 
 ```xml
 <cell style="font-family:Meiryo UI;">value</cell>
@@ -93,13 +93,13 @@
 
 ## font-style
 
-設定例
+### 設定例
 
 ```xml
 <cell style="font-style:bold;">value</cell>
 ```
 
-種別
+### 種別
 
 | 種別 | 説明 |
 | --- | --- |
@@ -109,7 +109,7 @@
 
 ## width
 
-設定例
+### 設定例
 
 ```xml
 <cell style="width:100">value</cell>
@@ -119,13 +119,13 @@
 
 ## h-align
 
-設定例
+### 設定例
 
 ```xml
 <cell style="h-align:left">value</cell>
 ```
 
-種別
+### 種別
 
 | 種別 | 説明 |
 | --- | --- |
@@ -138,13 +138,13 @@
 
 ## v-align
 
-設定例
+### 設定例
 
 ```xml
 <cell style="v-align:top">value</cell>
 ```
 
-種別
+### 種別
 
 | 種別 | 説明 |
 | --- | --- |
@@ -155,13 +155,13 @@
 
 ## wrapText
 
-設定例
+### 設定例
 
 ```xml
 <cell style="wrapText:true;">value</cell>
 ```
 
-種別
+### 種別
 
 | 種別 | 説明 |
 | --- | --- |
@@ -170,10 +170,51 @@
 
 ## 複数スタイル設定
 
-設定例
+### 設定例
 
 ```xml
 <cell style="border:thin;background-color:#FFC000">value</cell>
 ```
 
 セミコロンで区切って複数のスタイルを設定することができます。
+
+## IF文
+
+### 設定例
+
+```xml
+<cell style="IF(#{value1 EQ value2}, `background-color: #FFC000`, `background-color: #00C000`)">value</cell>
+<cell style="IF(#{value1 EQ value2}, `background-color: #FFC000`, `IF(#{value3 NE value4}, `background-color: #FFC000`, `background-color: #00C000`)`)">value</cell>
+```
+
+### 記述方法
+
+```xml
+<cell style="IF(#{条件式}, `TRUEスタイル`, `FALSEスタイル`)">value</cell>
+```
+
+スタイルに `IF` 文を記述することで条件に応じてセルのスタイルを切り替えることができます。`IF` は大文字・小文字を区別しません。
+
+条件式は `#{` と `}` で囲んで記述します。TRUE・FALSEスタイはバッククォート（`）で囲んで記述します。
+
+### 条件演算子
+
+| 条件演算子 | 例      | 説明                |
+|----|--------|-------------------|
+| EQ | 1 EQ 1 | 等しい       |
+| NE | 1 NE 1 | 等しくない   |
+| GE | 2 GE 1 | 大きいまたは等しい |
+| LE | 1 LE 2 | 小さいまたは等しい |
+| GT | 2 GT 1 | 大きい     |
+| LT | 1 LT 1 | 小さい     |
+
+条件演算子は大文字・小文字を区別しません。
+
+### 論理演算子
+
+| 条件演算子 | 例                 | 説明       |
+|-------|-------------------|----------|
+| AND   | 1 EQ 1 AND 2 EQ 2 | 論理積 |
+| OR    | 1 NE 1 OR 2 NE 2  | 論理和 |
+
+論理演算子は大文字・小文字を区別しません。

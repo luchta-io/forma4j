@@ -76,7 +76,7 @@ public class ListHandler {
         for (String headerName : map.keySet()) {
             buffer.accumulator().put(
                     address,
-                    new XlsxCell(address, new Text(headerName), styleResolver.get(style)));
+                    new XlsxCell(address, new Text(headerName), styleResolver.get(style, buffer.variableResolver())));
             address = address.columnNumberIncrement();
         }
     }
@@ -103,7 +103,7 @@ public class ListHandler {
             for (Object value : line.values()) {
                 buffer.accumulator().put(
                         address,
-                        new XlsxCell(address, new Text(value.toString()), styleResolver.get(style)));
+                        new XlsxCell(address, new Text(value.toString()), styleResolver.get(style, buffer.variableResolver())));
                 address = address.columnNumberIncrement();
             }
 
