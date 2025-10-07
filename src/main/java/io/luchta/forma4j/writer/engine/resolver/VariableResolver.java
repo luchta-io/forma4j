@@ -2,6 +2,7 @@ package io.luchta.forma4j.writer.engine.resolver;
 
 import io.luchta.forma4j.writer.Context;
 import io.luchta.forma4j.writer.engine.buffer.loop.LoopContext;
+import io.luchta.forma4j.writer.engine.model.cell.value.Bool;
 import io.luchta.forma4j.writer.engine.model.cell.value.Numeric;
 import io.luchta.forma4j.writer.engine.model.cell.value.Text;
 import io.luchta.forma4j.writer.engine.model.cell.value.XlsxCellValue;
@@ -38,7 +39,6 @@ public class VariableResolver {
      * @return 変数の値（すべてText型として返る）
      */
     public XlsxCellValue get(String key) {
-        // TODO とりあえず全部Text型にしてるのでちゃんと直す
         Object contextVar = getValue(key, context);
         if (contextVar != null) return toXlsxCellValue(contextVar);
         Object loopContextVar = getValue(key, loopContext);
@@ -140,9 +140,10 @@ public class VariableResolver {
         return null;
     }
 
-    private XlsxCellValue toXlsxCellValue(Object obj) {
+    private XlsxCellValue<?> toXlsxCellValue(Object obj) {
         if (obj == null) return new Text();
         if (obj instanceof Number) return new Numeric(new BigDecimal(obj.toString()));
+        if (obj instanceof Boolean) return new Bool((Boolean) obj);
         return new Text(String.valueOf(obj));
     }
 }

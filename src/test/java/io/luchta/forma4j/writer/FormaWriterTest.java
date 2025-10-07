@@ -460,6 +460,8 @@ public class FormaWriterTest {
         jsonNode.putVar("string_value1", new JsonObject("テスト"));
         jsonNode.putVar("number_value2", new JsonObject(1.1));
         jsonNode.putVar("string_value2", new JsonObject("テスト2"));
+        jsonNode.putVar("boolean_value", new JsonObject(true));
+        jsonNode.putVar("null_value", new JsonObject());
 
         JsonNode child = new JsonNode();
         child.putVar("number_value1", new JsonObject(1));
