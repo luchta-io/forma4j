@@ -195,7 +195,7 @@
 
 スタイルに `IF` 文を記述することで条件に応じてセルのスタイルを切り替えることができます。`IF` は大文字・小文字を区別しません。
 
-条件式は `#{` と `}` で囲んで記述します。TRUE・FALSEスタイはバッククォート（`）で囲んで記述します。
+条件式は `#{` と `}` で囲んで記述します。TRUE・FALSEスタイルはバッククォート（`）で囲んで記述します。
 
 ### 条件演算子
 
@@ -206,7 +206,7 @@
 | GE | 2 GE 1 | 大きいまたは等しい |
 | LE | 1 LE 2 | 小さいまたは等しい |
 | GT | 2 GT 1 | 大きい     |
-| LT | 1 LT 1 | 小さい     |
+| LT | 1 LT 2 | 小さい     |
 
 条件演算子は大文字・小文字を区別しません。
 
@@ -218,3 +218,20 @@
 | OR    | 1 NE 1 OR 2 NE 2  | 論理和 |
 
 論理演算子は大文字・小文字を区別しません。
+
+### 真偽値
+
+IF文の条件式では真偽値を扱うことができます。 真偽値は `TRUE` / `FALSE` を指定できます。大文字・小文字を区別しません。
+
+```xml
+<cell style="IF(#{value EQ TRUE}, `background-color: #FFC000`, `background-color: #00C000`)">value</cell>
+<cell style="IF(#{value EQ FALSE}, `background-color: #FFC000`, `background-color: #00C000`)">value</cell>
+```
+
+### NULL
+
+IF文の条件式では `NULL` を扱うことができます。大文字・小文字を区別しません。
+
+```xml
+<cell style="IF(#{value EQ NULL}, `background-color: #FFC000`, `background-color: #00C000`)">value</cell>
+```

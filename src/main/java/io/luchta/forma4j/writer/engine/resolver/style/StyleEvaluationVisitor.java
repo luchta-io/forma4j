@@ -4,6 +4,7 @@ import io.luchta.forma4j.antlr.style.StyleBaseVisitor;
 import io.luchta.forma4j.antlr.style.StyleParser;
 import io.luchta.forma4j.writer.engine.model.cell.value.XlsxCellValue;
 import io.luchta.forma4j.writer.engine.resolver.VariableResolver;
+import org.antlr.v4.runtime.Token;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -88,13 +89,12 @@ public class StyleEvaluationVisitor extends StyleBaseVisitor<Object> {
         Object right = visitOperand(ctx.operand(1));
 
         String operator = ctx.comparison_operator().getText();
-        if (left instanceof BigDecimal && right instanceof BigDecimal) return numberOperation((BigDecimal) left, (BigDecimal) right, operator);
+        int charPositionInLine = ctx.getStart().getCharPositionInLine();
+        String input = ctx.getStart().getInputStream().toString();
 
-        switch (operator.toUpperCase()) {
-            case "EQ": return left.equals(right);
-            case "NE": return !left.equals(right);
-        }
-        return null;
+        if (left == null || right == null) return nullOperation(left, right, operator, charPositionInLine, input);
+        if (left instanceof BigDecimal && right instanceof BigDecimal) return numberOperation((BigDecimal) left, (BigDecimal) right, operator, charPositionInLine, input);
+        return stringOperation(left, right, operator, charPositionInLine, input);
     }
 
     @Override
@@ -113,19 +113,47 @@ public class StyleEvaluationVisitor extends StyleBaseVisitor<Object> {
         if (ctx.NUMBER() != null) {
             return new BigDecimal(ctx.NUMBER().getText());
         }
+
+        if (ctx.BOOLEAN() != null) {
+            return Boolean.valueOf(ctx.BOOLEAN().getText());
+        }
+
+        if (ctx.NULL() != null) {
+            return null;
+        }
         return null;
     }
 
-    private Boolean numberOperation(BigDecimal left, BigDecimal right, String operator) {
+    private Boolean stringOperation(Object left, Object right, String operator, int charPositionInLine, String input) {
+        switch (operator.toUpperCase()) {
+            case "EQ": return left.equals(right);
+            case "NE": return !left.equals(right);
+            default: throw unexpectedOperator(operator, charPositionInLine, input);
+        }
+    }
+
+    private Boolean numberOperation(BigDecimal left, BigDecimal right, String operator, int charPositionInLine, String input) {
         switch (operator.toUpperCase()) {
             case "EQ": return left.compareTo(right) == 0;
             case "NE": return left.compareTo(right) != 0;
             case "GE": return left.compareTo(right) >= 0;
             case "LE": return left.compareTo(right) <= 0;
-            case "GT":  return left.compareTo(right) > 0;
-            case "LT":  return left.compareTo(right) < 0;
+            case "GT": return left.compareTo(right) > 0;
+            case "LT": return left.compareTo(right) < 0;
+            default: throw unexpectedOperator(operator, charPositionInLine, input);
         }
-        return null;
+    }
+
+    private Boolean nullOperation(Object left, Object right, String operator, int charPositionInLine, String input) {
+        switch (operator.toUpperCase()) {
+            case "EQ": return left == right;
+            case "NE": return left != right;
+            default: throw unexpectedOperator(operator, charPositionInLine, input);
+        }
+    }
+
+    private RuntimeException unexpectedOperator(String operator, int charPositionInLine, String input) {
+        throw new IllegalArgumentException("style の構文に誤りがあります : 位置 " + charPositionInLine + ", " + input + "（不正な演算子：'" + operator + "'）");
     }
 
     public static class Styles implements Iterable<Style> {

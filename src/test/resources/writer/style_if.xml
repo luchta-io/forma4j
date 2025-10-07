@@ -25,6 +25,8 @@
             <cell>string_value1</cell>
             <cell>number_value2</cell>
             <cell>string_value2</cell>
+            <cell>boolean_value</cell>
+            <cell>null_value</cell>
             <cell>child.number_value1</cell>
             <cell>child.string_value1</cell>
             <cell>child.number_value2</cell>
@@ -39,6 +41,8 @@
             <cell>#{string_value1}</cell>
             <cell>#{number_value2}</cell>
             <cell>#{string_value2}</cell>
+            <cell>#{boolean_value}</cell>
+            <cell>#{null_value}</cell>
             <cell>#{child.number_value1}</cell>
             <cell>#{child.string_value1}</cell>
             <cell>#{child.number_value2}</cell>
@@ -53,6 +57,10 @@
             <cell style="v-align:top;h-align:center;IF(#{string_value1 EQ 'テスト'}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">string_value1 EQ 'テスト' (#{string_value1} EQ 1)</cell>
             <cell style="v-align:top;h-align:center;IF(#{number_value1 EQ number_value2}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">number_value1 EQ number_value2</cell>
             <cell style="v-align:top;h-align:center;IF(#{string_value1 EQ string_value2}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">string_value1 EQ string_value2</cell>
+            <cell style="v-align:top;h-align:center;IF(#{boolean_value EQ TRUE}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">boolean_value EQ TRUE</cell>
+            <cell style="v-align:top;h-align:center;IF(#{boolean_value EQ FALSE}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">boolean_value EQ FALSE</cell>
+            <cell style="v-align:top;h-align:center;IF(#{null_value EQ NULL}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">null_value EQ NULL</cell>
+            <cell style="v-align:top;h-align:center;IF(#{null_value NE NULL}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">null_value NE NULL</cell>
             <cell style="v-align:top;h-align:center;IF(#{child.number_value1 EQ 1}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">child.number_value1 EQ 1</cell>
             <cell style="v-align:top;h-align:center;IF(#{child.string_value1 EQ 'テスト'}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">child.string_value1 EQ 'テスト'</cell>
             <cell style="v-align:top;h-align:center;IF(#{child.number_value1 EQ child.number_value2}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">child.number_value1 EQ child.number_value2</cell>

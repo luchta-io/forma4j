@@ -18,11 +18,11 @@ property
   ;
 
 property_name
-  : (IDENTIFIER | NUMBER)+
+  : IDENTIFIER+
   ;
 
 property_value
-  : (IDENTIFIER | NUMBER)+
+  : (IDENTIFIER | NUMBER | BOOLEAN)+
   ;
 
 expression
@@ -48,8 +48,14 @@ boolean_term
   ;
 
 boolean_factor
-  : comparison
+  : bare_boolean
+  | comparison
   | LPAREN boolean_expr RPAREN
+  ;
+
+bare_boolean
+  : IDENTIFIER
+  | BOOLEAN
   ;
 
 comparison
@@ -60,6 +66,8 @@ operand
   : IDENTIFIER
   | NUMBER
   | STRING
+  | BOOLEAN
+  | NULL
   ;
 
 comparison_operator
@@ -101,6 +109,8 @@ LTE : [Ll][Ee];
 GT  : [Gg][Tt];
 LT  : [Ll][Tt];
 
+BOOLEAN    : [Tt][Rr][Uu][Ee] | [Ff][Aa][Ll][Ss][Ee];
+NULL       : [Nn][Uu][Ll][Ll];
 IDENTIFIER : [A-Za-z_#][A-Za-z0-9_-]*('.'[A-Za-z0-9_-]+)*;
 NUMBER     : '-'? [0-9]+ ('.' [0-9]+)?;
 STRING     : '\'' (~['\\] | '\\' .)* '\'';
