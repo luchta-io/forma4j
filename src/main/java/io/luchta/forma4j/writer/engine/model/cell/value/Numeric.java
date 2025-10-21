@@ -35,6 +35,11 @@ public class Numeric implements XlsxCellValue<BigDecimal> {
     }
 
     @Override
+    public boolean isNumeric() {
+        return true;
+    }
+
+    @Override
     public String toString() {
         if (isEmpty()) return "";
         return value.toString();

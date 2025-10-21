@@ -18,6 +18,11 @@ public class Date implements XlsxCellValue<LocalDate> {
     }
 
     @Override
+    public boolean isDate() {
+        return true;
+    }
+
+    @Override
     public LocalDate toValue() {
         return value;
     }

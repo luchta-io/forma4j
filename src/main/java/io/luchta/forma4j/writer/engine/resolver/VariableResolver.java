@@ -2,12 +2,13 @@ package io.luchta.forma4j.writer.engine.resolver;
 
 import io.luchta.forma4j.writer.Context;
 import io.luchta.forma4j.writer.engine.buffer.loop.LoopContext;
-import io.luchta.forma4j.writer.engine.model.cell.value.Bool;
-import io.luchta.forma4j.writer.engine.model.cell.value.Numeric;
-import io.luchta.forma4j.writer.engine.model.cell.value.Text;
-import io.luchta.forma4j.writer.engine.model.cell.value.XlsxCellValue;
+import io.luchta.forma4j.writer.engine.model.cell.value.*;
+import io.luchta.forma4j.writer.engine.model.cell.value.Date;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -144,6 +145,16 @@ public class VariableResolver {
         if (obj == null) return new Text();
         if (obj instanceof Number) return new Numeric(new BigDecimal(obj.toString()));
         if (obj instanceof Boolean) return new Bool((Boolean) obj);
+
+        String s = String.valueOf(obj);
+        try {
+            return new Date(LocalDate.parse(s, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        } catch (Exception ignored) {}
+
+        try {
+            return new DateTime(LocalDateTime.parse(s, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")));
+        } catch (Exception ignored) {}
+
         return new Text(String.valueOf(obj));
     }
 }
