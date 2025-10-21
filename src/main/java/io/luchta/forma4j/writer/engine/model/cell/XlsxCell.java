@@ -7,10 +7,10 @@ import io.luchta.forma4j.writer.engine.model.cell.value.XlsxCellValue;
 
 public class XlsxCell {
     XlsxCellAddress address;
-    XlsxCellValue value;
+    XlsxCellValue<?> value;
     XlsxCellStyle style;
 
-    public XlsxCell(XlsxCellAddress address, XlsxCellValue value, XlsxCellStyle style) {
+    public XlsxCell(XlsxCellAddress address, XlsxCellValue<?> value, XlsxCellStyle style) {
         this.address = address;
         this.value = value;
         this.style = style;
@@ -24,7 +24,7 @@ public class XlsxCell {
         return address.columnNumber();
     }
 
-    public XlsxCellValue value() {
+    public XlsxCellValue<?> value() {
         return value;
     }
     
@@ -34,5 +34,25 @@ public class XlsxCell {
 
     public boolean isEmpty() {
         return value.isEmpty();
+    }
+
+    public boolean isBoolean() {
+        return value.isBoolean();
+    }
+
+    public boolean isNumeric() {
+        return value.isNumeric();
+    }
+
+    public boolean isDate() {
+        return value.isDate();
+    }
+
+    public boolean isDateTime() {
+        return value.isDateTime();
+    }
+
+    public boolean isText() {
+        return value.isText();
     }
 }

@@ -23,6 +23,11 @@ public class DateTime implements XlsxCellValue<LocalDateTime> {
     }
 
     @Override
+    public boolean isDateTime() {
+        return true;
+    }
+
+    @Override
     public String toString() {
         if (value == null) return "";
         return value.toString();

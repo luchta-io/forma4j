@@ -318,8 +318,8 @@ public class FormaWriterTest {
     @Test
     void template_xlsx_test() throws Exception {
         ClassLoader classLoader = getClass().getClassLoader();
-        InputStream in = classLoader.getResource("writer/一覧.xml").openStream();
-        File inFile = new File(classLoader.getResource("writer/list.xlsx").getPath());
+        InputStream in = classLoader.getResource("writer/template_xlsx.xml").openStream();
+        File inFile = new File(classLoader.getResource("writer/template_xlsx.xlsx").getPath());
         File outFile = Files.createTempFile("test", String.format("%s.xlsx", LocalDateTime.now().toString())).toFile();
         FileInputStream inputStream = new FileInputStream(inFile);
         FileOutputStream outputStream = new FileOutputStream(outFile, true);
@@ -359,8 +359,8 @@ public class FormaWriterTest {
     @Test
     void password_xlsx_with_template_test() throws Exception {
         ClassLoader classLoader = getClass().getClassLoader();
-        InputStream in = classLoader.getResource("writer/一覧.xml").openStream();
-        File inFile = new File(classLoader.getResource("writer/list.xlsx").getPath());
+        InputStream in = classLoader.getResource("writer/template_xlsx.xml").openStream();
+        File inFile = new File(classLoader.getResource("writer/template_xlsx.xlsx").getPath());
         File outFile = Files.createTempFile("test", String.format("%s.xlsx", LocalDateTime.now().toString())).toFile();
         FileInputStream inputStream = new FileInputStream(inFile);
         FileOutputStream outputStream = new FileOutputStream(outFile, true);
@@ -381,9 +381,12 @@ public class FormaWriterTest {
         jsonNode1.putVar("件名", new JsonObject("xx機能実装する"));
         jsonNode1.putVar("担当者", new JsonObject("ユーザA"));
         jsonNode1.putVar("状態", new JsonObject("処理中"));
-        jsonNode1.putVar("更新日時", new JsonObject("2020/11/5"));
+        jsonNode1.putVar("カテゴリ", new JsonObject("タスク"));
+        jsonNode1.putVar("マイルストーン", new JsonObject("v1.0.0.RELEASE"));
+        jsonNode1.putVar("優先度", new JsonObject(1));
+        jsonNode1.putVar("更新日時", new JsonObject(LocalDate.of(2020, 11, 5)));
         jsonNode1.putVar("更新者", new JsonObject("ユーザA"));
-        jsonNode1.putVar("登録日時", new JsonObject("2020/11/2"));
+        jsonNode1.putVar("登録日時", new JsonObject(LocalDate.of(2020, 11, 2)));
         jsonNode1.putVar("登録者", new JsonObject("ユーザB"));
 
         jsonNodes.add(jsonNode1);
@@ -393,21 +396,27 @@ public class FormaWriterTest {
         jsonNode2.putVar("件名", new JsonObject("yy機能を実装する"));
         jsonNode2.putVar("担当者", new JsonObject(""));
         jsonNode2.putVar("状態", new JsonObject("未対応"));
-        jsonNode2.putVar("更新日時", new JsonObject("2020/11/2"));
+        jsonNode2.putVar("カテゴリ", new JsonObject("タスク"));
+        jsonNode2.putVar("マイルストーン", new JsonObject("v1.0.0.RELEASE"));
+        jsonNode2.putVar("優先度", new JsonObject(1));
+        jsonNode2.putVar("更新日時", new JsonObject(LocalDate.of(2020, 11, 5)));
         jsonNode2.putVar("更新者", new JsonObject("ユーザB"));
-        jsonNode2.putVar("登録日時", new JsonObject("2020/11/2"));
+        jsonNode2.putVar("登録日時", new JsonObject(LocalDate.of(2020, 11, 2)));
         jsonNode2.putVar("登録者", new JsonObject("ユーザB"));
 
         jsonNodes.add(jsonNode2);
 
         JsonNode jsonNode3 = new JsonNode();
-        jsonNode3.putVar("キー", new JsonObject("TEST-2"));
-        jsonNode3.putVar("件名", new JsonObject("yy機能を実装する"));
+        jsonNode3.putVar("キー", new JsonObject("TEST-3"));
+        jsonNode3.putVar("件名", new JsonObject("zz機能を実装する"));
         jsonNode3.putVar("担当者", new JsonObject(""));
         jsonNode3.putVar("状態", new JsonObject("未対応"));
-        jsonNode3.putVar("更新日時", new JsonObject("2020/11/2"));
+        jsonNode3.putVar("カテゴリ", new JsonObject("タスク"));
+        jsonNode3.putVar("マイルストーン", new JsonObject("v1.0.0.RELEASE"));
+        jsonNode3.putVar("優先度", new JsonObject(1));
+        jsonNode3.putVar("更新日時", new JsonObject(LocalDate.of(2020, 11, 5)));
         jsonNode3.putVar("更新者", new JsonObject("ユーザB"));
-        jsonNode3.putVar("登録日時", new JsonObject("2020/11/2"));
+        jsonNode3.putVar("登録日時", new JsonObject(LocalDate.of(2020, 11, 2)));
         jsonNode3.putVar("登録者", new JsonObject("ユーザB"));
 
         jsonNodes.add(jsonNode3);

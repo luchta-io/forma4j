@@ -28,6 +28,11 @@ public class Bool implements XlsxCellValue<Boolean> {
     }
 
     @Override
+    public boolean isBoolean() {
+        return true;
+    }
+
+    @Override
     public Boolean toValue() {
         return value;
     }

@@ -21,6 +21,11 @@ public class Text implements XlsxCellValue<String> {
     }
 
     @Override
+    public boolean isText() {
+        return true;
+    }
+
+    @Override
     public String toString() {
         if (value == null) return "";
         return value;
