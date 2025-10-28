@@ -142,35 +142,41 @@ public class WorkbookBuilder {
      * @param cellModel
      */
     private void cellValue(Cell cell, XlsxCell cellModel) {
-        String value = cellModel.value().toString();
-        XlsxCellValue<?> cellValue = cellModel.value();
+        try {
+            if (cellModel.isEmpty()) {
+                cell.setCellValue("");
+                return;
+            }
 
-        if (value.startsWith("=")) {
-            cell.setCellFormula(value.substring(1));
-            return;
+            if (cellModel.isFormula()) {
+                cell.setCellFormula(cellModel.toFormula().substring(1));
+                return;
+            }
+
+            if (cellModel.isBoolean()) {
+                cell.setCellValue(cellModel.toBoolean());
+                return;
+            }
+
+            if (cellModel.isDate()) {
+                cell.setCellValue(cellModel.toDate());
+                return;
+            }
+
+            if (cellModel.isDateTime()) {
+                cell.setCellValue(cellModel.toDateTime());
+                return;
+            }
+
+            if (cellModel.isNumeric()) {
+                cell.setCellValue(cellModel.toNumeric());
+                return;
+            }
+
+            cell.setCellValue(cellModel.toText());
+        } catch (Exception e) {
+            cell.setCellValue(cellModel.toText());
         }
-
-        if (cellModel.isDate()) {
-            cell.setCellValue((LocalDate) cellValue.toValue());
-            return;
-        }
-
-        if (cellModel.isDateTime()) {
-            cell.setCellValue((LocalDateTime) cellValue.toValue());
-            return;
-        }
-
-        if (cellModel.isNumeric()) {
-            cell.setCellValue(((BigDecimal) cellValue.toValue()).doubleValue());
-            return;
-        }
-
-        if (cellModel.isBoolean()) {
-            cell.setCellValue((Boolean) cellValue.toValue());
-            return;
-        }
-
-        cell.setCellValue(cellValue.toString());
     }
 
     /**

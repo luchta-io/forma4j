@@ -6,6 +6,7 @@ import io.luchta.forma4j.context.databind.json.JsonObject;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -106,11 +107,23 @@ public class JsonSerializer {
 
     private String formatValue(Object value) {
         if (value == null) return "null";
+        
+        String s = "";
+        if (value instanceof LocalDate) {
+            LocalDate d = (LocalDate) value;
+            s = d.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        } else if (value instanceof LocalDateTime) {
+            LocalDateTime dt = (LocalDateTime) value;
+            s = dt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS"));
+        } else {
+            s = value.toString();
+        }
+
         if (requiresJsonQuoting(value)) {
-            String escapedValue = escape(value.toString());
+            String escapedValue = escape(s);
             return "\"" + escapedValue + "\"";
         }
-        return escape(value.toString());
+        return escape(s);
     }
 
     private boolean requiresJsonQuoting(Object value) {

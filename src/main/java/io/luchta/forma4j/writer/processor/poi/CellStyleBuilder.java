@@ -25,15 +25,22 @@ public class CellStyleBuilder {
     private Font targetFont;
 
     /**
+     * ワークブック
+     */
+    private Workbook workbook;
+
+    /**
      * コンストラクタ
      * @param definition
      * @param targetStyle
      * @param targetFont
+     * @param workbook
      */
-    private CellStyleBuilder(XlsxCellStyle definition, CellStyle targetStyle, Font targetFont) {
+    private CellStyleBuilder(XlsxCellStyle definition, CellStyle targetStyle, Font targetFont, Workbook workbook) {
         this.definition = definition;
         this.targetStyle = targetStyle;
         this.targetFont = targetFont;
+        this.workbook = workbook;
     }
 
     /**
@@ -45,7 +52,7 @@ public class CellStyleBuilder {
     static CellStyleBuilder of(XlsxCellStyle style, Workbook workbook) {
         CellStyle cellStyle = workbook.createCellStyle();
         Font font = workbook.createFont();
-        return new CellStyleBuilder(style, cellStyle, font);
+        return new CellStyleBuilder(style, cellStyle, font, workbook);
     }
 
     /**
@@ -130,6 +137,15 @@ public class CellStyleBuilder {
         if (targetFont instanceof XSSFFont) {
             ((XSSFFont) targetFont).setColor(color);
         }
+    }
+
+    /**
+     * データフォーマットを設定する
+     * @param dataFormat
+     */
+    public void setDataFormat(String dataFormat) {
+        DataFormat df = workbook.createDataFormat();
+        targetStyle.setDataFormat(df.getFormat(dataFormat));
     }
 
     /**
