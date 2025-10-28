@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<forma>
+  <sheet name="test">
+    <row rowIndex="0" startColumnIndex="0">
+      <cell style="border:thin;background-color:#FFC000">boolean型</cell>
+      <cell style="border:thin;background-color:#FFC000">文字列をboolean型に変換</cell>
+      <cell style="border:thin;background-color:#FFC000">日付型</cell>
+      <cell style="border:thin;background-color:#FFC000">文字列を日付型に変換</cell>
+      <cell style="border:thin;background-color:#FFC000">日時型</cell>
+      <cell style="border:thin;background-color:#FFC000">文字列を日時型に変換</cell>
+      <cell style="border:thin;background-color:#FFC000">計算式</cell>
+      <cell style="border:thin;background-color:#FFC000">数値型</cell>
+      <cell style="border:thin;background-color:#FFC000">数値型（小数）</cell>
+      <cell style="border:thin;background-color:#FFC000">文字列を数値型に変換</cell>
+      <cell style="border:thin;background-color:#FFC000">文字列を数値型（小数）に変換</cell>
+      <cell style="border:thin;background-color:#FFC000">文字列</cell>
+      <cell style="border:thin;background-color:#FFC000">cellType未設定</cell>
+    </row>
+    <row rowIndex="1" startColumnIndex="0">
+      <cell style="border:thin" cellType="boolean" dataFormat="#,##0">#{boolean_value1}</cell>
+      <cell style="border:thin" cellType="boolean" dataFormat="#,##0">#{boolean_value2}</cell>
+      <cell style="border:thin" cellType="date" dataFormat="[$-x-sysdate]dddd, mmmm dd, yyyy">#{date_value1}</cell>
+      <cell style="border:thin" cellType="date" dataFormat="[$-x-sysdate]dddd, mmmm dd, yyyy">#{date_value2}</cell>
+      <cell style="border:thin" cellType="datetime" dataFormat="yyyy/m/d h:mm;@">#{datetime_value1}</cell>
+      <cell style="border:thin" cellType="datetime" dataFormat="yyyy/m/d h:mm;@">#{datetime_value2}</cell>
+      <cell style="border:thin" cellType="formula" dataFormat="#,##0">#{formula_value}</cell>
+      <cell style="border:thin" cellType="numeric" dataFormat="#,##0">#{numeric_value1}</cell>
+      <cell style="border:thin" cellType="numeric" dataFormat="#,##0.00000">#{numeric_value1}</cell>
+      <cell style="border:thin" cellType="numeric" dataFormat="#,##0">#{numeric_value2}</cell>
+      <cell style="border:thin" cellType="numeric" dataFormat="#,##0.00000">#{numeric_value2}</cell>
+      <cell style="border:thin" cellType="string">#{string_value}</cell>
+      <cell style="border:thin">#{string_value}</cell>
+    </row>
+  </sheet>
+</forma>

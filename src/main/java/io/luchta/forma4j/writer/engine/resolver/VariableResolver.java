@@ -152,7 +152,7 @@ public class VariableResolver {
         } catch (Exception ignored) {}
 
         try {
-            return new DateTime(LocalDateTime.parse(s, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")));
+            return new DateTime(LocalDateTime.parse(s, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")));
         } catch (Exception ignored) {}
 
         return new Text(String.valueOf(obj));

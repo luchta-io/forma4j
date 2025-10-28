@@ -5,32 +5,19 @@
             <cell>出力日時</cell>
             <cell>#{出力日時}</cell>
         </row>
-        <row rowIndex="2" startColumnIndex="0">
-            <cell>キー</cell>
-            <cell>件名*</cell>
-            <cell>担当者</cell>
-            <cell>状態*</cell>
-            <cell>カテゴリ</cell>
-            <cell>マイルストーン</cell>
-            <cell>優先度</cell>
-            <cell>更新日時</cell>
-            <cell>更新者</cell>
-            <cell>登録日時</cell>
-            <cell>登録者</cell>
-        </row>
         <vertical-for item="データ" collection="データリスト" startRowIndex="3" startColumnIndex="0">
             <row>
-                <cell>#{データ.キー}</cell>
-                <cell>#{データ.件名}</cell>
-                <cell>#{データ.担当者}</cell>
-                <cell>#{データ.状態}</cell>
-                <cell>#{データ.カテゴリ}</cell>
-                <cell>#{データ.マイルストーン}</cell>
-                <cell>#{データ.優先度}</cell>
-                <cell>#{データ.更新日時}</cell>
-                <cell>#{データ.更新者}</cell>
-                <cell>#{データ.登録日時}</cell>
-                <cell>#{データ.登録者}</cell>
+                <cell style="border:thin">#{データ.キー}</cell>
+                <cell style="border:thin">#{データ.件名}</cell>
+                <cell style="border:thin">#{データ.担当者}</cell>
+                <cell style="border:thin">#{データ.状態}</cell>
+                <cell style="border:thin">#{データ.カテゴリ}</cell>
+                <cell style="border:thin">#{データ.マイルストーン}</cell>
+                <cell style="border:thin">#{データ.優先度}</cell>
+                <cell style="border:thin" cellType="date">#{データ.更新日時}</cell>
+                <cell style="border:thin">#{データ.更新者}</cell>
+                <cell style="border:thin" cellType="date">#{データ.登録日時}</cell>
+                <cell style="border:thin">#{データ.登録者}</cell>
             </row>
         </vertical-for>
     </sheet>

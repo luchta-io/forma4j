@@ -1,6 +1,7 @@
 package io.luchta.forma4j.writer.engine.handler.element;
 
 import io.luchta.forma4j.writer.definition.schema.attribute.Name;
+import io.luchta.forma4j.writer.definition.schema.attribute.cell.DataFormat;
 import io.luchta.forma4j.writer.definition.schema.element.Cell;
 import io.luchta.forma4j.writer.engine.buffer.BuildBuffer;
 import io.luchta.forma4j.writer.engine.model.cell.XlsxCell;
@@ -8,6 +9,9 @@ import io.luchta.forma4j.writer.engine.model.cell.address.XlsxCellAddress;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxColumnNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxRowNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxSheetName;
+import io.luchta.forma4j.writer.engine.model.cell.style.DataFormatProperty;
+import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyle;
+import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellType;
 import io.luchta.forma4j.writer.engine.model.cell.value.Text;
 import io.luchta.forma4j.writer.engine.model.cell.value.XlsxCellValue;
 import io.luchta.forma4j.writer.engine.model.column.XlsxColumnAddress;
@@ -46,8 +50,15 @@ public class CellHandler {
         }
 
         // cellへの出力内容を設定
+        XlsxCellValue<?> cellValue = value(cell);
 		StyleResolver styleResolver = new StyleResolver();
-        XlsxCell xlsxCell = new XlsxCell(address, value(cell), styleResolver.get(cell.style(), buffer.variableResolver()));
+        XlsxCellStyle cellStyle = styleResolver.get(cell.style(), buffer.variableResolver());
+        XlsxCellType xlsxCellType = null;
+        if (!cell.cellType().isEmpty()) {
+            xlsxCellType = cellType(cell.cellType().toString());
+        }
+        dataFormat(xlsxCellType, cell.dataFormat(), cellStyle);
+        XlsxCell xlsxCell = new XlsxCell(address, cellValue, cellStyle, xlsxCellType);
 
         // 列へのスタイル設定
         XlsxColumnAddress columnAddress = new XlsxColumnAddress(
@@ -70,9 +81,48 @@ public class CellHandler {
      * @param cell
      * @return cellへの出力値
      */
-    private XlsxCellValue value(Cell cell) {
+    private XlsxCellValue<?> value(Cell cell) {
         return cell.text().isVariable() ?
                 buffer.variableResolver().get(cell.text().stripMarker()) :
                 new Text(cell.text().toString());
+    }
+
+    /**
+     * cellType を取得
+     *
+     * @param name cellType の設定値
+     * @return XlsxCellType
+     */
+    private XlsxCellType cellType(String name) {
+        try {
+            return XlsxCellType.valueOf(name.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("不明な cellType が設定されています。" + name, e);
+        }
+    }
+
+    /**
+     * データフォマットを設定
+     *
+     * @param type セル種別
+     * @param format データフォーマット設定値
+     * @param style スタイル
+     */
+    private void dataFormat(XlsxCellType type, DataFormat format, XlsxCellStyle style) {
+        if (type == null) {
+            return;
+        }
+
+        String dataFormat = type.defaultFormat();
+
+        if (dataFormat == null && format.isEmpty()) {
+            return;
+        }
+
+        if (!format.isEmpty()) {
+            dataFormat = format.toString();
+        }
+
+        style.add(new DataFormatProperty(dataFormat));
     }
 }
