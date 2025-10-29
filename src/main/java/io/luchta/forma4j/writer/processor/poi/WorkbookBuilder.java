@@ -5,6 +5,7 @@ import io.luchta.forma4j.writer.engine.model.book.XlsxBook;
 import io.luchta.forma4j.writer.engine.model.cell.XlsxCell;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxColumnNumber;
 import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyle;
+import io.luchta.forma4j.writer.engine.model.cell.value.XlsxCellValue;
 import io.luchta.forma4j.writer.engine.model.column.XlsxColumnAddress;
 import io.luchta.forma4j.writer.engine.model.column.XlsxColumnRange;
 import io.luchta.forma4j.writer.engine.model.column.property.WidthProperty;
@@ -18,6 +19,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,30 +44,31 @@ public class WorkbookBuilder {
     }
 
     /**
-     * 列幅の自動調整ありでExcelワークブック作成
+     * 新規Excelワークブック作成
      * @return ワークブック
      */
     public Workbook build() {
-        return build(new XSSFWorkbook(), true);
+        return build(new XSSFWorkbook(), true, false);
     }
 
     /**
-     * 列幅の自動調整なしでExcelワークブック作成
+     * 既存のExcelワークブックへ出力
      * @param in テンプレート
      * @return ワークブック
      * @throws IOException
      */
     public Workbook build(InputStream in) throws IOException {
-        return build(WorkbookFactory.create(in), false);
+        return build(WorkbookFactory.create(in), false, true);
     }
 
     /**
      * Excelワークブック作成
      * @param workbook ワークブック
      * @param autoSizeColumnEnabled true: 列幅自動調整あり, false: 列幅自動調整なし
+     * @param previousCellStyle true: 既存セルの書式を変更せずに出力, false: 既存セルの書式を上書き
      * @return ワークブック
      */
-    private Workbook build(Workbook workbook, boolean autoSizeColumnEnabled) {
+    private Workbook build(Workbook workbook, boolean autoSizeColumnEnabled, boolean previousCellStyle) {
         Map<XlsxCellStyle, CellStyle> styleMap = makeStyleMap(workbook);
 
         for (XlsxSheet sheetModel : model.sheets()) {
@@ -84,8 +89,12 @@ public class WorkbookBuilder {
                         cell = row.createCell(cellModel.columnNumber().toInt());
                     }
 
+                    if (previousCellStyle && cellModel.style().isEmpty()) {
+                        cell.setCellStyle(cell.getCellStyle());
+                    } else {
+                        cell.setCellStyle(styleMap.get(cellModel.style()));
+                    }
                     cellValue(cell, cellModel);
-                    cell.setCellStyle(styleMap.get(cellModel.style()));
                 }
 
                 if (rowModel.hasAutoFilter()) {
@@ -133,11 +142,40 @@ public class WorkbookBuilder {
      * @param cellModel
      */
     private void cellValue(Cell cell, XlsxCell cellModel) {
-        String value = cellModel.value().toString();
-        if (value.startsWith("=")) {
-            cell.setCellFormula(value.substring(1));
-        } else {
-            cell.setCellValue(value);
+        try {
+            if (cellModel.isEmpty()) {
+                cell.setCellValue("");
+                return;
+            }
+
+            if (cellModel.isFormula()) {
+                cell.setCellFormula(cellModel.toFormula().substring(1));
+                return;
+            }
+
+            if (cellModel.isBoolean()) {
+                cell.setCellValue(cellModel.toBoolean());
+                return;
+            }
+
+            if (cellModel.isDate()) {
+                cell.setCellValue(cellModel.toDate());
+                return;
+            }
+
+            if (cellModel.isDateTime()) {
+                cell.setCellValue(cellModel.toDateTime());
+                return;
+            }
+
+            if (cellModel.isNumeric()) {
+                cell.setCellValue(cellModel.toNumeric());
+                return;
+            }
+
+            cell.setCellValue(cellModel.toText());
+        } catch (Exception e) {
+            cell.setCellValue(cellModel.toText());
         }
     }
 

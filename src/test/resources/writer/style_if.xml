@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<forma>
+    <sheet name="style">
+        <row rowIndex="0" startColumnIndex="0">
+            <cell style="v-align:top;h-align:center;IF(#{1 EQ 1}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">1 EQ 1</cell>
+            <cell style="v-align:top;h-align:center;IF(#{2 EQ 1}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">2 EQ 1</cell>
+            <cell style="v-align:top;h-align:center;IF(#{1 NE 1}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">1 NE 1</cell>
+            <cell style="v-align:top;h-align:center;IF(#{2 NE 1}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">2 NE 1</cell>
+            <cell style="v-align:top;h-align:center;IF(#{2 GT 1}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">2 GT 1</cell>
+            <cell style="v-align:top;h-align:center;IF(#{1 LT 2}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">1 LT 2</cell>
+            <cell style="v-align:top;h-align:center;IF(#{2 GE 1}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">2 GE 1</cell>
+            <cell style="v-align:top;h-align:center;IF(#{1 LE 2}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">1 LE 2</cell>
+            <cell style="v-align:top;h-align:center;IF(#{2 GE 1}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">2 GE 2</cell>
+            <cell style="v-align:top;h-align:center;IF(#{2 LE 2}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">2 LE 2</cell>
+            <cell style="v-align:top;h-align:center;IF(#{2 EQ 2}, `color: #00C000;background-color: #FFC000`, `IF(#{1 EQ 1}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)`)">入れ子構造</cell>
+            <cell style="v-align:top;h-align:center;IF(#{1 EQ 1 AND 2 EQ 2}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">1 EQ 1 AND 2 EQ 2</cell>
+            <cell style="v-align:top;h-align:center;IF(#{1 EQ 1 OR 2 EQ 2}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">1 EQ 1 OR 2 EQ 2</cell>
+            <cell style="v-align:top;h-align:center;IF(#{'テスト' EQ 'テスト'}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">'テスト' EQ 'テスト'</cell>
+            <cell style="v-align:top;h-align:center;IF(#{'テスト' NE 'テスト'}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">'テスト' NE 'テスト'</cell>
+            <cell style="IF(#{1 EQ 1}, `v-align:bottom`, `v-align:top`);h-align:center;IF(#{'テスト' NE 'テスト'}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">複数のIF文</cell>
+        </row>
+
+        <row rowIndex="2" startColumnIndex="0">
+            <cell>number_value1</cell>
+            <cell>string_value1</cell>
+            <cell>number_value2</cell>
+            <cell>string_value2</cell>
+            <cell>boolean_value</cell>
+            <cell>null_value</cell>
+            <cell>child.number_value1</cell>
+            <cell>child.string_value1</cell>
+            <cell>child.number_value2</cell>
+            <cell>child.string_value2</cell>
+            <cell>child.grandChild.number_value1</cell>
+            <cell>child.grandChild.string_value1</cell>
+            <cell>child.grandChild.number_value2</cell>
+            <cell>child.grandChild.string_value2</cell>
+        </row>
+        <row rowIndex="3" startColumnIndex="0">
+            <cell>#{number_value1}</cell>
+            <cell>#{string_value1}</cell>
+            <cell>#{number_value2}</cell>
+            <cell>#{string_value2}</cell>
+            <cell>#{boolean_value}</cell>
+            <cell>#{null_value}</cell>
+            <cell>#{child.number_value1}</cell>
+            <cell>#{child.string_value1}</cell>
+            <cell>#{child.number_value2}</cell>
+            <cell>#{child.string_value2}</cell>
+            <cell>#{child.grandChild.number_value1}</cell>
+            <cell>#{child.grandChild.string_value1}</cell>
+            <cell>#{child.grandChild.number_value2}</cell>
+            <cell>#{child.grandChild.string_value2}</cell>
+        </row>
+        <row rowIndex="4" startColumnIndex="0">
+            <cell style="v-align:top;h-align:center;IF(#{number_value1 EQ 1}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">number_value EQ 1 (#{number_value1} EQ 1)</cell>
+            <cell style="v-align:top;h-align:center;IF(#{string_value1 EQ 'テスト'}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">string_value1 EQ 'テスト' (#{string_value1} EQ 1)</cell>
+            <cell style="v-align:top;h-align:center;IF(#{number_value1 EQ number_value2}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">number_value1 EQ number_value2</cell>
+            <cell style="v-align:top;h-align:center;IF(#{string_value1 EQ string_value2}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">string_value1 EQ string_value2</cell>
+            <cell style="v-align:top;h-align:center;IF(#{boolean_value EQ TRUE}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">boolean_value EQ TRUE</cell>
+            <cell style="v-align:top;h-align:center;IF(#{boolean_value EQ FALSE}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">boolean_value EQ FALSE</cell>
+            <cell style="v-align:top;h-align:center;IF(#{null_value EQ NULL}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">null_value EQ NULL</cell>
+            <cell style="v-align:top;h-align:center;IF(#{null_value NE NULL}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">null_value NE NULL</cell>
+            <cell style="v-align:top;h-align:center;IF(#{child.number_value1 EQ 1}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">child.number_value1 EQ 1</cell>
+            <cell style="v-align:top;h-align:center;IF(#{child.string_value1 EQ 'テスト'}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">child.string_value1 EQ 'テスト'</cell>
+            <cell style="v-align:top;h-align:center;IF(#{child.number_value1 EQ child.number_value2}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">child.number_value1 EQ child.number_value2</cell>
+            <cell style="v-align:top;h-align:center;IF(#{child.string_value1 EQ child.string_value2}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">child.string_value1 EQ child.string_value2</cell>
+            <cell style="v-align:top;h-align:center;if(#{child.grandChild.number_value1 eq 1}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">child.grandChild.number_value1 eq 1</cell>
+            <cell style="v-align:top;h-align:center;if(#{child.grandChild.string_value1 eq 'テスト'}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">child.grandChild.string_value1 eq 'テスト'</cell>
+            <cell style="v-align:top;h-align:center;if(#{child.grandChild.number_value1 eq child.grandChild.number_value2}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">child.grandChild.number_value1 eq child.grandChild.number_value2</cell>
+            <cell style="v-align:top;h-align:center;if(#{child.grandChild.string_value1 eq child.grandChild.string_value2}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">child.grandChild.string_value1 eq child.grandChild.string_value2</cell>
+        </row>
+
+        <vertical-for item="data" collection="list" startRowIndex="6" startColumnIndex="0">
+            <row>
+                <cell>data.number_value</cell>
+                <cell>#{data.number_value1}</cell>
+                <cell>data.string_value</cell>
+                <cell>#{data.string_value1}</cell>
+                <cell>data.number_value2</cell>
+                <cell>#{data.number_value2}</cell>
+                <cell>data.string_value2</cell>
+                <cell>#{data.string_value2}</cell>
+            </row>
+        </vertical-for>
+        <vertical-for item="data" collection="list" startRowIndex="9" startColumnIndex="0">
+            <row>
+                <cell style="v-align:top;h-align:center;IF(#{data.number_value1 EQ 1}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">data.number_value1 EQ 1</cell>
+                <cell style="v-align:top;h-align:center;IF(#{data.string_value1 EQ 'テスト'}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">data.string_value1 EQ 'テスト'</cell>
+                <cell style="v-align:top;h-align:center;IF(#{data.number_value1 EQ data.number_value2}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">data.number_value1 EQ data.number_value2</cell>
+                <cell style="v-align:top;h-align:center;IF(#{data.string_value1 EQ data.string_value2}, `color: #00C000;background-color: #FFC000`, `color: #FFC000;background-color: #00C000`)">data.string_value1 EQ data.string_value2</cell>
+            </row>
+        </vertical-for>
+    </sheet>
+</forma>

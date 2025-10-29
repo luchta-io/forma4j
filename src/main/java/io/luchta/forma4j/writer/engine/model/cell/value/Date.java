@@ -2,7 +2,7 @@ package io.luchta.forma4j.writer.engine.model.cell.value;
 
 import java.time.LocalDate;
 
-public class Date implements XlsxCellValue {
+public class Date implements XlsxCellValue<LocalDate> {
     LocalDate value;
 
     public Date() {
@@ -15,6 +15,16 @@ public class Date implements XlsxCellValue {
     @Override
     public boolean isEmpty() {
         return value == null;
+    }
+
+    @Override
+    public boolean isDate() {
+        return true;
+    }
+
+    @Override
+    public LocalDate toValue() {
+        return value;
     }
 
     @Override

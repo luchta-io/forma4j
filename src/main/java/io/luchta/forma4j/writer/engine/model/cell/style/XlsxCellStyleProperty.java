@@ -16,7 +16,8 @@ public interface XlsxCellStyleProperty {
      * @return 適切なXlsxCellStylePropertyのインスタンス
      */
     static XlsxCellStyleProperty of(String name, String value) {
-        switch (name) {
+        String upperName = name.toUpperCase();
+        switch (upperName) {
             case BackGroundColorProperty.NAME:
                 return new BackGroundColorProperty(value);
             case BorderProperty.NAME:
@@ -31,6 +32,8 @@ public interface XlsxCellStyleProperty {
                 return new BorderBottomProperty(value);
             case ColorProperty.NAME:
                 return new ColorProperty(value);
+            case DataFormatProperty.NAME:
+                return new DataFormatProperty(value);
             case FontFamilyProperty.NAME:
                 return new FontFamilyProperty(value);
             case FontSizeProperty.NAME:

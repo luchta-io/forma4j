@@ -14,8 +14,7 @@ repositories {
 }
 
 dependencies {
-  implementation group: 'io.luchta', name: 'forma4j', version: '1.8.2'
-}
+  implementation group: 'io.luchta', name: 'forma4j', version: '1.9.0'
 ```
 
 Gradle (short)
@@ -26,6 +25,6 @@ repositories {
 }
 
 dependencies {
-  implementation 'io.luchta:forma4j:1.8.2'
+  implementation 'io.luchta:forma4j:1.9.0'
 }
 ```

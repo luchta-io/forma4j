@@ -2,9 +2,13 @@ package io.luchta.forma4j.writer.engine.resolver;
 
 import io.luchta.forma4j.writer.Context;
 import io.luchta.forma4j.writer.engine.buffer.loop.LoopContext;
-import io.luchta.forma4j.writer.engine.model.cell.value.Text;
-import io.luchta.forma4j.writer.engine.model.cell.value.XlsxCellValue;
+import io.luchta.forma4j.writer.engine.model.cell.value.*;
+import io.luchta.forma4j.writer.engine.model.cell.value.Date;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -36,11 +40,10 @@ public class VariableResolver {
      * @return 変数の値（すべてText型として返る）
      */
     public XlsxCellValue get(String key) {
-        // TODO とりあえず全部Text型にしてるのでちゃんと直す
         Object contextVar = getValue(key, context);
-        if (contextVar != null) return new Text((String) contextVar);
+        if (contextVar != null) return toXlsxCellValue(contextVar);
         Object loopContextVar = getValue(key, loopContext);
-        if (loopContextVar != null) return new Text((String) loopContextVar);
+        if (loopContextVar != null) return toXlsxCellValue(loopContextVar);
         return new Text();
     }
 
@@ -136,5 +139,22 @@ public class VariableResolver {
             return contextVar;
         }
         return null;
+    }
+
+    private XlsxCellValue<?> toXlsxCellValue(Object obj) {
+        if (obj == null) return new Text();
+        if (obj instanceof Number) return new Numeric(new BigDecimal(obj.toString()));
+        if (obj instanceof Boolean) return new Bool((Boolean) obj);
+
+        String s = String.valueOf(obj);
+        try {
+            return new Date(LocalDate.parse(s, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        } catch (Exception ignored) {}
+
+        try {
+            return new DateTime(LocalDateTime.parse(s, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")));
+        } catch (Exception ignored) {}
+
+        return new Text(String.valueOf(obj));
     }
 }

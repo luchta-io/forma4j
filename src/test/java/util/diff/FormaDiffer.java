@@ -128,8 +128,14 @@ public class FormaDiffer {
             return;
         }
 
-        String comparingCellValue = comparing.toString();
-        String comparedCellValue = compared.toString();
+        CellType comparingCellType = comparing.getCellType();
+        CellType comparedCellType = compared.getCellType();
+        if (comparingCellType != comparedCellType) {
+            this.appendDiffResult("セル", sheetName, range, comparingCellType.name(), comparedCellType.name(), "セルタイプが異なります", json);
+        }
+
+        String comparingCellValue = getCellDisplayValue(comparing);
+        String comparedCellValue = getCellDisplayValue(compared);
         if (!comparingCellValue.equals(comparedCellValue)) {
             this.appendDiffResult("セル", sheetName, range, comparingCellValue, comparedCellValue, "セルの値が異なります", json);
         }
@@ -225,6 +231,11 @@ public class FormaDiffer {
         if (comparingCellStyle.getWrapText() != comparedCellStyle.getWrapText()) {
             this.appendDiffResult("セルスタイル", sheetName, range, String.valueOf(comparingCellStyle.getWrapText()), String.valueOf(comparedCellStyle.getWrapText()), "セルの折り返し設定が異なります", json);
         }
+
+        // データフォーマット
+        if (!comparingCellStyle.getDataFormatString().equals(comparedCellStyle.getDataFormatString())) {
+            this.appendDiffResult("セルスタイル", sheetName, range, String.valueOf(comparingCellStyle.getDataFormatString()), String.valueOf(comparedCellStyle.getDataFormatString()), "セルのデータフォーマットが異なります", json);
+        }
     }
 
     /**
@@ -279,5 +290,15 @@ public class FormaDiffer {
         }
 
         return String.format("%02X%02X%02X", rgb[0], rgb[1], rgb[2]);
+    }
+
+    /**
+     * セルの表示値を取得する
+     */
+    private String getCellDisplayValue(Cell cell) {
+        if (cell.getCellType() == CellType.NUMERIC) {
+            return String.valueOf(cell.getNumericCellValue());
+        }
+        return cell.toString();
     }
 }

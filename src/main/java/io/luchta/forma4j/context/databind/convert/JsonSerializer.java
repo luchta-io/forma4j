@@ -4,51 +4,52 @@ import io.luchta.forma4j.context.databind.json.JsonNode;
 import io.luchta.forma4j.context.databind.json.JsonNodes;
 import io.luchta.forma4j.context.databind.json.JsonObject;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
 public class JsonSerializer {
-	
-	public String serializeFromJsonObject(JsonObject jsonObject) {
+
+    public String serializeFromJsonObject(JsonObject jsonObject) {
         if (jsonObject.isEmpty()) return "{}";
 
-		if (jsonObject.isJsonNode()) {
-			return this.serialize((JsonNode) jsonObject.getValue());
-		}
-		
-		if (jsonObject.isJsonNodes()) {
-			return this.serialize((JsonNodes) jsonObject.getValue());
-		}
-
-		if (jsonObject.isList()) {
-		    return this.serialize((List) jsonObject.getValue());
-        }
-		
-		return jsonObject.toString();
-	}
-
-	private <T> String serialize(List<T> list) {
-
-	    if (list.size() == 0) {
-	        return "[]";
+        if (jsonObject.isJsonNode()) {
+            return this.serialize((JsonNode) jsonObject.getValue());
         }
 
-	    StringBuilder sb = new StringBuilder();
-	    sb.append("[");
-	    for (T t : list) {
+        if (jsonObject.isJsonNodes()) {
+            return this.serialize((JsonNodes) jsonObject.getValue());
+        }
 
-	        if (t instanceof JsonNode) {
-	            sb.append(this.serialize((JsonNode) t));
+        if (jsonObject.isList()) {
+            return this.serialize((List) jsonObject.getValue());
+        }
+
+        return jsonObject.toString();
+    }
+
+    private <T> String serialize(List<T> list) {
+
+        if (list.size() == 0) {
+            return "[]";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (T t : list) {
+
+            if (t instanceof JsonNode) {
+                sb.append(this.serialize((JsonNode) t));
             } else if (t instanceof JsonNodes) {
-	            sb.append(this.serialize((JsonNodes) t));
+                sb.append(this.serialize((JsonNodes) t));
             } else if (t instanceof JsonObject) {
                 sb.append(this.serializeFromJsonObject((JsonObject) t));
             } else if (t instanceof List) {
                 sb.append(this.serialize((List) t));
             } else {
-	            sb.append("\"");
-                sb.append(escape(t.toString()));
-                sb.append("\"");
+                sb.append(formatValue(t));
             }
             sb.append(", ");
         }
@@ -56,9 +57,9 @@ public class JsonSerializer {
         sb.append("]");
         return sb.toString();
     }
-    
+
     private String serialize(JsonNode jsonNode) {
-        
+
         if (jsonNode.size() == 0) {
             return "{}";
         }
@@ -78,9 +79,7 @@ public class JsonSerializer {
             } else if (e.getValue().getValue() instanceof List) {
                 sb.append((this.serialize((List)e.getValue().getValue())));
             } else {
-                sb.append("\"");
-                sb.append(e.getValue().getValue() == null ? "" : escape(e.getValue().getValue().toString()));
-                sb.append("\"");
+                sb.append(formatValue(e.getValue().getValue()));
             }
             sb.append(", ");
         }
@@ -88,13 +87,13 @@ public class JsonSerializer {
         sb.append("}");
         return sb.toString();
     }
-    
+
     private String serialize(JsonNodes jsonNodes) {
-    
+
         if (jsonNodes.size() == 0) {
             return "[]";
         }
-    
+
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         for (JsonNode jsonNode : jsonNodes) {
@@ -104,6 +103,32 @@ public class JsonSerializer {
         sb.delete(sb.length() - 1, sb.length());
         sb.append("]");
         return sb.toString();
+    }
+
+    private String formatValue(Object value) {
+        if (value == null) return "null";
+        
+        String s = "";
+        if (value instanceof LocalDate) {
+            LocalDate d = (LocalDate) value;
+            s = d.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        } else if (value instanceof LocalDateTime) {
+            LocalDateTime dt = (LocalDateTime) value;
+            s = dt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS"));
+        } else {
+            s = value.toString();
+        }
+
+        if (requiresJsonQuoting(value)) {
+            String escapedValue = escape(s);
+            return "\"" + escapedValue + "\"";
+        }
+        return escape(s);
+    }
+
+    private boolean requiresJsonQuoting(Object value) {
+        if (value == null) return false;
+        return value instanceof CharSequence | value instanceof LocalDate | value instanceof LocalDateTime;
     }
 
     private String escape(String value) {

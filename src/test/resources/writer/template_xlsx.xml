@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<forma>
+    <sheet name="チケット一覧">
+        <row rowIndex="0" startColumnIndex="0">
+            <cell>出力日時</cell>
+            <cell>#{出力日時}</cell>
+        </row>
+        <vertical-for item="データ" collection="データリスト" startRowIndex="3" startColumnIndex="0">
+            <row>
+                <cell style="border:thin">#{データ.キー}</cell>
+                <cell style="border:thin">#{データ.件名}</cell>
+                <cell style="border:thin">#{データ.担当者}</cell>
+                <cell style="border:thin">#{データ.状態}</cell>
+                <cell style="border:thin">#{データ.カテゴリ}</cell>
+                <cell style="border:thin">#{データ.マイルストーン}</cell>
+                <cell style="border:thin">#{データ.優先度}</cell>
+                <cell style="border:thin" cellType="date">#{データ.更新日時}</cell>
+                <cell style="border:thin">#{データ.更新者}</cell>
+                <cell style="border:thin" cellType="date">#{データ.登録日時}</cell>
+                <cell style="border:thin">#{データ.登録者}</cell>
+            </row>
+        </vertical-for>
+    </sheet>
+</forma>

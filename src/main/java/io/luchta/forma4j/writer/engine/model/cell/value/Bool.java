@@ -1,26 +1,24 @@
 package io.luchta.forma4j.writer.engine.model.cell.value;
 
-import java.math.BigDecimal;
+public class Bool implements XlsxCellValue<Boolean> {
+    Boolean value;
 
-public class Numeric implements XlsxCellValue<BigDecimal> {
-    BigDecimal value;
-
-    public Numeric() {
+    public Bool() {
     }
 
-    public Numeric(BigDecimal value) {
+    public Bool(Boolean value) {
         this.value = value;
     }
 
-    public Numeric(String value) {
+    public Bool(String value) {
         if (value == null || value.isEmpty()) {
             this.value = null;
         } else {
-            this.value = new BigDecimal(value.trim());
+            this.value = Boolean.valueOf(value.trim());
         }
     }
 
-    public BigDecimal getValue() {
+    public Boolean getValue() {
         return value;
     }
 
@@ -30,13 +28,13 @@ public class Numeric implements XlsxCellValue<BigDecimal> {
     }
 
     @Override
-    public BigDecimal toValue() {
-        return value;
+    public boolean isBoolean() {
+        return true;
     }
 
     @Override
-    public boolean isNumeric() {
-        return true;
+    public Boolean toValue() {
+        return value;
     }
 
     @Override

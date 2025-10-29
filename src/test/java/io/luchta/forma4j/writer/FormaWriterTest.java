@@ -318,8 +318,8 @@ public class FormaWriterTest {
     @Test
     void template_xlsx_test() throws Exception {
         ClassLoader classLoader = getClass().getClassLoader();
-        InputStream in = classLoader.getResource("writer/一覧.xml").openStream();
-        File inFile = new File(classLoader.getResource("writer/list.xlsx").getPath());
+        InputStream in = classLoader.getResource("writer/template_xlsx.xml").openStream();
+        File inFile = new File(classLoader.getResource("writer/template_xlsx.xlsx").getPath());
         File outFile = Files.createTempFile("test", String.format("%s.xlsx", LocalDateTime.now().toString())).toFile();
         FileInputStream inputStream = new FileInputStream(inFile);
         FileOutputStream outputStream = new FileOutputStream(outFile, true);
@@ -359,8 +359,8 @@ public class FormaWriterTest {
     @Test
     void password_xlsx_with_template_test() throws Exception {
         ClassLoader classLoader = getClass().getClassLoader();
-        InputStream in = classLoader.getResource("writer/一覧.xml").openStream();
-        File inFile = new File(classLoader.getResource("writer/list.xlsx").getPath());
+        InputStream in = classLoader.getResource("writer/template_xlsx.xml").openStream();
+        File inFile = new File(classLoader.getResource("writer/template_xlsx.xlsx").getPath());
         File outFile = Files.createTempFile("test", String.format("%s.xlsx", LocalDateTime.now().toString())).toFile();
         FileInputStream inputStream = new FileInputStream(inFile);
         FileOutputStream outputStream = new FileOutputStream(outFile, true);
@@ -381,9 +381,12 @@ public class FormaWriterTest {
         jsonNode1.putVar("件名", new JsonObject("xx機能実装する"));
         jsonNode1.putVar("担当者", new JsonObject("ユーザA"));
         jsonNode1.putVar("状態", new JsonObject("処理中"));
-        jsonNode1.putVar("更新日時", new JsonObject("2020/11/5"));
+        jsonNode1.putVar("カテゴリ", new JsonObject("タスク"));
+        jsonNode1.putVar("マイルストーン", new JsonObject("v1.0.0.RELEASE"));
+        jsonNode1.putVar("優先度", new JsonObject(1));
+        jsonNode1.putVar("更新日時", new JsonObject(LocalDate.of(2020, 11, 5)));
         jsonNode1.putVar("更新者", new JsonObject("ユーザA"));
-        jsonNode1.putVar("登録日時", new JsonObject("2020/11/2"));
+        jsonNode1.putVar("登録日時", new JsonObject(LocalDate.of(2020, 11, 2)));
         jsonNode1.putVar("登録者", new JsonObject("ユーザB"));
 
         jsonNodes.add(jsonNode1);
@@ -393,21 +396,27 @@ public class FormaWriterTest {
         jsonNode2.putVar("件名", new JsonObject("yy機能を実装する"));
         jsonNode2.putVar("担当者", new JsonObject(""));
         jsonNode2.putVar("状態", new JsonObject("未対応"));
-        jsonNode2.putVar("更新日時", new JsonObject("2020/11/2"));
+        jsonNode2.putVar("カテゴリ", new JsonObject("タスク"));
+        jsonNode2.putVar("マイルストーン", new JsonObject("v1.0.0.RELEASE"));
+        jsonNode2.putVar("優先度", new JsonObject(1));
+        jsonNode2.putVar("更新日時", new JsonObject(LocalDate.of(2020, 11, 5)));
         jsonNode2.putVar("更新者", new JsonObject("ユーザB"));
-        jsonNode2.putVar("登録日時", new JsonObject("2020/11/2"));
+        jsonNode2.putVar("登録日時", new JsonObject(LocalDate.of(2020, 11, 2)));
         jsonNode2.putVar("登録者", new JsonObject("ユーザB"));
 
         jsonNodes.add(jsonNode2);
 
         JsonNode jsonNode3 = new JsonNode();
-        jsonNode3.putVar("キー", new JsonObject("TEST-2"));
-        jsonNode3.putVar("件名", new JsonObject("yy機能を実装する"));
+        jsonNode3.putVar("キー", new JsonObject("TEST-3"));
+        jsonNode3.putVar("件名", new JsonObject("zz機能を実装する"));
         jsonNode3.putVar("担当者", new JsonObject(""));
         jsonNode3.putVar("状態", new JsonObject("未対応"));
-        jsonNode3.putVar("更新日時", new JsonObject("2020/11/2"));
+        jsonNode3.putVar("カテゴリ", new JsonObject("タスク"));
+        jsonNode3.putVar("マイルストーン", new JsonObject("v1.0.0.RELEASE"));
+        jsonNode3.putVar("優先度", new JsonObject(1));
+        jsonNode3.putVar("更新日時", new JsonObject(LocalDate.of(2020, 11, 5)));
         jsonNode3.putVar("更新者", new JsonObject("ユーザB"));
-        jsonNode3.putVar("登録日時", new JsonObject("2020/11/2"));
+        jsonNode3.putVar("登録日時", new JsonObject(LocalDate.of(2020, 11, 2)));
         jsonNode3.putVar("登録者", new JsonObject("ユーザB"));
 
         jsonNodes.add(jsonNode3);
@@ -439,6 +448,80 @@ public class FormaWriterTest {
 
         JsonNodes jsonNodes = (JsonNodes) jsonObject.getValue();
         Assertions.assertEquals(0, jsonNodes.size());
+    }
+
+    /**
+     * スタイルのIF文テスト
+     *
+     * @throws IOException
+     */
+    @Test
+    void styleIf() throws IOException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream in = classLoader.getResource("writer/style_if.xml").openStream();
+        File outFile = Files.createTempFile("test", String.format("%s.xlsx", LocalDateTime.now())).toFile();
+        FileOutputStream out = new FileOutputStream(outFile);
+        logger.log(Level.INFO, "xlsxファイル出力先: " + outFile.getAbsolutePath());
+
+        // 書き込む内容の設定
+        JsonNode jsonNode = new JsonNode();
+        jsonNode.putVar("number_value1", new JsonObject(1));
+        jsonNode.putVar("string_value1", new JsonObject("テスト"));
+        jsonNode.putVar("number_value2", new JsonObject(1.1));
+        jsonNode.putVar("string_value2", new JsonObject("テスト2"));
+        jsonNode.putVar("boolean_value", new JsonObject(true));
+        jsonNode.putVar("null_value", new JsonObject());
+
+        JsonNode child = new JsonNode();
+        child.putVar("number_value1", new JsonObject(1));
+        child.putVar("string_value1", new JsonObject("テスト"));
+        child.putVar("number_value2", new JsonObject(1.1));
+        child.putVar("string_value2", new JsonObject("テスト2"));
+        jsonNode.putVar("child", new JsonObject(child));
+
+        JsonNode grandChild = new JsonNode();
+        grandChild.putVar("number_value1", new JsonObject(1));
+        grandChild.putVar("string_value1", new JsonObject("テスト"));
+        grandChild.putVar("number_value2", new JsonObject(1.1));
+        grandChild.putVar("string_value2", new JsonObject("テスト2"));
+        child.putVar("grandChild", new JsonObject(grandChild));
+
+        JsonNodes jsonNodes = new JsonNodes();
+
+        JsonNode jsonNode1 = new JsonNode();
+        jsonNode1.putVar("number_value1", new JsonObject(1));
+        jsonNode1.putVar("string_value1", new JsonObject("テスト1"));
+        jsonNode1.putVar("number_value2", new JsonObject(1));
+        jsonNode1.putVar("string_value2", new JsonObject("テスト1"));
+        jsonNodes.add(jsonNode1);
+
+        JsonNode jsonNode2 = new JsonNode();
+        jsonNode2.putVar("number_value1", new JsonObject(2.5));
+        jsonNode2.putVar("string_value1", new JsonObject("テスト2"));
+        jsonNode2.putVar("number_value2", new JsonObject(1));
+        jsonNode2.putVar("string_value2", new JsonObject("テスト1"));
+        jsonNodes.add(jsonNode2);
+
+        JsonNode jsonNode3 = new JsonNode();
+        jsonNode3.putVar("number_value1", new JsonObject(1.00));
+        jsonNode3.putVar("string_value1", new JsonObject("テスト3"));
+        jsonNode3.putVar("number_value2", new JsonObject(1));
+        jsonNode3.putVar("string_value2", new JsonObject("テスト1"));
+        jsonNodes.add(jsonNode3);
+
+        jsonNode.putVar("list", new JsonObject(jsonNodes));
+
+        FormaWriter sut = new FormaWriter();
+        sut.write(in, out, new JsonObject(jsonNode));
+
+        InputStream comparing = new FileInputStream(this.getClass().getClassLoader().getResource("writer/style_if.xlsx").getPath());
+        InputStream compared = new FileInputStream(outFile.getAbsolutePath());
+        FormaDiffer differ = new FormaDiffer();
+        JsonObject jsonObject = differ.diff(comparing, compared);
+        logger.log(Level.INFO, new JsonSerializer().serializeFromJsonObject(jsonObject));
+
+        JsonNodes result = (JsonNodes) jsonObject.getValue();
+        Assertions.assertEquals(0, result.size());
     }
 
     /**

@@ -3,78 +3,61 @@ package io.luchta.forma4j.writer.engine.resolver;
 import io.luchta.forma4j.antlr.style.StyleLexer;
 import io.luchta.forma4j.antlr.style.StyleParser;
 import io.luchta.forma4j.writer.definition.schema.attribute.Style;
-import io.luchta.forma4j.writer.engine.model.cell.style.NotSupportProperty;
 import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyle;
 import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyleProperty;
 import io.luchta.forma4j.writer.engine.model.column.property.NotSupportColumnProperty;
 import io.luchta.forma4j.writer.engine.model.column.property.XlsxColumnProperties;
 import io.luchta.forma4j.writer.engine.model.column.property.XlsxColumnProperty;
+import io.luchta.forma4j.writer.engine.resolver.style.StyleErrorListener;
+import io.luchta.forma4j.writer.engine.resolver.style.StyleEvaluationVisitor;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class StyleResolver {
-    public XlsxCellStyle get(Style style) {
-        if (style.isEmpty()) {
-            return new XlsxCellStyle();
-        }
+    public XlsxCellStyle get(Style style, VariableResolver variableResolver) {
+        if (style.isEmpty()) return new XlsxCellStyle();
 
-        StyleParser.StylesContext stylesContext = makeStylesContext(style);
-        if (stylesContext.exception != null) {
-            return new XlsxCellStyle();
-        }
+        StyleEvaluationVisitor.Styles styles = evaluate(style, variableResolver);
 
-        List<XlsxCellStyleProperty> list = new ArrayList<>();
-        for (StyleParser.StyleContext styleContext : stylesContext.style()) {
-            String propertyName = getPropertyName(styleContext);
-            String propertyValue = getPropertyValue(styleContext);
-            XlsxCellStyleProperty property = XlsxCellStyleProperty.of(propertyName, propertyValue);
-            if (!(property instanceof NotSupportProperty)) {
-                list.add(property);
-            }
+        List<XlsxCellStyleProperty> properties = new ArrayList<>();
+        for (StyleEvaluationVisitor.Style s : styles) {
+            properties.add(XlsxCellStyleProperty.of(s.getPropertyName(), s.getPropertyValue()));
         }
-
-        return new XlsxCellStyle(list);
+        return new XlsxCellStyle(properties);
     }
 
-    public XlsxColumnProperties getColumnProperties(Style style) {
-        if (style.isEmpty()) {
-            return new XlsxColumnProperties();
-        }
+    public XlsxColumnProperties getColumnProperties(Style style, VariableResolver variableResolver) {
+        if (style.isEmpty()) return new XlsxColumnProperties();
 
-        StyleParser.StylesContext stylesContext = makeStylesContext(style);
-        if (stylesContext.exception != null) {
-            return new XlsxColumnProperties();
-        }
+        StyleEvaluationVisitor.Styles styles = evaluate(style, variableResolver);
 
-        List<XlsxColumnProperty> list = new ArrayList<>();
-        for (StyleParser.StyleContext styleContext : stylesContext.style()) {
-            String propertyName = getPropertyName(styleContext);
-            String propertyValue = getPropertyValue(styleContext);
-            XlsxColumnProperty property = XlsxColumnProperty.of(propertyName, propertyValue);
+        List<XlsxColumnProperty> properties = new ArrayList<>();
+        for (StyleEvaluationVisitor.Style s : styles) {
+            XlsxColumnProperty property = XlsxColumnProperty.of(s.getPropertyName(), s.getPropertyValue());
             if (!(property instanceof NotSupportColumnProperty)) {
-                list.add(property);
+                properties.add(property);
             }
         }
-
-        return new XlsxColumnProperties(list);
+        return new XlsxColumnProperties(properties);
     }
 
-    private static StyleParser.StylesContext makeStylesContext(Style style) {
-        StyleLexer styleLexer = new StyleLexer(CharStreams.fromString(style.toString()));
-        CommonTokenStream commonTokenStream = new CommonTokenStream(styleLexer);
-        StyleParser styleParser = new StyleParser(commonTokenStream);
-        return styleParser.styles();
-    }
+    private StyleEvaluationVisitor.Styles evaluate(Style style, VariableResolver variableResolver) {
+        StyleLexer lexer = new StyleLexer(CharStreams.fromString(style.toString()));
+        CommonTokenStream stream = new CommonTokenStream(lexer);
 
-    private String getPropertyName(StyleParser.StyleContext styleContext) {
-        return styleContext.property().getText().strip().toUpperCase();
-    }
+        StyleErrorListener errorListener = new StyleErrorListener();
+        lexer.addErrorListener(errorListener);
 
-    private String getPropertyValue(StyleParser.StyleContext styleContext) {
-        return styleContext.property_value().getText().strip();
-    }
+        StyleParser parser = new StyleParser(stream);
+        parser.addErrorListener(errorListener);
 
+        ParseTree tree = parser.styles();
+
+        StyleEvaluationVisitor visitor = new StyleEvaluationVisitor(variableResolver);
+        return (StyleEvaluationVisitor.Styles) visitor.visit(tree);
+    }
 }

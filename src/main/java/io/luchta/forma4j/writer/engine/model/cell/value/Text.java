@@ -1,6 +1,6 @@
 package io.luchta.forma4j.writer.engine.model.cell.value;
 
-public class Text implements XlsxCellValue {
+public class Text implements XlsxCellValue<String> {
     String value;
 
     public Text() {
@@ -13,6 +13,16 @@ public class Text implements XlsxCellValue {
     @Override
     public boolean isEmpty() {
         return value == null || "".equals(value);
+    }
+
+    @Override
+    public String toValue() {
+        return value;
+    }
+
+    @Override
+    public boolean isText() {
+        return true;
     }
 
     @Override

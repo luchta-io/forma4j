@@ -23,6 +23,14 @@ public class XlsxCellStyle {
         }
     }
 
+    public void add(XlsxCellStyleProperty property) {
+        properties.add(property);
+    }
+
+    public boolean isEmpty() {
+        return properties.isEmpty();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

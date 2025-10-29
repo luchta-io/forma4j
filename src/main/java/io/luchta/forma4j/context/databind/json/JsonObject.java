@@ -1,6 +1,7 @@
 package io.luchta.forma4j.context.databind.json;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -31,7 +32,11 @@ public class JsonObject {
 	public JsonObject(String value) {
 		this.value = value;
 	}
-	
+
+	public JsonObject(LocalDate value) {
+		this.value = value;
+	}
+
 	public JsonObject(LocalDateTime value) {
 		this.value = value;
 	}
