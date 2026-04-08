@@ -34,13 +34,19 @@ public class ColumnHandler {
      */
     public void handle(Column column) {
         XlsxCellAddress address = buffer.addressStack().peek();
+        XlsxCellAddress columnAddress = address;
         if (!column.startRowIndex().isEmpty() || !column.columnIndex().isEmpty()) {
-            buffer.addressStack().push(address.with(
+            columnAddress = address.with(
                     new XlsxRowNumber(column.startRowIndex().value()),
                     new XlsxColumnNumber(column.columnIndex())
-            ));
+            );
         }
-        dispatch(column.children());
+        buffer.addressStack().push(columnAddress);
+        try {
+            dispatch(column.children());
+        } finally {
+            buffer.addressStack().pop();
+        }
     }
 
     private void dispatch(ElementList children) {
@@ -49,7 +55,7 @@ public class ColumnHandler {
             switch (element.type()) {
                 case CELL:
                     if (isNotFirst) {
-                        buffer.addressStack().push(buffer.addressStack().peek().rowNumberIncrement());
+                        moveToNextRow();
                     }
                     isNotFirst = true;
                     new CellHandler(buffer).handle((Cell) element);
@@ -69,5 +75,11 @@ public class ColumnHandler {
                     throw new IllegalStateException();
             }
         }
+    }
+
+    private void moveToNextRow() {
+        XlsxCellAddress nextAddress = buffer.addressStack().peek().rowNumberIncrement();
+        buffer.addressStack().pop();
+        buffer.addressStack().push(nextAddress);
     }
 }

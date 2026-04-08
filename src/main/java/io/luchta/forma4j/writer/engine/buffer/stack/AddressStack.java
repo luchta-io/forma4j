@@ -11,6 +11,10 @@ public class AddressStack {
         stack.push(address);
     }
 
+    public XlsxCellAddress pop() {
+        return stack.pop();
+    }
+
     public XlsxCellAddress peek() {
         return stack.peek();
     }

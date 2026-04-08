@@ -46,7 +46,11 @@ public class SheetHandler {
             XlsxCellAddress address = new XlsxCellAddress(sheetName, XlsxRowNumber.init(), XlsxColumnNumber.init());
             buffer.accumulator().add(sheetName);
             buffer.addressStack().push(address);
-            dispatch(sheet.children());
+            try {
+                dispatch(sheet.children());
+            } finally {
+                buffer.addressStack().pop();
+            }
         } else {
             if (sheet.children().size() == 1 && sheet.children().get(0).type() == ElementType.LIST) {
                 handleCollectionWithListTag(sheet, collection);
@@ -73,8 +77,11 @@ public class SheetHandler {
                 buffer.addressStack().push(address);
                 buffer.loopContext().put(new Index(), 0);
                 buffer.loopContext().put(new Item(sheet.item().toString()), map);
-
-                dispatch(sheet.children());
+                try {
+                    dispatch(sheet.children());
+                } finally {
+                    buffer.addressStack().pop();
+                }
             }
         }
     }
@@ -100,7 +107,11 @@ public class SheetHandler {
                     buffer.addressStack().push(address);
                     buffer.loopContext().put(new Index(), 0);
                     buffer.loopContext().put(new Item(sheet.item().toString()), entry.getValue());
-                    dispatch(sheet.children());
+                    try {
+                        dispatch(sheet.children());
+                    } finally {
+                        buffer.addressStack().pop();
+                    }
                 }
             }
         }
