@@ -34,26 +34,28 @@ public class VerticalForHandler {
     public void handle(VerticalFor verticalFor) {
         VariableResolver variableResolver = buffer.variableResolver();
         List<Object> collection = variableResolver.getList(verticalFor.collection().toString());
-        for (int i = 0; i < collection.size(); i++) {
-            XlsxCellAddress address = buffer.addressStack().peek();
-            if (i == 0) {
-                buffer.addressStack().push(address.with(
-                        new XlsxRowNumber(verticalFor.startRowIndex()),
-                        new XlsxColumnNumber(verticalFor.startColumnIndex())
-                ));
-            } else {
-                buffer.addressStack().push(
-                        address.with(
-                                address.rowNumber().increment(),
-                                new XlsxColumnNumber(verticalFor.startColumnIndex())
-                        ));
+        XlsxCellAddress baseAddress = buffer.addressStack().peek();
+        XlsxRowNumber startRowNumber = new XlsxRowNumber(verticalFor.startRowIndex());
+        XlsxColumnNumber startColumnNumber = new XlsxColumnNumber(verticalFor.startColumnIndex());
+        try {
+            for (int i = 0; i < collection.size(); i++) {
+                XlsxCellAddress currentAddress = baseAddress.with(
+                        new XlsxRowNumber((long) startRowNumber.toInt() + i),
+                        startColumnNumber
+                );
+                buffer.addressStack().push(currentAddress);
+                buffer.loopContext().put(verticalFor.index(), i);
+                buffer.loopContext().put(verticalFor.item(), collection.get(i));
+                try {
+                    dispatch(verticalFor.children());
+                } finally {
+                    buffer.addressStack().pop();
+                }
             }
-            buffer.loopContext().put(verticalFor.index(), i);
-            buffer.loopContext().put(verticalFor.item(), collection.get(i));
-            dispatch(verticalFor.children());
+        } finally {
+            buffer.loopContext().remove(verticalFor.index());
+            buffer.loopContext().remove(verticalFor.item());
         }
-        buffer.loopContext().remove(verticalFor.index());
-        buffer.loopContext().remove(verticalFor.item());
     }
 
     /**

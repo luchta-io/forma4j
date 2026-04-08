@@ -11,12 +11,12 @@ plugins {
     id 'idea'
     id 'maven-publish'
     id 'antlr'
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
-    id 'org.jreleaser' version '1.18.0'
+    id 'com.gradleup.shadow' version '9.0.0'
+    id 'org.jreleaser' version '1.20.0'
 }
 
 group = 'io.luchta'
-version = '1.9.0'
+version = '1.9.1'
 
 sourceCompatibility = compatibility
 targetCompatibility = compatibility
@@ -129,6 +129,7 @@ jreleaser {
 
 shadowJar {
     archiveClassifier.set("")
+    relocate 'org.apache.poi', 'io.luchta.forma4j.shaded.poi'
 }
 
 tasks.named("publishShadowPublicationToLocalStagingRepository") {
