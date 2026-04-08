@@ -37,27 +37,32 @@ public class HorizontalForHandler {
     public void handle(HorizontalFor horizontalFor) {
         VariableResolver variableResolver = buffer.variableResolver();
         List<Object> collection = variableResolver.getList(horizontalFor.collection().toString());
-        for (int i = 0; i < collection.size(); i++) {
-            XlsxCellAddress address = buffer.addressStack().peek();
-            if (!horizontalFor.startRowIndex().isEmpty() && !horizontalFor.startColumnIndex().isEmpty()) {
-                if (i == 0) {
-                    buffer.addressStack().push(address.with(new XlsxRowNumber(horizontalFor.startRowIndex()), new XlsxColumnNumber(horizontalFor.startColumnIndex())));
-                } else {
-                    buffer.addressStack().push(address.with(new XlsxRowNumber(horizontalFor.startRowIndex()), address.columnNumber().increment()));
-                }
-            } else {
-                if (i == 0) {
-                    buffer.addressStack().push(address.with(address.rowNumber(), address.columnNumber()));
-                } else {
-                    buffer.addressStack().push(address.with(address.rowNumber(), address.columnNumber().increment()));
+        XlsxCellAddress baseAddress = buffer.addressStack().peek();
+        XlsxRowNumber startRowNumber = horizontalFor.startRowIndex().isEmpty()
+                ? baseAddress.rowNumber()
+                : new XlsxRowNumber(horizontalFor.startRowIndex());
+        XlsxColumnNumber startColumnNumber = horizontalFor.startColumnIndex().isEmpty()
+                ? baseAddress.columnNumber()
+                : new XlsxColumnNumber(horizontalFor.startColumnIndex());
+        try {
+            for (int i = 0; i < collection.size(); i++) {
+                XlsxCellAddress currentAddress = baseAddress.with(
+                        startRowNumber,
+                        new XlsxColumnNumber(startColumnNumber.toLong() + i)
+                );
+                buffer.addressStack().push(currentAddress);
+                buffer.loopContext().put(horizontalFor.index(), i);
+                buffer.loopContext().put(horizontalFor.item(), collection.get(i));
+                try {
+                    dispatch(horizontalFor.children());
+                } finally {
+                    buffer.addressStack().pop();
                 }
             }
-            buffer.loopContext().put(horizontalFor.index(), i);
-            buffer.loopContext().put(horizontalFor.item(), collection.get(i));
-            dispatch(horizontalFor.children());
+        } finally {
+            buffer.loopContext().remove(horizontalFor.index());
+            buffer.loopContext().remove(horizontalFor.item());
         }
-        buffer.loopContext().remove(horizontalFor.index());
-        buffer.loopContext().remove(horizontalFor.item());
     }
 
     private void dispatch(ElementList children) {

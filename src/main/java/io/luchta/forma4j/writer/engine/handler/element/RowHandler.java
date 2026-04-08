@@ -39,16 +39,22 @@ public class RowHandler {
      */
     public void handle(Row row) {
         XlsxCellAddress address = buffer.addressStack().peek();
+        XlsxCellAddress rowAddress = address;
         if (!(row.rowIndex().isEmpty() && row.startColumnIndex().isEmpty())) {
-            buffer.addressStack().push(address.with(
+            rowAddress = address.with(
                     new XlsxRowNumber(row.rowIndex()),
                     new XlsxColumnNumber(row.startColumnIndex().value())
-            ));
+            );
             buffer.accumulator().putRowProperty(
-                    new XlsxRowAddress(address.sheetName(), new XlsxRowNumber(row.rowIndex())),
+                    new XlsxRowAddress(rowAddress.sheetName(), new XlsxRowNumber(row.rowIndex())),
                     AutoFilterProperty.create(row.autoFilter().value()));
         }
-        dispatch(row.children());
+        buffer.addressStack().push(rowAddress);
+        try {
+            dispatch(row.children());
+        } finally {
+            buffer.addressStack().pop();
+        }
     }
 
     private void dispatch(ElementList children) {
@@ -57,7 +63,7 @@ public class RowHandler {
             switch (element.type()) {
                 case CELL:
                     if (isNotFirst) {
-                        buffer.addressStack().push(buffer.addressStack().peek().columnNumberIncrement());
+                        moveToNextColumn();
                     }
                     isNotFirst = true;
                     new CellHandler(buffer).handle((Cell) element);
@@ -75,7 +81,7 @@ public class RowHandler {
                     }
 
                     if (isNotFirst) {
-                        buffer.addressStack().push(buffer.addressStack().peek().columnNumberIncrement());
+                        moveToNextColumn();
                     }
                     isNotFirst = true;
                     new HorizontalForHandler(buffer).handle((HorizontalFor) element);
@@ -92,5 +98,11 @@ public class RowHandler {
                     throw new IllegalStateException();
             }
         }
+    }
+
+    private void moveToNextColumn() {
+        XlsxCellAddress nextAddress = buffer.addressStack().peek().columnNumberIncrement();
+        buffer.addressStack().pop();
+        buffer.addressStack().push(nextAddress);
     }
 }
