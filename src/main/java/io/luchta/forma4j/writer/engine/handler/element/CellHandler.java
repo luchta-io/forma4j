@@ -51,8 +51,8 @@ public class CellHandler {
 
         // cellへの出力内容を設定
         XlsxCellValue<?> cellValue = value(cell);
-		StyleResolver styleResolver = new StyleResolver();
-        XlsxCellStyle cellStyle = styleResolver.get(cell.style(), buffer.variableResolver());
+        StyleResolver.ResolvedStyle resolvedStyle = buffer.styleResolver().resolve(cell.style(), buffer.variableResolver());
+        XlsxCellStyle cellStyle = resolvedStyle.cellStyle();
         XlsxCellType xlsxCellType = null;
         if (!cell.cellType().isEmpty()) {
             xlsxCellType = cellType(cell.cellType().toString());
@@ -64,7 +64,7 @@ public class CellHandler {
         XlsxColumnAddress columnAddress = new XlsxColumnAddress(
                 new XlsxSheetName(new Name(address.sheetName().toString())),
                 new XlsxColumnNumber(address.columnNumber().toLong()));
-        XlsxColumnProperties columnProperties = styleResolver.getColumnProperties(cell.style(), buffer.variableResolver());
+        XlsxColumnProperties columnProperties = resolvedStyle.columnProperties();
 
         // 設定した内容をbufferへセットする
         buffer.accumulator().put(address, xlsxCell);

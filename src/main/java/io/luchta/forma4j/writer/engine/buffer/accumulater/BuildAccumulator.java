@@ -10,6 +10,7 @@ import io.luchta.forma4j.writer.engine.model.cell.XlsxCellList;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxCellAddress;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxRowNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxSheetName;
+import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyles;
 import io.luchta.forma4j.writer.engine.model.column.XlsxColumnAddress;
 import io.luchta.forma4j.writer.engine.model.column.property.XlsxColumnProperties;
 import io.luchta.forma4j.writer.engine.model.column.property.XlsxColumnProperty;
@@ -57,7 +58,8 @@ public class BuildAccumulator {
     }
 
     public XlsxBook toXlsxBook() {
-        return new XlsxBook(toSheetList());
+        XlsxCellStyles styles = cells.toXlsxCellStyles();
+        return new XlsxBook(toSheetList(), styles);
     }
 
     private XlsxSheetList toSheetList() {
