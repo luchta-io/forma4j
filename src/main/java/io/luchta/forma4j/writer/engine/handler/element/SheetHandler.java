@@ -41,10 +41,11 @@ public class SheetHandler {
      */
     public void handle(Sheet sheet) {
         Collection collection = sheet.collection();
+        Boolean autoSizeColumnEnabled = autoSizeColumnEnabled(sheet);
         if (collection.isEmpty()) {
             XlsxSheetName sheetName = new XlsxSheetName(sheet.name());
             XlsxCellAddress address = new XlsxCellAddress(sheetName, XlsxRowNumber.init(), XlsxColumnNumber.init());
-            buffer.accumulator().add(sheetName);
+            buffer.accumulator().add(sheetName, autoSizeColumnEnabled);
             buffer.addressStack().push(address);
             try {
                 dispatch(sheet.children());
@@ -73,7 +74,7 @@ public class SheetHandler {
                 Map<String, Object> map = (Map<String, Object>) obj;
                 XlsxSheetName sheetName = new XlsxSheetName(new Name(map.get("sheetName").toString()));
                 XlsxCellAddress address = new XlsxCellAddress(sheetName, XlsxRowNumber.init(), XlsxColumnNumber.init());
-                buffer.accumulator().add(sheetName);
+                buffer.accumulator().add(sheetName, autoSizeColumnEnabled(sheet));
                 buffer.addressStack().push(address);
                 buffer.loopContext().put(new Index(), 0);
                 buffer.loopContext().put(new Item(sheet.item().toString()), map);
@@ -103,7 +104,7 @@ public class SheetHandler {
 
                     XlsxSheetName sheetName = new XlsxSheetName(new Name(entry.getKey()));
                     XlsxCellAddress address = new XlsxCellAddress(sheetName, XlsxRowNumber.init(), XlsxColumnNumber.init());
-                    buffer.accumulator().add(sheetName);
+                    buffer.accumulator().add(sheetName, autoSizeColumnEnabled(sheet));
                     buffer.addressStack().push(address);
                     buffer.loopContext().put(new Index(), 0);
                     buffer.loopContext().put(new Item(sheet.item().toString()), entry.getValue());
@@ -115,6 +116,21 @@ public class SheetHandler {
                 }
             }
         }
+    }
+
+    private Boolean autoSizeColumnEnabled(Sheet sheet) {
+        if (sheet.autoSizeColumn().isEmpty()) {
+            return null;
+        }
+
+        String value = sheet.autoSizeColumn().value().toLowerCase();
+        if ("true".equals(value)) {
+            return true;
+        }
+        if ("false".equals(value)) {
+            return false;
+        }
+        return null;
     }
 
     /**

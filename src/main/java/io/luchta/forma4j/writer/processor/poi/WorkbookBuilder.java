@@ -198,7 +198,12 @@ public class WorkbookBuilder {
             }
         }
 
-        if (autoSizeColumnEnabled) {
+        boolean resolvedAutoSizeColumnEnabled = autoSizeColumnEnabled;
+        if (sheetModel.autoSizeColumnEnabled() != null) {
+            resolvedAutoSizeColumnEnabled = sheetModel.autoSizeColumnEnabled();
+        }
+
+        if (resolvedAutoSizeColumnEnabled) {
             for (int i = 0; i < sheetModel.columnSize(); i++) {
                 if (skipAutoSizeColumnNumberMap.containsKey(i) || sheetModel.isEmptyColumn(i)) {
                     continue;

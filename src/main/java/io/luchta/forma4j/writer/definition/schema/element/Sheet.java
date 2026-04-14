@@ -6,6 +6,7 @@ import io.luchta.forma4j.writer.definition.schema.ElementType;
 import io.luchta.forma4j.writer.definition.schema.attribute.Name;
 import io.luchta.forma4j.writer.definition.schema.attribute.loop.Collection;
 import io.luchta.forma4j.writer.definition.schema.attribute.loop.Item;
+import io.luchta.forma4j.writer.definition.schema.attribute.sheet.AutoSizeColumn;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElements;
@@ -35,6 +36,8 @@ public class Sheet implements Element {
     Item item = new Item();
     @XmlAttribute
     Collection collection = new Collection();
+    @XmlAttribute
+    AutoSizeColumn autoSizeColumn = new AutoSizeColumn();
     @XmlElements({
             @XmlElement(name = Row.ELEMENT_NAME, type = Row.class),
             @XmlElement(name = Column.ELEMENT_NAME, type = Column.class),
@@ -87,6 +90,10 @@ public class Sheet implements Element {
      */
     public Collection collection() {
         return collection;
+    }
+
+    public AutoSizeColumn autoSizeColumn() {
+        return autoSizeColumn;
     }
 
     /**
