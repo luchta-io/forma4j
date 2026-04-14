@@ -145,6 +145,8 @@ public class VariableResolver {
         if (obj == null) return new Text();
         if (obj instanceof Number) return new Numeric(new BigDecimal(obj.toString()));
         if (obj instanceof Boolean) return new Bool((Boolean) obj);
+        if (obj instanceof LocalDate) return new Date((LocalDate) obj);
+        if (obj instanceof LocalDateTime) return new DateTime((LocalDateTime) obj);
 
         String s = String.valueOf(obj);
         try {
