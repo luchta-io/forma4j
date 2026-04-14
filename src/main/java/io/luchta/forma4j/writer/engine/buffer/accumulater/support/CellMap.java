@@ -5,11 +5,15 @@ import io.luchta.forma4j.writer.engine.model.cell.XlsxCellList;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxCellAddress;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxRowNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxSheetName;
+import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyle;
+import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyles;
 
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class CellMap {
@@ -54,5 +58,13 @@ public class CellMap {
                 .sorted(Comparator.comparing(o -> o.address().columnNumber()))
                 .collect(Collectors.toList());
         return new XlsxCellList(sorted);
+    }
+
+    public XlsxCellStyles toXlsxCellStyles() {
+        Set<XlsxCellStyle> styles = new HashSet<>();
+        for (XlsxCell cell : map.values()) {
+            styles.add(cell.style());
+        }
+        return new XlsxCellStyles(styles);
     }
 }

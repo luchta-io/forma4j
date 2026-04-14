@@ -4,6 +4,7 @@ import io.luchta.forma4j.writer.Context;
 import io.luchta.forma4j.writer.engine.buffer.accumulater.BuildAccumulator;
 import io.luchta.forma4j.writer.engine.buffer.loop.LoopContext;
 import io.luchta.forma4j.writer.engine.buffer.stack.AddressStack;
+import io.luchta.forma4j.writer.engine.resolver.StyleResolver;
 import io.luchta.forma4j.writer.engine.resolver.VariableResolver;
 
 public class BuildBuffer {
@@ -11,6 +12,7 @@ public class BuildBuffer {
     AddressStack addressStack = new AddressStack();
     LoopContext loopContext = new LoopContext();
     VariableResolver variableResolver;
+    StyleResolver styleResolver = new StyleResolver();
 
     public BuildBuffer(Context context) {
         this.variableResolver = new VariableResolver(context, loopContext);
@@ -30,5 +32,9 @@ public class BuildBuffer {
 
     public VariableResolver variableResolver() {
         return variableResolver;
+    }
+
+    public StyleResolver styleResolver() {
+        return styleResolver;
     }
 }
