@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<forma>
+  <sheet name="default">
+    <cell>abcdefghijklmnopqrstuvwxyz0123456789</cell>
+  </sheet>
+  <sheet name="disabled" autoSizeColumn="false">
+    <cell>abcdefghijklmnopqrstuvwxyz0123456789</cell>
+  </sheet>
+  <sheet name="enabled" autoSizeColumn="true">
+    <cell>abcdefghijklmnopqrstuvwxyz0123456789</cell>
+  </sheet>
+</forma>

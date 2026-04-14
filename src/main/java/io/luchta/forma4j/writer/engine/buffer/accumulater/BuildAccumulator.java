@@ -23,16 +23,24 @@ import io.luchta.forma4j.writer.engine.model.sheet.XlsxSheet;
 import io.luchta.forma4j.writer.engine.model.sheet.XlsxSheetList;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BuildAccumulator {
     SheetNameList sheetNameList = new SheetNameList();
     RowPropertyMap rowPropertyMap = new RowPropertyMap();
     ColumnPropertyMap columnPropertyMap = new ColumnPropertyMap();
     CellMap cells = new CellMap();
+    Map<XlsxSheetName, Boolean> autoSizeColumnEnabledMap = new HashMap<>();
 
     public void add(XlsxSheetName sheetName) {
+        add(sheetName, null);
+    }
+
+    public void add(XlsxSheetName sheetName, Boolean autoSizeColumnEnabled) {
         sheetNameList.add(sheetName);
+        autoSizeColumnEnabledMap.put(sheetName, autoSizeColumnEnabled);
     }
 
     public void put(XlsxCellAddress address, XlsxCell cell) {
@@ -66,7 +74,12 @@ public class BuildAccumulator {
         List<XlsxSheet> sheetList = new ArrayList<>();
         for (XlsxSheetName sheetName : sheetNameList) {
             XlsxRowList rowList = toRowList(sheetName);
-            sheetList.add(new XlsxSheet(sheetName, rowList, columnPropertyMap.getBySheetName(sheetName)));
+            sheetList.add(new XlsxSheet(
+                    sheetName,
+                    rowList,
+                    columnPropertyMap.getBySheetName(sheetName),
+                    autoSizeColumnEnabledMap.get(sheetName)
+            ));
         }
         return new XlsxSheetList(sheetList);
     }
