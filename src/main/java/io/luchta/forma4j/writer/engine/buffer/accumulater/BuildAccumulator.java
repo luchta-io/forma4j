@@ -66,8 +66,35 @@ public class BuildAccumulator {
     }
 
     public XlsxBook toXlsxBook() {
-        XlsxCellStyles styles = cells.toXlsxCellStyles();
-        return new XlsxBook(toSheetList(), styles);
+        return new XlsxBook(toSheetList(), styles());
+    }
+
+    public Iterable<XlsxSheetName> sheetNames() {
+        return sheetNameList;
+    }
+
+    public CellMap cells(XlsxSheetName sheetName) {
+        return cells.filterBy(sheetName);
+    }
+
+    public XlsxRowProperties rowProperties(XlsxRowAddress address) {
+        return rowPropertyMap.get(address);
+    }
+
+    public boolean hasRowProperties(XlsxRowAddress address) {
+        return rowPropertyMap.containsKey(address);
+    }
+
+    public ColumnPropertyMap columnProperties(XlsxSheetName sheetName) {
+        return columnPropertyMap.getBySheetName(sheetName);
+    }
+
+    public Boolean autoSizeColumnEnabled(XlsxSheetName sheetName) {
+        return autoSizeColumnEnabledMap.get(sheetName);
+    }
+
+    public XlsxCellStyles styles() {
+        return cells.toXlsxCellStyles();
     }
 
     private XlsxSheetList toSheetList() {

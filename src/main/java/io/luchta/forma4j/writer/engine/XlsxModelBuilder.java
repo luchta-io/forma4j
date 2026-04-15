@@ -5,6 +5,7 @@ import io.luchta.forma4j.writer.definition.XmlDocument;
 import io.luchta.forma4j.writer.definition.schema.Element;
 import io.luchta.forma4j.writer.definition.schema.element.Sheet;
 import io.luchta.forma4j.writer.engine.buffer.BuildBuffer;
+import io.luchta.forma4j.writer.engine.buffer.accumulater.BuildAccumulator;
 import io.luchta.forma4j.writer.engine.handler.element.SheetHandler;
 import io.luchta.forma4j.writer.engine.model.book.XlsxBook;
 
@@ -17,10 +18,14 @@ public class XlsxModelBuilder {
         this.context = context;
     }
 
-    public XlsxBook build() {
+    public BuildAccumulator accumulate() {
         BuildBuffer buffer = new BuildBuffer(context);
         rootHandler(buffer);
-        return buffer.accumulator().toXlsxBook();
+        return buffer.accumulator();
+    }
+
+    public XlsxBook build() {
+        return accumulate().toXlsxBook();
     }
 
     private void rootHandler(BuildBuffer buffer) {
