@@ -1,11 +1,8 @@
 package io.luchta.forma4j.writer.processor.poi;
 
 import io.luchta.forma4j.writer.engine.buffer.accumulater.BuildAccumulator;
-import io.luchta.forma4j.writer.engine.buffer.accumulater.support.CellMap;
 import io.luchta.forma4j.writer.engine.buffer.accumulater.support.ColumnPropertyMap;
-import io.luchta.forma4j.writer.engine.model.book.XlsxBook;
 import io.luchta.forma4j.writer.engine.model.cell.XlsxCell;
-import io.luchta.forma4j.writer.engine.model.cell.XlsxCellList;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxColumnNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxRowNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxSheetName;
@@ -35,9 +32,6 @@ import java.util.Map;
 
 /**
  * ワークブックビルドクラス
- * <p>
- * {@link XlsxBook} の内容を読み取ってExcelワークブック作成を行います。
- * </p>
  */
 public class WorkbookBuilder {
     BuildAccumulator accumulator;
@@ -63,18 +57,19 @@ public class WorkbookBuilder {
                 sheet = workbook.createSheet(sheetName.toString());
             }
 
-            CellMap sheetCells = accumulator.cells(sheetName);
             int columnSize = -1;
             Map<Integer, Integer> nonEmptyColumnNumbers = new HashMap<>();
 
-            for (XlsxRowNumber rowNumber : sheetCells.rowNumberList()) {
+            for (Map.Entry<XlsxRowNumber, Map<XlsxColumnNumber, XlsxCell>> rowEntry : accumulator.rows(sheetName).entrySet()) {
+                XlsxRowNumber rowNumber = rowEntry.getKey();
                 Row row = sheet.getRow(rowNumber.toInt());
                 if (row == null) {
                     row = sheet.createRow(rowNumber.toInt());
                 }
 
-                XlsxCellList rowCells = sheetCells.filterBy(rowNumber).toXlsxCellList();
-                for (XlsxCell cellModel : rowCells) {
+                XlsxColumnNumber firstColumnNumber = null;
+                XlsxColumnNumber lastColumnNumber = null;
+                for (XlsxCell cellModel : rowEntry.getValue().values()) {
                     Cell cell = row.getCell(cellModel.columnNumber().toInt());
                     if (cell == null) {
                         cell = row.createCell(cellModel.columnNumber().toInt());
@@ -90,10 +85,14 @@ public class WorkbookBuilder {
                     if (!cellModel.isEmpty()) {
                         nonEmptyColumnNumbers.put(cellModel.columnNumber().toInt(), cellModel.columnNumber().toInt());
                     }
+                    if (firstColumnNumber == null) {
+                        firstColumnNumber = cellModel.columnNumber();
+                    }
+                    lastColumnNumber = cellModel.columnNumber();
                 }
 
                 if (hasAutoFilter(sheetName, rowNumber)) {
-                    XlsxColumnRange range = columnRange(rowCells);
+                    XlsxColumnRange range = new XlsxColumnRange(firstColumnNumber, lastColumnNumber);
                     sheet.setAutoFilter(
                             new CellRangeAddress(
                                     rowNumber.toInt(),
@@ -205,21 +204,5 @@ public class WorkbookBuilder {
             }
         }
         return false;
-    }
-
-    private XlsxColumnRange columnRange(XlsxCellList cells) {
-        if (cells.size() == 0) {
-            return new XlsxColumnRange();
-        }
-
-        XlsxColumnNumber firstColumnNumber = null;
-        XlsxColumnNumber lastColumnNumber = null;
-        for (XlsxCell cell : cells) {
-            if (firstColumnNumber == null) {
-                firstColumnNumber = cell.columnNumber();
-            }
-            lastColumnNumber = cell.columnNumber();
-        }
-        return new XlsxColumnRange(firstColumnNumber, lastColumnNumber);
     }
 }
