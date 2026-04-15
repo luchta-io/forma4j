@@ -5,7 +5,6 @@ import io.luchta.forma4j.context.databind.json.JsonObject;
 import io.luchta.forma4j.writer.definition.XmlDocument;
 import io.luchta.forma4j.writer.definition.XmlDocumentReader;
 import io.luchta.forma4j.writer.engine.XlsxModelBuilder;
-import io.luchta.forma4j.writer.engine.model.book.XlsxBook;
 import io.luchta.forma4j.writer.processor.XlsxWriteProcessor;
 
 import java.io.InputStream;
@@ -31,8 +30,7 @@ public class Writer {
     public void write(OutputStream outputXlsx, JsonObject jsonObject) throws JsonProcessingException {
         XmlDocument definition = XmlDocument.defaultXmlDocument();
         XlsxModelBuilder modelBuilder = new XlsxModelBuilder(definition, Context.from(jsonObject));
-        XlsxBook model = modelBuilder.build();
-        XlsxWriteProcessor processor = new XlsxWriteProcessor(model);
+        XlsxWriteProcessor processor = new XlsxWriteProcessor(modelBuilder.accumulate());
         processor.process(outputXlsx);
     }
 
@@ -40,8 +38,7 @@ public class Writer {
         XmlDocumentReader definitionReader = new XmlDocumentReader();
         XmlDocument definition = definitionReader.read(definitionXml);
         XlsxModelBuilder modelBuilder = new XlsxModelBuilder(definition, Context.from(jsonObject));
-        XlsxBook model = modelBuilder.build();
-        XlsxWriteProcessor processor = new XlsxWriteProcessor(model);
+        XlsxWriteProcessor processor = new XlsxWriteProcessor(modelBuilder.accumulate());
         processor.process(outputXlsx);
     }
 }

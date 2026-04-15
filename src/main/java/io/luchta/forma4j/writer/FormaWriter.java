@@ -4,7 +4,6 @@ import io.luchta.forma4j.context.databind.json.JsonObject;
 import io.luchta.forma4j.writer.definition.XmlDocument;
 import io.luchta.forma4j.writer.definition.XmlDocumentReader;
 import io.luchta.forma4j.writer.engine.XlsxModelBuilder;
-import io.luchta.forma4j.writer.engine.model.book.XlsxBook;
 import io.luchta.forma4j.writer.processor.XlsxPassword;
 import io.luchta.forma4j.writer.processor.XlsxWriteProcessor;
 
@@ -121,8 +120,7 @@ public class FormaWriter {
         XmlDocumentReader definitionReader = new XmlDocumentReader();
         XmlDocument definition = definitionXml == null ? XmlDocument.defaultXmlDocument() : definitionReader.read(definitionXml);
         XlsxModelBuilder modelBuilder = new XlsxModelBuilder(definition, Context.from(jsonObject));
-        XlsxBook model = modelBuilder.build();
-        XlsxWriteProcessor processor = new XlsxWriteProcessor(model);
+        XlsxWriteProcessor processor = new XlsxWriteProcessor(modelBuilder.accumulate());
         return processor;
     }
 }
