@@ -6,8 +6,8 @@ import io.luchta.forma4j.writer.engine.buffer.accumulater.support.RowPropertyMap
 import io.luchta.forma4j.writer.engine.buffer.accumulater.support.SheetNameList;
 import io.luchta.forma4j.writer.engine.model.book.XlsxBook;
 import io.luchta.forma4j.writer.engine.model.cell.XlsxCell;
-import io.luchta.forma4j.writer.engine.model.cell.XlsxCellList;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxCellAddress;
+import io.luchta.forma4j.writer.engine.model.cell.address.XlsxColumnNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxRowNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxSheetName;
 import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyles;
@@ -73,8 +73,8 @@ public class BuildAccumulator {
         return sheetNameList;
     }
 
-    public CellMap cells(XlsxSheetName sheetName) {
-        return cells.filterBy(sheetName);
+    public Map<XlsxRowNumber, Map<XlsxColumnNumber, XlsxCell>> rows(XlsxSheetName sheetName) {
+        return cells.rows(sheetName);
     }
 
     public XlsxRowProperties rowProperties(XlsxRowAddress address) {
@@ -112,20 +112,16 @@ public class BuildAccumulator {
     }
 
     private XlsxRowList toRowList(XlsxSheetName sheetName) {
-        CellMap thisSheetCells = cells.filterBy(sheetName);
         List<XlsxRow> list = new ArrayList<>();
-        for (XlsxRowNumber rowNumber : thisSheetCells.rowNumberList()) {
-            XlsxCellList thisRowCellList = thisSheetCells
-                    .filterBy(rowNumber)
-                    .toXlsxCellList();
-
+        for (Map.Entry<XlsxRowNumber, Map<XlsxColumnNumber, XlsxCell>> rowEntry : cells.rows(sheetName).entrySet()) {
+            XlsxRowNumber rowNumber = rowEntry.getKey();
             XlsxRowAddress rowAddress = new XlsxRowAddress(sheetName, rowNumber);
             if (rowPropertyMap.containsKey(rowAddress)) {
                 XlsxRowProperties properties = rowPropertyMap.get(rowAddress);
-                list.add(new XlsxRow(rowNumber, thisRowCellList, properties));
+                list.add(new XlsxRow(rowNumber, cells.toXlsxCellList(rowEntry.getValue()), properties));
                 continue;
             }
-            list.add(new XlsxRow(rowNumber, thisRowCellList));
+            list.add(new XlsxRow(rowNumber, cells.toXlsxCellList(rowEntry.getValue())));
         }
         return new XlsxRowList(list);
     }
