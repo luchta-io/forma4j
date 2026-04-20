@@ -16,16 +16,6 @@ import java.io.InputStream;
  * Excelの比較を行う
  */
 public class FormaDiffer {
-    private final boolean compareColumnWidth;
-
-    public FormaDiffer() {
-        this(true);
-    }
-
-    public FormaDiffer(boolean compareColumnWidth) {
-        this.compareColumnWidth = compareColumnWidth;
-    }
-
     /**
      * 2つのExcel比較を行う
      * @param comparing
@@ -230,13 +220,11 @@ public class FormaDiffer {
         }
 
         // カラム幅
-        if (compareColumnWidth) {
-            int comparingColumnWidth = comparing.getSheet().getColumnWidth(comparing.getColumnIndex());
-            int comparedColumnWidth = compared.getSheet().getColumnWidth(compared.getColumnIndex());
-            if (comparingColumnWidth != comparedColumnWidth) {
-                this.appendDiffResult("セルスタイル", sheetName, range, String.valueOf(comparingColumnWidth), String.valueOf(comparedColumnWidth), "セルの幅が異なります", json);
-            }
-        }
+//        int comparingColumnWidth = comparing.getSheet().getColumnWidth(comparing.getColumnIndex());
+//        int comparedColumnWidth = compared.getSheet().getColumnWidth(compared.getColumnIndex());
+//        if (comparingColumnWidth != comparedColumnWidth) {
+//            this.appendDiffResult("セルスタイル", sheetName, range, String.valueOf(comparingColumnWidth), String.valueOf(comparedColumnWidth), "セルの幅が異なります", json);
+//        }
 
         // 折り返し設定
         if (comparingCellStyle.getWrapText() != comparedCellStyle.getWrapText()) {
