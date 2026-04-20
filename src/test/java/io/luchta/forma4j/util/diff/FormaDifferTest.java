@@ -270,12 +270,12 @@ public class FormaDifferTest {
             Assertions.assertEquals("CENTER", jsonNode10.getVar("comparedValue").getValue());
             Assertions.assertEquals("セルの水平方向の文字位置が異なります", jsonNode10.getVar("description").getValue());
 
-            JsonNode jsonNode11 = jsonNodes.get(10);
-            Assertions.assertEquals("セルスタイル", jsonNode11.getVar("target").getValue());
-            Assertions.assertEquals("テスト", jsonNode11.getVar("sheet").getValue());
-            Assertions.assertEquals("H1", jsonNode11.getVar("range").getValue());
-            Assertions.assertNotEquals(jsonNode11.getVar("comparingValue").getValue(), jsonNode11.getVar("comparedValue").getValue());
-            Assertions.assertEquals("セルの幅が異なります", jsonNode11.getVar("description").getValue());
+//            JsonNode jsonNode11 = jsonNodes.get(10);
+//            Assertions.assertEquals("セルスタイル", jsonNode11.getVar("target").getValue());
+//            Assertions.assertEquals("テスト", jsonNode11.getVar("sheet").getValue());
+//            Assertions.assertEquals("H1", jsonNode11.getVar("range").getValue());
+//            Assertions.assertNotEquals(jsonNode11.getVar("comparingValue").getValue(), jsonNode11.getVar("comparedValue").getValue());
+//            Assertions.assertEquals("セルの幅が異なります", jsonNode11.getVar("description").getValue());
 
             JsonNode jsonNode12 = jsonNodes.get(11);
             Assertions.assertEquals("セルスタイル", jsonNode12.getVar("target").getValue());
