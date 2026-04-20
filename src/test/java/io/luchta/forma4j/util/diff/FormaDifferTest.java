@@ -277,7 +277,7 @@ public class FormaDifferTest {
 //            Assertions.assertNotEquals(jsonNode11.getVar("comparingValue").getValue(), jsonNode11.getVar("comparedValue").getValue());
 //            Assertions.assertEquals("セルの幅が異なります", jsonNode11.getVar("description").getValue());
 
-            JsonNode jsonNode12 = jsonNodes.get(11);
+            JsonNode jsonNode12 = jsonNodes.get(10);
             Assertions.assertEquals("セルスタイル", jsonNode12.getVar("target").getValue());
             Assertions.assertEquals("テスト", jsonNode12.getVar("sheet").getValue());
             Assertions.assertEquals("I1", jsonNode12.getVar("range").getValue());
