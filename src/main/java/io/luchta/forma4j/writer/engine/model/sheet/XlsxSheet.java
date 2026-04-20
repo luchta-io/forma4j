@@ -11,11 +11,17 @@ public class XlsxSheet {
     XlsxSheetName name;
     XlsxRowList rows;
     ColumnPropertyMap columnPropertyMap;
+    Boolean autoSizeColumnEnabled;
 
     public XlsxSheet(XlsxSheetName name, XlsxRowList rows, ColumnPropertyMap columnPropertyMap) {
+        this(name, rows, columnPropertyMap, null);
+    }
+
+    public XlsxSheet(XlsxSheetName name, XlsxRowList rows, ColumnPropertyMap columnPropertyMap, Boolean autoSizeColumnEnabled) {
         this.name = name;
         this.rows = rows;
         this.columnPropertyMap = columnPropertyMap;
+        this.autoSizeColumnEnabled = autoSizeColumnEnabled;
     }
 
     public XlsxSheetName name() {
@@ -28,6 +34,10 @@ public class XlsxSheet {
 
     public ColumnPropertyMap columnPropertyMap() {
         return columnPropertyMap;
+    }
+
+    public Boolean autoSizeColumnEnabled() {
+        return autoSizeColumnEnabled;
     }
 
     public int columnSize() {

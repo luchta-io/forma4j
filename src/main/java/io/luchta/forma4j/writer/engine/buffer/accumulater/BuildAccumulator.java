@@ -6,10 +6,11 @@ import io.luchta.forma4j.writer.engine.buffer.accumulater.support.RowPropertyMap
 import io.luchta.forma4j.writer.engine.buffer.accumulater.support.SheetNameList;
 import io.luchta.forma4j.writer.engine.model.book.XlsxBook;
 import io.luchta.forma4j.writer.engine.model.cell.XlsxCell;
-import io.luchta.forma4j.writer.engine.model.cell.XlsxCellList;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxCellAddress;
+import io.luchta.forma4j.writer.engine.model.cell.address.XlsxColumnNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxRowNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxSheetName;
+import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyles;
 import io.luchta.forma4j.writer.engine.model.column.XlsxColumnAddress;
 import io.luchta.forma4j.writer.engine.model.column.property.XlsxColumnProperties;
 import io.luchta.forma4j.writer.engine.model.column.property.XlsxColumnProperty;
@@ -22,16 +23,24 @@ import io.luchta.forma4j.writer.engine.model.sheet.XlsxSheet;
 import io.luchta.forma4j.writer.engine.model.sheet.XlsxSheetList;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BuildAccumulator {
     SheetNameList sheetNameList = new SheetNameList();
     RowPropertyMap rowPropertyMap = new RowPropertyMap();
     ColumnPropertyMap columnPropertyMap = new ColumnPropertyMap();
     CellMap cells = new CellMap();
+    Map<XlsxSheetName, Boolean> autoSizeColumnEnabledMap = new HashMap<>();
 
     public void add(XlsxSheetName sheetName) {
+        add(sheetName, null);
+    }
+
+    public void add(XlsxSheetName sheetName, Boolean autoSizeColumnEnabled) {
         sheetNameList.add(sheetName);
+        autoSizeColumnEnabledMap.put(sheetName, autoSizeColumnEnabled);
     }
 
     public void put(XlsxCellAddress address, XlsxCell cell) {
@@ -57,33 +66,62 @@ public class BuildAccumulator {
     }
 
     public XlsxBook toXlsxBook() {
-        return new XlsxBook(toSheetList());
+        return new XlsxBook(toSheetList(), styles());
+    }
+
+    public Iterable<XlsxSheetName> sheetNames() {
+        return sheetNameList;
+    }
+
+    public Map<XlsxRowNumber, Map<XlsxColumnNumber, XlsxCell>> rows(XlsxSheetName sheetName) {
+        return cells.rows(sheetName);
+    }
+
+    public XlsxRowProperties rowProperties(XlsxRowAddress address) {
+        return rowPropertyMap.get(address);
+    }
+
+    public boolean hasRowProperties(XlsxRowAddress address) {
+        return rowPropertyMap.containsKey(address);
+    }
+
+    public ColumnPropertyMap columnProperties(XlsxSheetName sheetName) {
+        return columnPropertyMap.getBySheetName(sheetName);
+    }
+
+    public Boolean autoSizeColumnEnabled(XlsxSheetName sheetName) {
+        return autoSizeColumnEnabledMap.get(sheetName);
+    }
+
+    public XlsxCellStyles styles() {
+        return cells.toXlsxCellStyles();
     }
 
     private XlsxSheetList toSheetList() {
         List<XlsxSheet> sheetList = new ArrayList<>();
         for (XlsxSheetName sheetName : sheetNameList) {
             XlsxRowList rowList = toRowList(sheetName);
-            sheetList.add(new XlsxSheet(sheetName, rowList, columnPropertyMap.getBySheetName(sheetName)));
+            sheetList.add(new XlsxSheet(
+                    sheetName,
+                    rowList,
+                    columnPropertyMap.getBySheetName(sheetName),
+                    autoSizeColumnEnabledMap.get(sheetName)
+            ));
         }
         return new XlsxSheetList(sheetList);
     }
 
     private XlsxRowList toRowList(XlsxSheetName sheetName) {
-        CellMap thisSheetCells = cells.filterBy(sheetName);
         List<XlsxRow> list = new ArrayList<>();
-        for (XlsxRowNumber rowNumber : thisSheetCells.rowNumberList()) {
-            XlsxCellList thisRowCellList = thisSheetCells
-                    .filterBy(rowNumber)
-                    .toXlsxCellList();
-
+        for (Map.Entry<XlsxRowNumber, Map<XlsxColumnNumber, XlsxCell>> rowEntry : cells.rows(sheetName).entrySet()) {
+            XlsxRowNumber rowNumber = rowEntry.getKey();
             XlsxRowAddress rowAddress = new XlsxRowAddress(sheetName, rowNumber);
             if (rowPropertyMap.containsKey(rowAddress)) {
                 XlsxRowProperties properties = rowPropertyMap.get(rowAddress);
-                list.add(new XlsxRow(rowNumber, thisRowCellList, properties));
+                list.add(new XlsxRow(rowNumber, cells.toXlsxCellList(rowEntry.getValue()), properties));
                 continue;
             }
-            list.add(new XlsxRow(rowNumber, thisRowCellList));
+            list.add(new XlsxRow(rowNumber, cells.toXlsxCellList(rowEntry.getValue())));
         }
         return new XlsxRowList(list);
     }

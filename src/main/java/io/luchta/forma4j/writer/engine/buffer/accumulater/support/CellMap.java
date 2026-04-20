@@ -3,56 +3,65 @@ package io.luchta.forma4j.writer.engine.buffer.accumulater.support;
 import io.luchta.forma4j.writer.engine.model.cell.XlsxCell;
 import io.luchta.forma4j.writer.engine.model.cell.XlsxCellList;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxCellAddress;
+import io.luchta.forma4j.writer.engine.model.cell.address.XlsxColumnNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxRowNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxSheetName;
+import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyle;
+import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellStyles;
 
-import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Set;
+import java.util.TreeMap;
 
 public class CellMap {
-    Map<XlsxCellAddress, XlsxCell> map = new HashMap<>();
-
-    public CellMap() {
-    }
-
-    public CellMap(Map<XlsxCellAddress, XlsxCell> map) {
-        this.map = map;
-    }
+    Map<XlsxSheetName, Map<XlsxRowNumber, Map<XlsxColumnNumber, XlsxCell>>> sheetRowColumnMap = new HashMap<>();
 
     public void put(XlsxCellAddress address, XlsxCell cell) {
-        map.put(address, cell);
+        Map<XlsxRowNumber, Map<XlsxColumnNumber, XlsxCell>> rowMap = sheetRowColumnMap.computeIfAbsent(
+                address.sheetName(),
+                key -> new TreeMap<>()
+        );
+        Map<XlsxColumnNumber, XlsxCell> columnMap = rowMap.computeIfAbsent(
+                address.rowNumber(),
+                key -> new TreeMap<>()
+        );
+        columnMap.put(address.columnNumber(), cell);
     }
 
-    public CellMap filterBy(XlsxSheetName sheetName) {
-        Map<XlsxCellAddress, XlsxCell> filtered = map.entrySet().stream()
-                .filter(entry -> entry.getKey().is(sheetName))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-        return new CellMap(filtered);
+    public Map<XlsxRowNumber, Map<XlsxColumnNumber, XlsxCell>> rows(XlsxSheetName sheetName) {
+        if (!sheetRowColumnMap.containsKey(sheetName)) {
+            return Collections.emptyMap();
+        }
+        return sheetRowColumnMap.get(sheetName);
     }
 
-    public CellMap filterBy(XlsxRowNumber rowNumber) {
-        Map<XlsxCellAddress, XlsxCell> filtered = map.entrySet().stream()
-                .filter(entry -> entry.getKey().is(rowNumber))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-        return new CellMap(filtered);
+    public Iterable<XlsxCell> cells(XlsxSheetName sheetName, XlsxRowNumber rowNumber) {
+        Map<XlsxRowNumber, Map<XlsxColumnNumber, XlsxCell>> rowMap = rows(sheetName);
+        if (!rowMap.containsKey(rowNumber)) {
+            return Collections.emptyList();
+        }
+        return rowMap.get(rowNumber).values();
     }
 
-    public RowNumberList rowNumberList() {
-        List<XlsxRowNumber> sorted = map.keySet().stream()
-                .map(XlsxCellAddress::rowNumber)
-                .distinct()
-                .sorted()
-                .collect(Collectors.toList());
-        return new RowNumberList(sorted);
+    public XlsxCellList toXlsxCellList(Map<XlsxColumnNumber, XlsxCell> rowCells) {
+        List<XlsxCell> cells = new ArrayList<>(rowCells.values());
+        return new XlsxCellList(cells);
     }
 
-    public XlsxCellList toXlsxCellList() {
-        List<XlsxCell> sorted = map.values().stream()
-                .sorted(Comparator.comparing(o -> o.address().columnNumber()))
-                .collect(Collectors.toList());
-        return new XlsxCellList(sorted);
+    public XlsxCellStyles toXlsxCellStyles() {
+        Set<XlsxCellStyle> styles = new HashSet<>();
+        for (Map<XlsxRowNumber, Map<XlsxColumnNumber, XlsxCell>> rowMap : sheetRowColumnMap.values()) {
+            for (Map<XlsxColumnNumber, XlsxCell> columnMap : rowMap.values()) {
+                for (XlsxCell cell : columnMap.values()) {
+                    styles.add(cell.style());
+                }
+            }
+        }
+        return new XlsxCellStyles(styles);
     }
 }

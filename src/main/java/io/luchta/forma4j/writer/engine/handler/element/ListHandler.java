@@ -12,8 +12,6 @@ import io.luchta.forma4j.writer.engine.model.cell.address.XlsxColumnNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxRowNumber;
 import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellType;
 import io.luchta.forma4j.writer.engine.model.cell.value.Text;
-import io.luchta.forma4j.writer.engine.resolver.StyleResolver;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -72,7 +70,6 @@ public class ListHandler {
             return;
         }
 
-        StyleResolver styleResolver = new StyleResolver();
         Map<String, Object> map = (Map<String, Object>) list.get(0);
         for (String headerName : map.keySet()) {
             buffer.accumulator().put(
@@ -80,7 +77,7 @@ public class ListHandler {
                     new XlsxCell(
                             address,
                             new Text(headerName),
-                            styleResolver.get(style, buffer.variableResolver()),
+                            buffer.styleResolver().get(style, buffer.variableResolver()),
                             null));
             address = address.columnNumberIncrement();
         }
@@ -97,7 +94,6 @@ public class ListHandler {
             return;
         }
 
-        StyleResolver styleResolver = new StyleResolver();
         Long columnIndex = address.columnNumber().toLong();
         for (Object obj : list) {
             if (!(obj instanceof Map<?, ?>)) {
@@ -111,7 +107,7 @@ public class ListHandler {
                         new XlsxCell(
                                 address,
                                 new Text(value.toString()),
-                                styleResolver.get(style, buffer.variableResolver()),
+                                buffer.styleResolver().get(style, buffer.variableResolver()),
                                 null));
                 address = address.columnNumberIncrement();
             }

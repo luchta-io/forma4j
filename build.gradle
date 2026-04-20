@@ -11,12 +11,12 @@ plugins {
     id 'idea'
     id 'maven-publish'
     id 'antlr'
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
-    id 'org.jreleaser' version '1.18.0'
+    id 'com.gradleup.shadow' version '9.0.0'
+    id 'org.jreleaser' version '1.20.0'
 }
 
 group = 'io.luchta'
-version = '1.9.0'
+version = '1.9.1'
 
 sourceCompatibility = compatibility
 targetCompatibility = compatibility
@@ -39,11 +39,10 @@ dependencies {
     implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.4.1'
 
     implementation "jakarta.xml.bind:jakarta.xml.bind-api:4.0.2"
-    implementation "com.sun.xml.bind:jaxb-impl:4.0.5"
+    implementation "com.sun.xml.bind:jaxb-impl:4.0.6"
     
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.19.0'
-    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.19.0'
-
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.20.0'
+    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.20.0'
 
     antlr "org.antlr:antlr4:4.13.2"
 
@@ -129,6 +128,7 @@ jreleaser {
 
 shadowJar {
     archiveClassifier.set("")
+    relocate 'org.apache.poi', 'io.luchta.forma4j.shaded.poi'
 }
 
 tasks.named("publishShadowPublicationToLocalStagingRepository") {

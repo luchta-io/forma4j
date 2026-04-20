@@ -19,6 +19,7 @@ sheetタグは以下のタグを子要素として持つことができます。
 | name | シート名を設定します。item、collectionタグを使用している場合は無視されます。 |
 | item | collectionを使用する場合に指定します。子孫要素はこのプロパティで指定した変数でcollectionの要素にアクセスすることができます。 |
 | collection | データコレクションです。データ件数の数だけsheetが自動的に作成されます。 |
+| autoSizeColumn | 列幅の自動調整を行うかどうかを設定します。`true` を指定すると有効、`false` を指定すると無効になります。未指定時は新規ブック作成では有効、テンプレートへの書き込みでは無効です。 |
 
 ## シートの出力
 
@@ -45,6 +46,24 @@ sheetタグは以下のタグを子要素として持つことができます。
 ```
 
 ![Excel](image/writer-sheet-2.svg)
+
+## 列幅の自動調整
+
+sheetタグの `autoSizeColumn` プロパティで列幅の自動調整を制御できます。
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<forma>
+  <sheet name="Example" autoSizeColumn="false">
+    <cell rowIndex="0" columnIndex="0">abcdefghijklmnopqrstuvwxyz0123456789</cell>
+  </sheet>
+</forma>
+```
+
+`autoSizeColumn` を省略した場合の既定値は以下の通りです。
+
+- 新規ブック作成時: `true`
+- テンプレートへの書き込み時: `false`
 
 ## 書き込み定義が同一のシートを複数出力
 

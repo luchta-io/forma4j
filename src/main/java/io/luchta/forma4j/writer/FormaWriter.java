@@ -1,15 +1,9 @@
 package io.luchta.forma4j.writer;
 
-import com.fasterxml.jackson.core.json.JsonReadFeature;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import io.luchta.forma4j.context.databind.convert.JsonSerializer;
 import io.luchta.forma4j.context.databind.json.JsonObject;
 import io.luchta.forma4j.writer.definition.XmlDocument;
 import io.luchta.forma4j.writer.definition.XmlDocumentReader;
 import io.luchta.forma4j.writer.engine.XlsxModelBuilder;
-import io.luchta.forma4j.writer.engine.model.book.XlsxBook;
 import io.luchta.forma4j.writer.processor.XlsxPassword;
 import io.luchta.forma4j.writer.processor.XlsxWriteProcessor;
 
@@ -17,8 +11,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * {@code Writer} は設定ファイルに従って EXCEL の書き込みを行うクラスです。
@@ -125,24 +117,10 @@ public class FormaWriter {
     }
 
     private XlsxWriteProcessor processor(InputStream definitionXml, JsonObject jsonObject) throws IOException {
-        Context context = context(jsonObject);
-
         XmlDocumentReader definitionReader = new XmlDocumentReader();
         XmlDocument definition = definitionXml == null ? XmlDocument.defaultXmlDocument() : definitionReader.read(definitionXml);
-        XlsxModelBuilder modelBuilder = new XlsxModelBuilder(definition, context);
-        XlsxBook model = modelBuilder.build();
-        XlsxWriteProcessor processor = new XlsxWriteProcessor(model);
+        XlsxModelBuilder modelBuilder = new XlsxModelBuilder(definition, Context.from(jsonObject));
+        XlsxWriteProcessor processor = new XlsxWriteProcessor(modelBuilder.accumulate());
         return processor;
-    }
-
-    private Context context(JsonObject jsonObject) throws IOException {
-        JsonSerializer serializer = new JsonSerializer();
-        String json = serializer.serializeFromJsonObject(jsonObject);
-        TypeReference<LinkedHashMap<String, Object>> reference = new TypeReference<LinkedHashMap<String, Object>>() {};
-        ObjectMapper mapper = JsonMapper.builder()
-                .enable(JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER)
-                .build();
-        Map<String, Object> map = mapper.readValue(json, reference);
-        return new Context(map);
     }
 }

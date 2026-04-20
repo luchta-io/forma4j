@@ -6,10 +6,16 @@ import io.luchta.forma4j.context.databind.json.JsonNodes;
 import io.luchta.forma4j.context.databind.json.JsonObject;
 import io.luchta.forma4j.reader.FormaReader;
 import io.luchta.forma4j.writer.FormaWriter;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import util.diff.FormaDiffer;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -74,5 +80,61 @@ public class SheetTest {
 
         Assertions.assertEquals(true, jsonObject.isJsonNodes());
         Assertions.assertEquals(0, ((JsonNodes) jsonObject.getValue()).size());
+    }
+
+    @Test
+    public void sheet_auto_size_column() throws Exception {
+        ClassLoader classLoader = getClass().getClassLoader();
+        JsonObject jsonObject = new JsonObject();
+        FormaWriter sut = new FormaWriter();
+
+        int disabledWidth;
+        int defaultWidth;
+        int enabledWidth;
+
+        try (InputStream in = classLoader.getResource("writer/sheet/sheet_auto_size_column.xml").openStream();
+             ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            sut.write(in, out, jsonObject);
+
+            try (Workbook workbook = WorkbookFactory.create(new ByteArrayInputStream(out.toByteArray()))) {
+                disabledWidth = columnWidth(workbook, "disabled");
+                defaultWidth = columnWidth(workbook, "default");
+                enabledWidth = columnWidth(workbook, "enabled");
+            }
+        }
+
+        Assertions.assertTrue(defaultWidth > disabledWidth);
+        Assertions.assertTrue(enabledWidth > disabledWidth);
+
+        byte[] templateBytes = templateBytes();
+        try (InputStream in = classLoader.getResource("writer/sheet/sheet_auto_size_column.xml").openStream();
+             ByteArrayOutputStream out = new ByteArrayOutputStream();
+             InputStream template = new ByteArrayInputStream(templateBytes)) {
+            sut.write(in, out, template, jsonObject);
+
+            try (Workbook workbook = WorkbookFactory.create(new ByteArrayInputStream(out.toByteArray()))) {
+                disabledWidth = columnWidth(workbook, "disabled");
+                defaultWidth = columnWidth(workbook, "default");
+                enabledWidth = columnWidth(workbook, "enabled");
+            }
+        }
+
+        Assertions.assertEquals(disabledWidth, defaultWidth);
+        Assertions.assertTrue(enabledWidth > defaultWidth);
+    }
+
+    private int columnWidth(Workbook workbook, String sheetName) {
+        Sheet sheet = workbook.getSheet(sheetName);
+        return sheet.getColumnWidth(0);
+    }
+
+    private byte[] templateBytes() throws Exception {
+        try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            workbook.createSheet("default");
+            workbook.createSheet("disabled");
+            workbook.createSheet("enabled");
+            workbook.write(out);
+            return out.toByteArray();
+        }
     }
 }
