@@ -442,7 +442,7 @@ public class FormaWriterTest {
 
         InputStream comparing = new FileInputStream(this.getClass().getClassLoader().getResource("writer/style.xlsx").getPath());
         InputStream compared = new FileInputStream(outFile.getAbsolutePath());
-        FormaDiffer differ = new FormaDiffer();
+        FormaDiffer differ = new FormaDiffer(false);
         JsonObject jsonObject = differ.diff(comparing, compared);
         logger.log(Level.INFO, new JsonSerializer().serializeFromJsonObject(jsonObject));
 
@@ -516,7 +516,7 @@ public class FormaWriterTest {
 
         InputStream comparing = new FileInputStream(this.getClass().getClassLoader().getResource("writer/style_if.xlsx").getPath());
         InputStream compared = new FileInputStream(outFile.getAbsolutePath());
-        FormaDiffer differ = new FormaDiffer();
+        FormaDiffer differ = new FormaDiffer(false);
         JsonObject jsonObject = differ.diff(comparing, compared);
         logger.log(Level.INFO, new JsonSerializer().serializeFromJsonObject(jsonObject));
 
