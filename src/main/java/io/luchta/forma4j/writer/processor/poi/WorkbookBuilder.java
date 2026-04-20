@@ -57,7 +57,7 @@ public class WorkbookBuilder {
                 sheet = workbook.createSheet(sheetName.toString());
             }
 
-            int columnSize = -1;
+            int columnSize = 0;
             Map<Integer, Integer> nonEmptyColumnNumbers = new HashMap<>();
 
             for (Map.Entry<XlsxRowNumber, Map<XlsxColumnNumber, XlsxCell>> rowEntry : accumulator.rows(sheetName).entrySet()) {
@@ -81,7 +81,6 @@ public class WorkbookBuilder {
                         cell.setCellStyle(styleMap.get(cellModel.style()));
                     }
                     cellValue(cell, cellModel);
-                    columnSize = Math.max(columnSize, cellModel.columnNumber().toInt());
                     if (!cellModel.isEmpty()) {
                         nonEmptyColumnNumbers.put(cellModel.columnNumber().toInt(), cellModel.columnNumber().toInt());
                     }
@@ -102,9 +101,10 @@ public class WorkbookBuilder {
                             )
                     );
                 }
+                columnSize = Math.max(columnSize, rowEntry.getValue().size());
             }
 
-            setColumnStyle(sheetName, sheet, autoSizeColumnEnabled, columnSize + 1, nonEmptyColumnNumbers);
+            setColumnStyle(sheetName, sheet, autoSizeColumnEnabled, columnSize, nonEmptyColumnNumbers);
         }
         return workbook;
     }
