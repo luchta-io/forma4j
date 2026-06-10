@@ -16,7 +16,7 @@ plugins {
 }
 
 group = 'io.luchta'
-version = '1.9.1'
+version = '1.9.2'
 
 sourceCompatibility = compatibility
 targetCompatibility = compatibility
@@ -128,7 +128,7 @@ jreleaser {
 
 shadowJar {
     archiveClassifier.set("")
-    relocate 'org.apache.poi', 'io.luchta.forma4j.shaded.poi'
+    mergeServiceFiles()
 }
 
 tasks.named("publishShadowPublicationToLocalStagingRepository") {
