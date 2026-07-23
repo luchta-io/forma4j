@@ -3,11 +3,13 @@ package io.luchta.forma4j.writer;
 import io.luchta.forma4j.context.databind.json.JsonNode;
 import io.luchta.forma4j.context.databind.json.JsonNodes;
 import io.luchta.forma4j.context.databind.json.JsonObject;
+import io.luchta.forma4j.writer.stream.SequenceSource;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 public class Context {
@@ -19,7 +21,7 @@ public class Context {
         this.vars = vars;
     }
 
-    static Context from(JsonObject jsonObject) {
+    public static Context from(JsonObject jsonObject) {
         if (jsonObject == null || jsonObject.isEmpty()) {
             return new Context();
         }
@@ -33,6 +35,16 @@ public class Context {
 
     public void putVar(String key, Object value) {
         vars.put(key, value);
+    }
+
+    /**
+     * 名前付きのストリーミングコレクションを登録します。
+     *
+     * @param key XML の collection 属性から参照する名前
+     * @param source コレクションを開くSource
+     */
+    public void putSequence(String key, SequenceSource<?> source) {
+        vars.put(key, Objects.requireNonNull(source, "source"));
     }
 
     public Object getVar(String key) {

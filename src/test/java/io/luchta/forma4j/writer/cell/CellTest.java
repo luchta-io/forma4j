@@ -6,6 +6,7 @@ import io.luchta.forma4j.context.databind.json.JsonNodes;
 import io.luchta.forma4j.context.databind.json.JsonObject;
 import io.luchta.forma4j.reader.FormaReader;
 import io.luchta.forma4j.writer.FormaWriter;
+import io.luchta.forma4j.writer.stream.FormaStreamingWriter;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -54,6 +55,40 @@ public class CellTest {
 
         // 書き込み
         FormaWriter sut = new FormaWriter();
+        sut.write(in, out, new JsonObject(jsonNode));
+
+        // 書き込んだ内容のチェック
+        FormaDiffer differ = new FormaDiffer();
+        FileInputStream comparing = new FileInputStream(absolutePath);
+        InputStream compared = classLoader.getResource("writer/cell/cell.xlsx").openStream();
+        JsonObject jsonObject = differ.diff(comparing, compared);
+        logger.log(Level.INFO, "比較結果: " + new JsonSerializer().serializeFromJsonObject(jsonObject));
+
+        Assertions.assertEquals(true, jsonObject.isJsonNodes());
+        Assertions.assertEquals(0, ((JsonNodes) jsonObject.getValue()).size());
+    }
+
+    /**
+     * rowIndexとcolumnIndexを指定してcellへ値を出力するテスト
+     */
+    @Test
+    public void streaming_cell_test() throws Exception {
+        // 定義ファイルの読み込み
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream in = classLoader.getResource("writer/cell/cell.xml").openStream();
+
+        // 出力ファイルの設定
+        File outFile = Files.createTempFile("test", String.format("%s.xlsx", LocalDateTime.now().toString())).toFile();
+        FileOutputStream out = new FileOutputStream(outFile);
+        String absolutePath = outFile.getAbsolutePath();
+        logger.log(Level.INFO, "xlsxファイル出力先: " + absolutePath);
+
+        // 書き込む内容の設定
+        JsonNode jsonNode = new JsonNode();
+        jsonNode.putVar("value", new JsonObject("あいうえお"));
+
+        // 書き込み
+        FormaStreamingWriter sut = new FormaStreamingWriter();
         sut.write(in, out, new JsonObject(jsonNode));
 
         // 書き込んだ内容のチェック

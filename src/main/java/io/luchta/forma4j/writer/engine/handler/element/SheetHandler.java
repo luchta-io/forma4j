@@ -13,8 +13,8 @@ import io.luchta.forma4j.writer.engine.model.cell.address.XlsxCellAddress;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxColumnNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxRowNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxSheetName;
+import io.luchta.forma4j.writer.engine.resolver.VariableResolver;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,12 +45,13 @@ public class SheetHandler {
         if (collection.isEmpty()) {
             XlsxSheetName sheetName = new XlsxSheetName(sheet.name());
             XlsxCellAddress address = new XlsxCellAddress(sheetName, XlsxRowNumber.init(), XlsxColumnNumber.init());
-            buffer.accumulator().add(sheetName, autoSizeColumnEnabled);
+            buffer.outputStrategy().startSheet(sheetName, autoSizeColumnEnabled);
             buffer.addressStack().push(address);
             try {
                 dispatch(sheet.children());
             } finally {
                 buffer.addressStack().pop();
+                buffer.outputStrategy().finishSheet(sheetName);
             }
         } else {
             if (sheet.children().size() == 1 && sheet.children().get(0).type() == ElementType.LIST) {
@@ -67,23 +68,30 @@ public class SheetHandler {
      * @param collection
      */
     private void handleCollection(Sheet sheet, Collection collection) {
-        List<Object> list = buffer.variableResolver().getList(collection.toString());
-        for (Object obj : list) {
-            if (obj instanceof Map) {
-                // シートの設定
-                Map<String, Object> map = (Map<String, Object>) obj;
-                XlsxSheetName sheetName = new XlsxSheetName(new Name(map.get("sheetName").toString()));
-                XlsxCellAddress address = new XlsxCellAddress(sheetName, XlsxRowNumber.init(), XlsxColumnNumber.init());
-                buffer.accumulator().add(sheetName, autoSizeColumnEnabled(sheet));
-                buffer.addressStack().push(address);
-                buffer.loopContext().put(new Index(), 0);
-                buffer.loopContext().put(new Item(sheet.item().toString()), map);
-                try {
-                    dispatch(sheet.children());
-                } finally {
-                    buffer.addressStack().pop();
+        try (VariableResolver.Iteration list =
+                     buffer.variableResolver().openIteration(collection.toString())) {
+            while (list.hasNext()) {
+                Object obj = list.next();
+                if (obj instanceof Map) {
+                    // シートの設定
+                    Map<String, Object> map = (Map<String, Object>) obj;
+                    XlsxSheetName sheetName = new XlsxSheetName(new Name(map.get("sheetName").toString()));
+                    XlsxCellAddress address = new XlsxCellAddress(sheetName, XlsxRowNumber.init(), XlsxColumnNumber.init());
+                    buffer.outputStrategy().startSheet(sheetName, autoSizeColumnEnabled(sheet));
+                    buffer.addressStack().push(address);
+                    buffer.loopContext().put(new Index(), 0);
+                    buffer.loopContext().put(new Item(sheet.item().toString()), map);
+                    try {
+                        dispatch(sheet.children());
+                    } finally {
+                        buffer.addressStack().pop();
+                        buffer.outputStrategy().finishSheet(sheetName);
+                    }
                 }
             }
+        } finally {
+            buffer.loopContext().remove(new Index());
+            buffer.loopContext().remove(new Item(sheet.item().toString()));
         }
     }
 
@@ -93,28 +101,31 @@ public class SheetHandler {
      * @param collection
      */
     private void handleCollectionWithListTag(Sheet sheet, Collection collection) {
-        List<Object> list = buffer.variableResolver().getList(collection.toString());
-        for (Object obj : list) {
-            if (obj instanceof Map) {
-                Map<String, Object> sheets = (Map<String, Object>) obj;
-                for (Map.Entry<String, Object> entry : sheets.entrySet()) {
-                    if (!(obj instanceof Map)) {
-                        continue;
-                    }
-
-                    XlsxSheetName sheetName = new XlsxSheetName(new Name(entry.getKey()));
-                    XlsxCellAddress address = new XlsxCellAddress(sheetName, XlsxRowNumber.init(), XlsxColumnNumber.init());
-                    buffer.accumulator().add(sheetName, autoSizeColumnEnabled(sheet));
-                    buffer.addressStack().push(address);
-                    buffer.loopContext().put(new Index(), 0);
-                    buffer.loopContext().put(new Item(sheet.item().toString()), entry.getValue());
-                    try {
-                        dispatch(sheet.children());
-                    } finally {
-                        buffer.addressStack().pop();
+        try (VariableResolver.Iteration list =
+                     buffer.variableResolver().openIteration(collection.toString())) {
+            while (list.hasNext()) {
+                Object obj = list.next();
+                if (obj instanceof Map) {
+                    Map<String, Object> sheets = (Map<String, Object>) obj;
+                    for (Map.Entry<String, Object> entry : sheets.entrySet()) {
+                        XlsxSheetName sheetName = new XlsxSheetName(new Name(entry.getKey()));
+                        XlsxCellAddress address = new XlsxCellAddress(sheetName, XlsxRowNumber.init(), XlsxColumnNumber.init());
+                        buffer.outputStrategy().startSheet(sheetName, autoSizeColumnEnabled(sheet));
+                        buffer.addressStack().push(address);
+                        buffer.loopContext().put(new Index(), 0);
+                        buffer.loopContext().put(new Item(sheet.item().toString()), entry.getValue());
+                        try {
+                            dispatch(sheet.children());
+                        } finally {
+                            buffer.addressStack().pop();
+                            buffer.outputStrategy().finishSheet(sheetName);
+                        }
                     }
                 }
             }
+        } finally {
+            buffer.loopContext().remove(new Index());
+            buffer.loopContext().remove(new Item(sheet.item().toString()));
         }
     }
 

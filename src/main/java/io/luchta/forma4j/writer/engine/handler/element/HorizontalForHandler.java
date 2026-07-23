@@ -11,8 +11,6 @@ import io.luchta.forma4j.writer.engine.model.cell.address.XlsxColumnNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxRowNumber;
 import io.luchta.forma4j.writer.engine.resolver.VariableResolver;
 
-import java.util.List;
-
 /**
  * horizontal-forタグのハンドラ
  */
@@ -36,7 +34,6 @@ public class HorizontalForHandler {
      */
     public void handle(HorizontalFor horizontalFor) {
         VariableResolver variableResolver = buffer.variableResolver();
-        List<Object> collection = variableResolver.getList(horizontalFor.collection().toString());
         XlsxCellAddress baseAddress = buffer.addressStack().peek();
         XlsxRowNumber startRowNumber = horizontalFor.startRowIndex().isEmpty()
                 ? baseAddress.rowNumber()
@@ -44,20 +41,24 @@ public class HorizontalForHandler {
         XlsxColumnNumber startColumnNumber = horizontalFor.startColumnIndex().isEmpty()
                 ? baseAddress.columnNumber()
                 : new XlsxColumnNumber(horizontalFor.startColumnIndex());
-        try {
-            for (int i = 0; i < collection.size(); i++) {
+        try (VariableResolver.Iteration collection =
+                     variableResolver.openIteration(horizontalFor.collection().toString())) {
+            int i = 0;
+            while (collection.hasNext()) {
+                Object item = collection.next();
                 XlsxCellAddress currentAddress = baseAddress.with(
                         startRowNumber,
                         new XlsxColumnNumber(startColumnNumber.toLong() + i)
                 );
                 buffer.addressStack().push(currentAddress);
                 buffer.loopContext().put(horizontalFor.index(), i);
-                buffer.loopContext().put(horizontalFor.item(), collection.get(i));
+                buffer.loopContext().put(horizontalFor.item(), item);
                 try {
                     dispatch(horizontalFor.children());
                 } finally {
                     buffer.addressStack().pop();
                 }
+                i++;
             }
         } finally {
             buffer.loopContext().remove(horizontalFor.index());

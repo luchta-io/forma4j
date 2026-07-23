@@ -10,9 +10,9 @@ import io.luchta.forma4j.writer.engine.model.cell.XlsxCell;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxCellAddress;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxColumnNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxRowNumber;
-import io.luchta.forma4j.writer.engine.model.cell.style.XlsxCellType;
 import io.luchta.forma4j.writer.engine.model.cell.value.Text;
-import java.util.List;
+import io.luchta.forma4j.writer.engine.resolver.VariableResolver;
+
 import java.util.Map;
 import java.util.Set;
 
@@ -24,6 +24,7 @@ import java.util.Set;
  *
  * @since 1.1.0
  */
+@SuppressWarnings("unchecked")
 public class ListHandler {
     private BuildBuffer buffer;
 
@@ -55,24 +56,33 @@ public class ListHandler {
         Style detailStyle = listElement.detailStyle();
         Collection collection = listElement.collection();
 
-        header(address(new XlsxRowNumber(rowIndex), new XlsxColumnNumber(columnIndex)), headerStyle, collection);
-        detail(address(new XlsxRowNumber(rowIndex + 1), new XlsxColumnNumber(columnIndex)), detailStyle, collection);
+        try (VariableResolver.Iteration iterator = collection(collection)) {
+            if (!iterator.hasNext()) {
+                return;
+            }
+
+            Object first = iterator.next();
+            if (!(first instanceof Map<?, ?>)) {
+                return;
+            }
+
+            header(address(new XlsxRowNumber(rowIndex), new XlsxColumnNumber(columnIndex)), headerStyle, (Map<String, Object>) first);
+            detail(address(new XlsxRowNumber(rowIndex + 1), new XlsxColumnNumber(columnIndex)), detailStyle, first, iterator);
+        }
     }
 
-    private void header(XlsxCellAddress address, Style style, Collection collection) {
+    private VariableResolver.Iteration collection(Collection collection) {
         Set<String> keySet = buffer.variableResolver().getKeySet();
-        String key = keySet.iterator().next();
+        String key = keySet.isEmpty() ? "" : keySet.iterator().next();
         if (!collection.isEmpty()) {
             key = collection.toString();
         }
-        List<Object> list = buffer.variableResolver().getList(key);
-        if (list.size() == 0 || !(list.get(0) instanceof Map<?, ?>)) {
-            return;
-        }
+        return buffer.variableResolver().openIteration(key);
+    }
 
-        Map<String, Object> map = (Map<String, Object>) list.get(0);
+    private void header(XlsxCellAddress address, Style style, Map<String, Object> map) {
         for (String headerName : map.keySet()) {
-            buffer.accumulator().put(
+            buffer.outputStrategy().writeCell(
                     address,
                     new XlsxCell(
                             address,
@@ -83,36 +93,39 @@ public class ListHandler {
         }
     }
 
-    private void detail(XlsxCellAddress address, Style style, Collection collection) {
-        Set<String> keySet = buffer.variableResolver().getKeySet();
-        String key = keySet.iterator().next();
-        if (!collection.isEmpty()) {
-            key = collection.toString();
-        }
-        List<Object> list = buffer.variableResolver().getList(key);
-        if (list.size() == 0 || !(list.get(0) instanceof Map<?, ?>)) {
-            return;
-        }
-
+    private void detail(
+            XlsxCellAddress address,
+            Style style,
+            Object first,
+            VariableResolver.Iteration iterator
+    ) {
         Long columnIndex = address.columnNumber().toLong();
-        for (Object obj : list) {
+        writeDetail(address, style, first);
+        address = address.rowNumberIncrement().with(new XlsxColumnNumber(columnIndex));
+        while (iterator.hasNext()) {
+            Object obj = iterator.next();
             if (!(obj instanceof Map<?, ?>)) {
                 continue;
             }
-
-            Map<String, Object> line = (Map<String, Object>) obj;
-            for (Object value : line.values()) {
-                buffer.accumulator().put(
-                        address,
-                        new XlsxCell(
-                                address,
-                                new Text(value.toString()),
-                                buffer.styleResolver().get(style, buffer.variableResolver()),
-                                null));
-                address = address.columnNumberIncrement();
-            }
-
+            writeDetail(address, style, obj);
             address = address.rowNumberIncrement().with(new XlsxColumnNumber(columnIndex));
+        }
+    }
+
+    private void writeDetail(XlsxCellAddress address, Style style, Object obj) {
+        if (!(obj instanceof Map<?, ?>)) {
+            return;
+        }
+        Map<String, Object> line = (Map<String, Object>) obj;
+        for (Object value : line.values()) {
+            buffer.outputStrategy().writeCell(
+                    address,
+                    new XlsxCell(
+                            address,
+                            new Text(value.toString()),
+                            buffer.styleResolver().get(style, buffer.variableResolver()),
+                            null));
+            address = address.columnNumberIncrement();
         }
     }
 

@@ -16,7 +16,7 @@ plugins {
 }
 
 group = 'io.luchta'
-version = '1.10.0'
+version = '1.10.0-SNAPSHOT'
 
 sourceCompatibility = compatibility
 targetCompatibility = compatibility
@@ -51,7 +51,21 @@ dependencies {
 }
 
 test {
-    useJUnitPlatform()
+    useJUnitPlatform {
+        excludeTags 'low-heap'
+    }
+}
+
+tasks.register('lowHeapTest', Test) {
+    description = 'Runs low-memory streaming writer tests with a 256 MiB heap.'
+    group = 'verification'
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    maxHeapSize = '256m'
+    useJUnitPlatform {
+        includeTags 'low-heap'
+    }
+    shouldRunAfter test
 }
 
 repositories {
