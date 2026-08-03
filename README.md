@@ -12,6 +12,7 @@
 
 - [はじめに](docs/README.md)
 - [Gradle](docs/gradle/gradle.md)
+- [Maven](docs/maven/maven.md)
 - Writer
   - [XML](docs/writer/xml.md)
   - [formaタグ](docs/writer/forma.md)
