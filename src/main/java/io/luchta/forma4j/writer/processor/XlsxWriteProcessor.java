@@ -3,6 +3,7 @@ package io.luchta.forma4j.writer.processor;
 import io.luchta.forma4j.writer.engine.buffer.accumulater.BuildAccumulator;
 import io.luchta.forma4j.writer.engine.model.book.XlsxBook;
 import io.luchta.forma4j.writer.processor.poi.WorkbookBuilder;
+import io.luchta.forma4j.writer.engine.strategy.XlsxOutputStrategy;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.IOException;
@@ -23,6 +24,7 @@ public class XlsxWriteProcessor {
      * Excelへ書き込む内容
      */
     BuildAccumulator accumulator;
+    XlsxOutputStrategy outputStrategy;
 
     /**
      * コンストラクタ
@@ -32,11 +34,24 @@ public class XlsxWriteProcessor {
         this.accumulator = accumulator;
     }
 
+    /** Strategy から直接出力するためのコンストラクタです。 */
+    public XlsxWriteProcessor(XlsxOutputStrategy outputStrategy) {
+        this.outputStrategy = outputStrategy;
+    }
+
     /**
      * Excel 書き込み処理
      * @param out 書き込み先のファイル
      */
     public void process(OutputStream out) {
+        if (outputStrategy != null) {
+            try {
+                outputStrategy.write(out);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
         WorkbookBuilder builder = new WorkbookBuilder(accumulator);
         try (Workbook workbook = builder.build()) {
             workbook.write(out);
