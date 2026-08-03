@@ -1,0 +1,36 @@
+name: Publish Snapshot Library
+
+on:
+  # 誤クリック防止のための入力
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Publish Snapshot Library'
+        required: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-java@v5
+        with:
+          java-version: '11'
+          distribution: corretto
+
+      - name: Publish package
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: ./gradlew clean build publishShadowPublicationToForma4jS3Repository -PpublishTarget=s3 --stacktrace
+
+      - name: Notify build finish
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          author_name: Publish Result
+          fields: ref,job
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
