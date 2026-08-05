@@ -36,8 +36,31 @@ jobs:
           name: junit-results-${{ matrix.java-version }}
           path: build/reports/tests/test
 
+    low-heap-test:
+      runs-on: ubuntu-latest
+
+      steps:
+      - uses: actions/checkout@v6
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          java-version: 11
+          distribution: 'corretto'
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Run low-heap tests
+        run: ./gradlew lowHeapTest --stacktrace
+      - name: Upload low-heap JUnit test results
+        uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: low-heap-junit-results-java-11
+          path: |
+            build/reports/tests/lowHeapTest
+            build/test-results/lowHeapTest
+
     notification:
-      needs: [ test ]
+      needs: [ test, low-heap-test ]
 
       runs-on: ubuntu-latest
 
