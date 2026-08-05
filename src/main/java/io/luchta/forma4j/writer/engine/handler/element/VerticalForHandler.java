@@ -10,8 +10,6 @@ import io.luchta.forma4j.writer.engine.model.cell.address.XlsxColumnNumber;
 import io.luchta.forma4j.writer.engine.model.cell.address.XlsxRowNumber;
 import io.luchta.forma4j.writer.engine.resolver.VariableResolver;
 
-import java.util.List;
-
 /**
  * vertical-forタグのハンドラクラス
  */
@@ -33,24 +31,27 @@ public class VerticalForHandler {
      */
     public void handle(VerticalFor verticalFor) {
         VariableResolver variableResolver = buffer.variableResolver();
-        List<Object> collection = variableResolver.getList(verticalFor.collection().toString());
         XlsxCellAddress baseAddress = buffer.addressStack().peek();
         XlsxRowNumber startRowNumber = new XlsxRowNumber(verticalFor.startRowIndex());
         XlsxColumnNumber startColumnNumber = new XlsxColumnNumber(verticalFor.startColumnIndex());
-        try {
-            for (int i = 0; i < collection.size(); i++) {
+        try (VariableResolver.Iteration collection =
+                     variableResolver.openIteration(verticalFor.collection().toString())) {
+            int i = 0;
+            while (collection.hasNext()) {
+                Object item = collection.next();
                 XlsxCellAddress currentAddress = baseAddress.with(
                         new XlsxRowNumber((long) startRowNumber.toInt() + i),
                         startColumnNumber
                 );
                 buffer.addressStack().push(currentAddress);
                 buffer.loopContext().put(verticalFor.index(), i);
-                buffer.loopContext().put(verticalFor.item(), collection.get(i));
+                buffer.loopContext().put(verticalFor.item(), item);
                 try {
                     dispatch(verticalFor.children());
                 } finally {
                     buffer.addressStack().pop();
                 }
+                i++;
             }
         } finally {
             buffer.loopContext().remove(verticalFor.index());

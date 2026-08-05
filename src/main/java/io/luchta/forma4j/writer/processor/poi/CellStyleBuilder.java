@@ -49,7 +49,7 @@ public class CellStyleBuilder {
      * @param workbook
      * @return CellStyleBuilder
      */
-    static CellStyleBuilder of(XlsxCellStyle style, Workbook workbook) {
+    public static CellStyleBuilder of(XlsxCellStyle style, Workbook workbook) {
         CellStyle cellStyle = workbook.createCellStyle();
         Font font = workbook.createFont();
         return new CellStyleBuilder(style, cellStyle, font, workbook);

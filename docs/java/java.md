@@ -78,3 +78,50 @@ public class FormaReaderExample {
   }
 }
 ```
+
+## 大量データをストリーミング出力する
+
+`FormaStreamingWriter` は `Context` を直接受け取り、複数の名前付きデータを
+1回の出力で使用できます。`Context` へ登録したMapやIterableは再帰コピーされません。
+
+```java
+import io.luchta.forma4j.writer.Context;
+import io.luchta.forma4j.writer.stream.FormaStreamingWriter;
+import io.luchta.forma4j.writer.stream.JsonArraySequenceSource;
+
+import java.nio.file.Files;
+
+Context context = new Context();
+context.putVar("generatedAt", generatedAt);
+context.putVar("headers", headerIterable);
+context.putSequence(
+    "rows",
+    JsonArraySequenceSource.from(() -> Files.newInputStream(rowsJson))
+);
+
+new FormaStreamingWriter().write(
+    definitionXml,
+    outputXlsx,
+    templateXlsx,
+    context
+);
+```
+
+XMLでは登録名を通常のcollection名として参照します。
+
+```xml
+<horizontal-for item="header" collection="headers">
+  <cell>#{header}</cell>
+</horizontal-for>
+<vertical-for item="row" collection="rows">
+  <row><cell>#{row.name}</cell></row>
+</vertical-for>
+```
+
+- `IterableSequenceSource.oneShot(iterator)` は1回だけ参照できます。
+- `IterableSequenceSource.replayable(iterable)` と
+  `JsonArraySequenceSource.from(supplier)` は参照ごとに先頭から開き直します。
+- `SpooledSequenceSource.from(source)` はJSON互換値を一時ファイルへ退避し、
+  複数回参照できるようにします。
+- Supplierから開いたInputStreamとiteratorはWriterが閉じます。
+- `write` へ直接渡したdefinition、template、JSON、outputのStreamは閉じません。

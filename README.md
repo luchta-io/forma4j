@@ -12,6 +12,7 @@
 
 - [はじめに](docs/README.md)
 - [Gradle](docs/gradle/gradle.md)
+- [Maven](docs/maven/maven.md)
 - Writer
   - [XML](docs/writer/xml.md)
   - [formaタグ](docs/writer/forma.md)
@@ -39,13 +40,13 @@
 Gradle
 
 ```gradle
-implementation group: 'io.luchta', name: 'forma4j', version: '1.9.0'
+implementation group: 'io.luchta', name: 'forma4j', version: '1.10.0'
 ```
 
 Gradle (short)
 
 ```gradle
-implementation 'io.luchta:forma4j:1.9.0'
+implementation 'io.luchta:forma4j:1.10.0'
 ```
 
 [Maven Repository](https://mvnrepository.com/artifact/io.luchta/forma4j)

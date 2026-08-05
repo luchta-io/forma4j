@@ -16,7 +16,7 @@ plugins {
 }
 
 group = 'io.luchta'
-version = '1.9.2'
+version = '1.10.0'
 
 sourceCompatibility = compatibility
 targetCompatibility = compatibility
@@ -40,7 +40,7 @@ dependencies {
 
     implementation "jakarta.xml.bind:jakarta.xml.bind-api:4.0.2"
     implementation "com.sun.xml.bind:jaxb-impl:4.0.6"
-    
+
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.20.0'
     implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.20.0'
 
@@ -51,7 +51,21 @@ dependencies {
 }
 
 test {
-    useJUnitPlatform()
+    useJUnitPlatform {
+        excludeTags 'low-heap'
+    }
+}
+
+tasks.register('lowHeapTest', Test) {
+    description = 'Runs low-memory streaming writer tests with a 256 MiB heap.'
+    group = 'verification'
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    maxHeapSize = '256m'
+    useJUnitPlatform {
+        includeTags 'low-heap'
+    }
+    shouldRunAfter test
 }
 
 repositories {
@@ -98,8 +112,20 @@ publishing {
             name = 'localStaging'
             url  = layout.buildDirectory.dir('staging-deploy')
         }
+
+        maven {
+            name = 'forma4jS3'
+            url  = 's3://mars-repository-hosting/snapshot'
+            credentials(AwsCredentials) {
+                accessKey = System.getenv('AWS_ACCESS_KEY_ID')
+                secretKey = System.getenv('AWS_SECRET_ACCESS_KEY')
+            }
+        }
     }
 }
+
+def publishTarget = project.findProperty('publishTarget') ?: 'central'
+def isS3Only = (publishTarget == 's3')
 
 jreleaser {
     project {
@@ -117,7 +143,7 @@ jreleaser {
         maven {
             mavenCentral {
                 sonatype {
-                    active = 'ALWAYS'
+                    active = isS3Only ? 'NEVER' : 'ALWAYS'
                     url = 'https://central.sonatype.com/api/v1/publisher'
                     stagingRepository("${layout.buildDirectory.get().asFile}/staging-deploy")
                 }
@@ -126,13 +152,16 @@ jreleaser {
     }
 }
 
+tasks.named("jar") {
+    archiveClassifier.set("plain")
+}
+
 shadowJar {
     archiveClassifier.set("")
     mergeServiceFiles()
 }
 
 tasks.named("publishShadowPublicationToLocalStagingRepository") {
-    dependsOn("jar")
     dependsOn("shadowJar", "sourcesJar", "javadocJar")
 }
 

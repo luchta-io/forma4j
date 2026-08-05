@@ -16,6 +16,14 @@ public class XlsxRowAddress {
         this.rowNumber = rowNumber;
     }
 
+    public XlsxSheetName sheetName() {
+        return sheetName;
+    }
+
+    public XlsxRowNumber rowNumber() {
+        return rowNumber;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -5,7 +5,7 @@ package io.luchta.forma4j.writer.engine.model.column.property;
  */
 public interface XlsxColumnProperty {
     static XlsxColumnProperty of(String name, String value) {
-        switch(name) {
+        switch(name.toUpperCase()) {
             case WidthProperty.NAME:
                 return new WidthProperty(value);
             default:

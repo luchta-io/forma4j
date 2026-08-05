@@ -67,9 +67,9 @@ public class CellHandler {
         XlsxColumnProperties columnProperties = resolvedStyle.columnProperties();
 
         // 設定した内容をbufferへセットする
-        buffer.accumulator().put(address, xlsxCell);
+        buffer.outputStrategy().writeCell(address, xlsxCell);
         for (XlsxColumnProperty columnProperty : columnProperties) {
-            buffer.accumulator().putColumnProperties(columnAddress, columnProperty);
+            buffer.outputStrategy().writeColumnProperty(columnAddress, columnProperty);
         }
     }
 
